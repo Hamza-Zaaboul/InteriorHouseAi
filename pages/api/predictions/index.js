@@ -26,7 +26,7 @@ export default async function handler(req, res) {
       n_prompt: req.body.n_prompt,
     },
 
-    weebhook: "https://9273-46-193-65-101.ngrok-free.app/api/replicate-webhook",
+    weebhook: "https://housemakere.vercel.app/api/replicate-webhook",
 
   });
 
