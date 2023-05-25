@@ -57,6 +57,7 @@ const UploadImage = ({ onImageChange }) => {
                 id="file-upload"
                 name="file-upload"
                 type="file"
+                accept=".jpg,.jpeg,.png"
                 className="sr-only"
                 onChange={handleImageChange}
               />

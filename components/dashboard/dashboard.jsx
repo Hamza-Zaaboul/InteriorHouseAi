@@ -2,10 +2,9 @@ import Image from "next/image";
 import background from "@/images/minimalist.jpeg";
 import Selecteur from "./utils/Selecteur";
 import UploadImage from "./utils/Uploader";
-
+import { uploadFile } from "@/firebase/Storage/storagecustom";
 import { useState } from "react";
 import ImageComparaison from "./utils/ImageComparaison";
-import Swiper from "./utils/Swiper";
 import Rendu from "./utils/Rendu";
 import DownloadButton from "./utils/DownloadButton";
 import HeaderDashbord from "./headerdashboard";
@@ -76,14 +75,18 @@ export default function Dashboard() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [outputImage, setOutputImage] = useState();
 
+  const { user } = useAuthContext();
+
+  const [prediction, setPrediction] = useState(null);
+  const [error, setError] = useState(null);
+
   const [selectedValue1, setSelectedValue1] = useState(null);
   const [selectedValue2, setSelectedValue2] = useState(null);
   const [selectedValue3, setSelectedValue3] = useState(null);
   const [selectedValue4, setSelectedValue4] = useState(null);
   const [selectedValue5, setSelectedValue5] = useState(null);
 
-  const [prediction, setPrediction] = useState(null);
-  const [error, setError] = useState(null);
+
 
   const handleSelect1 = (value) => {
     setSelectedValue1(value);
@@ -124,20 +127,37 @@ export default function Dashboard() {
     setSwiper(e);
   };
 
+  const handleDownload = async (e) => {
+    e.preventDefault();
+
+    if (selectedImage) {
+      try {
+        setUploadStatus("uploading");
+        const downloadURL = await uploadFile(selectedImage, user.uid);
+        setUploadStatus("success");
+        console.log("File uploaded successfully. Download URL:", downloadURL);
+        onDownloadURLChange(downloadURL);
+        setShowAttachment(false);
+      } catch (error) {
+        setUploadStatus("error");
+        console.error("Error uploading file:", error);
+        setShowAttachment(true);
+      }
+    }
+  };
+
   const theme = selectedValue1;
   const room = selectedValue2;
-  
-  const themeLower = typeof theme === 'string' ? theme.toLowerCase() : '';
-  const roomLower = typeof room === 'string' ? room.toLowerCase() : '';
-  
+
   const prompt =
-    roomLower === "gaming room"
-      ? "a video gaming room"
-      : `a ${themeLower} ${roomLower}`;
-  
+    room === "gaming room" ? "a video gaming room" : `a ${theme} ${room}`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+
+
+
     const response = await fetch("/api/predictions", {
       method: "POST",
       headers: {
