@@ -2,10 +2,13 @@ import Stripe from "stripe";
 import { buffer } from "micro";
 import firebase_app from "@/firebase/InitFirebase";
 import { collection, getFirestore, query, where, getDocs, addDoc, updateDoc } from "firebase/firestore";
+import Cors from "micro-cors";
 
 const db = getFirestore(firebase_app);
 // Instancier l'API Stripe
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY,  {
+  apiVersion: "2022-11-15",
+});
 
 export const config = {
   api: {
@@ -13,9 +16,14 @@ export const config = {
   },
 };
 
+const cors = Cors({
+  allowMethods: ["POST", "HEAD"],
+});
+
 // Gérer le webhook
-export default async function webhookHandler(req, res) {
-  if (req.method === "POST") {
+export default cors(async function webhookHandler(req, res) {
+  
+  if (req.method === "POST" ) {
     const buf = await buffer(req);
     const sig = req.headers["stripe-signature"];
 
@@ -32,6 +40,7 @@ export default async function webhookHandler(req, res) {
       return res.status(400).send(`Webhook error: ${err.message}`);
     }
 
+    
     if (event.type === "payment_intent.succeeded" || event.type === "checkout.session.completed") {
       const paymentIntent = event.data.object;
       console.log(`💰 PaymentIntent: ${JSON.stringify(paymentIntent)}`);
@@ -94,3 +103,4 @@ export default async function webhookHandler(req, res) {
     res.status(405).end("Method Not Allowed");
   }
 }
+);
