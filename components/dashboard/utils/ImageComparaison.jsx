@@ -4,27 +4,31 @@ import BeforeState from "@/assets/afterhouse.png";
 import AfterHouse from "@/assets/before.jpg";
 import Image from "next/image";
 
-export default function ImageComparaison({ imageBefore }) {
+export default function ImageComparaison({ imageBefore, imageAfter }) {
   return (
     <>
-      {imageBefore && (
-        <ImgComparisonSlider>
-          <img
-            slot="first"
-            className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
-            src={imageBefore}
-          />
-          <img
-            slot="second"
-            className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
-            src={imageBefore}
-          />
-        </ImgComparisonSlider>
+      {imageAfter && (
+        <>
+          {imageAfter.output && (
+            <ImgComparisonSlider>
+              <img
+                slot="first"
+                className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
+                src={imageBefore}
+              />
+              <img
+                slot="second"
+                className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
+                src={imageAfter.output[imageAfter.output.length - 1]}
+              />
+            </ImgComparisonSlider>
+          )}
+        </>
       )}
 
-      {!imageBefore && (
+      {!imageAfter && (
         <ImgComparisonSlider>
-            <Image
+          <Image
             slot="first"
             className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
             src={BeforeState}
@@ -34,7 +38,6 @@ export default function ImageComparaison({ imageBefore }) {
             className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
             src={AfterHouse}
           />
-    
         </ImgComparisonSlider>
       )}
     </>
