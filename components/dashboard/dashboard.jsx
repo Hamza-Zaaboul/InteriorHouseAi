@@ -8,6 +8,7 @@ import ImageComparaison from "./utils/ImageComparaison";
 import Rendu from "./utils/Rendu";
 import DownloadButton from "./utils/DownloadButton";
 import HeaderDashbord from "./headerdashboard";
+import { useAuthContext } from "@/store/AuthContext";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -72,7 +73,7 @@ const dataListe5 = [
   { id: 3, name: "HD", translated: "Bedroom" },
 ];
 export default function Dashboard() {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState();
   const [outputImage, setOutputImage] = useState();
 
   const { user } = useAuthContext();
@@ -86,7 +87,11 @@ export default function Dashboard() {
   const [selectedValue4, setSelectedValue4] = useState(null);
   const [selectedValue5, setSelectedValue5] = useState(null);
 
+  //Sa c'est de la data pour les dropdowns
+  const [downloadURL, setDownloadURL] = useState();
 
+  const [uploadStatus, setUploadStatus] = useState(null);
+  const [showAttachment, setShowAttachment] = useState(true);
 
   const handleSelect1 = (value) => {
     setSelectedValue1(value);
@@ -120,30 +125,16 @@ export default function Dashboard() {
   const [swiper, setSwiper] = useState(false);
 
   const handleImageChange = (image) => {
+    // Vérifiez si le fichier est correctement récupéré
     setSelectedImage(image);
+    console.log(image);
   };
 
   const handlesetSwiper = (e) => {
     setSwiper(e);
   };
-
-  const handleDownload = async (e) => {
-    e.preventDefault();
-
-    if (selectedImage) {
-      try {
-        setUploadStatus("uploading");
-        const downloadURL = await uploadFile(selectedImage, user.uid);
-        setUploadStatus("success");
-        console.log("File uploaded successfully. Download URL:", downloadURL);
-        onDownloadURLChange(downloadURL);
-        setShowAttachment(false);
-      } catch (error) {
-        setUploadStatus("error");
-        console.error("Error uploading file:", error);
-        setShowAttachment(true);
-      }
-    }
+  const handleDownloadURLChange = (newDownloadURL) => {
+    setDownloadURL(newDownloadURL);
   };
 
   const theme = selectedValue1;
@@ -155,45 +146,65 @@ export default function Dashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-
-
-    const response = await fetch("/api/predictions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        image: selectedImage, // Utiliser la valeur de "url" ici
-        structure: "hough",
-        prompt: prompt,
-        scale: 9,
-        a_prompt:
-          "best quality, photo from Pinterest, interior, cinematic photo, ultra-detailed, ultra-realistic, award-winning, interior design, natural lighting",
-        n_prompt:
-          "longbody, lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality",
-      }),
-    });
-    let prediction = await response.json();
-    if (response.status !== 201) {
-      setError(prediction.detail);
-      return;
+    if (selectedImage) {
+      try {
+        setUploadStatus("uploading");
+        const downloadURLFirebase = await uploadFile(selectedImage, user.uid);
+        setUploadStatus("success");
+        console.log(
+          "File uploaded successfully. Download URL:",
+          downloadURLFirebase
+        );
+        handleDownloadURLChange(downloadURLFirebase);
+        setShowAttachment(false);
+      } catch (error) {
+        setUploadStatus("error");
+        console.error("Error uploading file:", error);
+        setShowAttachment(true);
+      }
     }
-    setPrediction(prediction);
 
-    while (
-      prediction.status !== "succeeded" &&
-      prediction.status !== "failed"
-    ) {
-      await sleep(1000);
-      const response = await fetch("/api/predictions/" + prediction.id);
-      prediction = await response.json();
-      if (response.status !== 200) {
+    try {
+      const response = await fetch("/api/predictions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          image: downloadURL, // Utiliser la valeur de "url" ici
+          structure: "hough",
+          prompt: prompt,
+          scale: 9,
+          a_prompt:
+            "best quality, photo from Pinterest, interior, cinematic photo, ultra-detailed, ultra-realistic, award-winning, interior design, natural lighting",
+          n_prompt:
+            "longbody, lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality",
+        }),
+      });
+
+      let prediction = await response.json();
+      if (response.status !== 201) {
         setError(prediction.detail);
         return;
       }
-      console.log({ prediction });
       setPrediction(prediction);
+
+      while (
+        prediction.status !== "succeeded" &&
+        prediction.status !== "failed"
+      ) {
+        await sleep(1000);
+        const response = await fetch("/api/predictions/" + prediction.id);
+        prediction = await response.json();
+        if (response.status !== 200) {
+          setError(prediction.detail);
+          return;
+        }
+        console.log({ prediction });
+        setPrediction(prediction);
+      }
+    } catch (error) {
+      setError("Error during prediction: " + error);
     }
   };
 

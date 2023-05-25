@@ -12,7 +12,7 @@ const UploadImage = ({ onImageChange }) => {
 
       reader.onload = (event) => {
         setPreviewImage(event.target.result);
-        onImageChange(event.target.result); // Appel de la fonction de rappel avec la valeur de previewImage
+        onImageChange(file); // Appel de la fonction de rappel avec la valeur de previewImage
       };
 
       reader.readAsDataURL(file);
