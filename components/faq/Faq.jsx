@@ -1,108 +1,76 @@
-import { Disclosure } from '@headlessui/react'
-import { MinusSmallIcon, PlusSmallIcon } from '@heroicons/react/24/outline'
 const faqs = [
   {
     id: 1,
-    question: "Que faites-vous de mes photos après l'entraînement ?",
+    question: "What's the best thing about Switzerland?",
     answer:
-      "Nous formons notre modèle d'IA avec des photos d'entrée, rendons les avatars puis les supprimons ainsi que les modèles de nos serveurs/API GPU dans les 7 jours. Pour supprimer plus rapidement, appuyez simplement sur le bouton 'Supprimer' et nous effacerons toutes les données instantanément.",
+      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
   },
+
   {
-    id: 2,
-    question: "Qui possède les photos?",
+    id: 1,
+    question: "What's the best thing about Switzerland?",
     answer:
-      "Vous êtes le propriétaire des photos. Nous vous accordons une licence commerciale complète et la propriété de vos photos. Nous ne les utilisons à aucune autre fin que la formation de notre modèle d'IA, que nous supprimons après 7 jours.",
+      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
   },
+
   {
-    id: 3,
-    question: "Quel type de photos dois-je télécharger ?",
+    id: 1,
+    question: "What's the best thing about Switzerland?",
     answer:
-      "Nous recommandons 10 gros plans, 3 profils latéraux, 5 plans poitrine et 3 photos en pied. La variété est essentielle : les expressions faciales, les lieux, les arrière-plans et les perspectives doivent tous être différents. Regardez aussi ailleurs que l'appareil photo. Les photos de haute qualité fonctionnent mieux ; un maquillage minimal est conseillé car il peut être exagéré sur les photos. Pas de nudité, mais les maillots de bain/sous-vêtements sont autorisés.",
+      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
   },
+
   {
-    id: 4,
-    question: "Où mes données sont-elles stockées ? ",
+    id: 1,
+    question: "What's the best thing about Switzerland?",
     answer:
-      "Les données sont stockées de manière sécurisée sur des serveurs aux États-Unis, par des partenaires tiers vétérans et hautement sécurisés de notre entreprise.",
+      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
   },
+
   {
-    id: 5,
-    question: "Puis-je obtenir un remboursement ? ",
+    id: 1,
+    question: "What's the best thing about Switzerland?",
     answer:
-      "Oui, nous pouvons rembourser les achats effectués dans les 14 premiers jours, à condition que vous n'ayez pas encore entraîné l'IA. Vous pouvez demander un remboursement sur www.headshotpro.com/profile/refund. Veuillez vous référer à nos conditions d'utilisation pour plus de détails.",
+      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
   },
+
   {
-    id: 6,
-    question: "Quels formats de photo acceptez-vous ?",
+    id: 1,
+    question: "What's the best thing about Switzerland?",
     answer:
-      "Nous prenons en charge les formats JPG, PNG, WebP et HEIC, mais pas AVIF ou GIF.",
+      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
   },
-  {
-    id: 7,
-    question: "Le paiement est-il sécurisé ?",
-    answer:
-      "Oui, nous utilisons Stripe pour le paiement. Nous ne stockons aucune de vos informations de carte de crédit.",
-  },
-  {
-    id: 8,
-    question: "Puis-je utiliser mes photos n'importe où ?",
-    answer:
-      "Oui, vous pouvez utiliser vos photos n'importe où vous le souhaitez. Nous vous accordons une licence commerciale complète et la propriété de vos photos.",
-  },
-  {
-    id: 9,
-    question: "Puis-je obtenir une facture ?",
-    answer:
-      "Oui, vous pouvez obtenir une facture pour votre achat. Rendez-vous sur la page de la facture après l'achat, ajoutez vos coordonnées et enregistrez-la au format PDF.",
-  },
-];
+  // More questions...
+]
 
 export default function Faq() {
   return (
-    <div className="bg-gray-900">
+    <div className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
-        <h2 className="text-2xl font-bold leading-10 tracking-tight text-white">
-          F.A.Q
-        </h2>
-        <p className="mt-6 max-w-2xl text-base leading-7 text-gray-300">
-          Vous avez une autre question et vous ne trouvez pas la réponse que
-          vous cherchez ? Contactez notre équipe d'assistance en{" "}
-          <a
-            href="#"
-            className="hover:text-indigo-30 font-semibold text-indigo-400 hover:text-indigo-300"
-          >
-            en nous envoyant un email
-          </a>{" "}
-          et nous vous répondrons dès que possible.
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-base font-semibold leading-7 text-indigo-600">FAQ</h2>
+          <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+            Pricing plans for teams of&nbsp;all&nbsp;sizes
+          </p>
+        </div>
+        <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
+          Distinctio et nulla eum soluta et neque labore quibusdam. Saepe et quasi iusto modi velit ut non voluptas in.
+          Explicabo id ut laborum.
         </p>
-        <div>
-        <dl className="mt-10 space-y-6 divide-y divide-white/10">
+        </div>
+
+        <div className="mt-20">
+          <dl className="space-y-16 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-16 sm:space-y-0 lg:grid-cols-3 lg:gap-x-10">
             {faqs.map((faq) => (
-              <Disclosure as="div" key={faq.question} className="pt-6">
-                {({ open }) => (
-                  <>
-                    <dt>
-                      <Disclosure.Button className="flex w-full items-start justify-between text-left text-white">
-                        <span className="text-base font-semibold leading-7">{faq.question}</span>
-                        <span className="ml-6 flex h-7 items-center">
-                          {open ? (
-                            <MinusSmallIcon className="h-6 w-6" aria-hidden="true" />
-                          ) : (
-                            <PlusSmallIcon className="h-6 w-6" aria-hidden="true" />
-                          )}
-                        </span>
-                      </Disclosure.Button>
-                    </dt>
-                    <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <p className="text-base leading-7 text-gray-300">{faq.answer}</p>
-                    </Disclosure.Panel>
-                  </>
-                )}
-              </Disclosure>
+              <div key={faq.id}>
+                <dt className="text-base font-semibold leading-7 text-gray-900">{faq.question}</dt>
+                <dd className="mt-2 text-base leading-7 text-gray-600">{faq.answer}</dd>
+              </div>
             ))}
           </dl>
         </div>
       </div>
     </div>
-  );
+  )
 }

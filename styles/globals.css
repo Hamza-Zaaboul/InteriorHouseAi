@@ -1,27 +1,226 @@
+
+:root {
+  --primary: rgb(241, 244, 245);
+  --secondary: rgb(207, 209, 213);
+}
+
 @tailwind base;
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) var(--primary);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--secondary);
+  border-radius: 10px;
+  border: 2px solid var(--primary);
+}
+
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+#__next {
+  min-height: 100%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+*:focus {
+  outline: none;
+}
+
+.Bottom {
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+@media (min-width: 768px) {
+  .Right {
+    width: calc(100% - 403px);
+    height: calc(100% - 86px - 159px);
+  }
+
+  .Left {
+    height: calc(100% - 86px - 162px);
+  }
+  .LeftSub {
+    height: calc(100% - 60px);
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.buttol:hover {
+  transform: scale(1.01);
+}
+.buttol:focus {
+  outline: none !important;
+}
+
+.buttol:active {
+  transform: scale(0.99);
+}
+.check-svg {
+  animation: svgScale 0.5s ease-in-out;
+}
+.download-arrow {
+  transition: transform 0.2s linear;
+}
+.buttol:hover .download-arrow {
+  transform: translate(0, 3px);
+}
+
+@keyframes svgScale {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.buttol.download-button {
+  min-width: 200px;
+  min-height: 30px;
+}
+.download-loader {
+  width: 13px;
+  height: 13px;
+  border: 2px solid transparent;
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  opacity: 0;
+  animation: button-loading-spinner 1s ease 3;
+}
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+    opacity: 1;
+  }
+
+  to {
+    transform: rotate(1turn);
+    opacity: 0;
+  }
+}
+.button-copy {
+  padding-top: 2px;
+}
+@media (max-width: 375px) {
+  .buttol.copy-button {
+    min-width: 200px;
+  }
+}
+
+
+
+.backgroundrgba{
+  background-color: rgba(233, 240, 244, 0.26);
+}
+
+.Widget{
+  margin-left: 7px;
+  margin-right: 7px;
+  display: inline-block;
+  overflow: hidden;
+  cursor: pointer;
+  width: calc(calc(100% / 3) - 17px);
+  margin-top: 0;
+  border-radius: 12px;
+  border: 2px solid rgba(31, 31, 31, 0.2);
+
+  width: 160px;
+  height: 100%;
+
+  white-space: nowrap;
+
+}
+
+.Widget span {
+  /* text-transform: uppercase; */
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  display: block;
+  margin-bottom: 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 7px;
+  padding-right: 7px;
+  border: 2px solid rgba(255,255,255,1);
+}
+
+.ImageBoreder{
+  border-: 2px solid rgba(31, 31, 31, 0.2);
+
+}
+.Bottom {
+  position: fixed;
+  bottom: 0;
+  margin: 0;
+  width: 100%;
+  z-index: 20;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(12px);
+
+}
+
+.bordure {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+  border: black 1px solid;
+  border-radius: 999px;
+  padding: 0.75em 1em;
+  margin-bottom: 3em;
+}
+
+.bolder {
+  font-weight: 600;
+  color: rgb(51, 51, 47);
+}
+
+
+
+
+
+.loader {
+	border-top-color: #3498db;
+	-webkit-animation: spinner 1.5s linear infinite;
+	animation: spinner 1.5s linear infinite;
+}
+
+@-webkit-keyframes spinner {
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+@keyframes spinner {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }

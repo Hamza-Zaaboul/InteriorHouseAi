@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { signOutUser } from "@/firebase/Auth/logout";
+import firebase_app from "@/firebase/InitFirebase";
+import { useAuthContext } from "@/store/AuthContext";
 
 const navigation = [
   { name: "Fonctionnement", href: "#" },
@@ -11,6 +15,11 @@ const navigation = [
 ];
 
 export default function Navbar() {
+  const { user } = useAuthContext();
+
+  const handleSignOut = () => {
+    signOutUser();
+  };
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -20,40 +29,58 @@ export default function Navbar() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <Link href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">ProHead</span>
             <img
               className="h-8 w-auto"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt=""
             />
-          </a>
+          </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
           {navigation.map((item) => (
             <a
               key={item.name}
               href={item.href}
-              className="text-sm font-semibold leading-6 text-white"
+              className="text-sm font-semibold leading-6 text-black"
             >
               {item.name}
             </a>
           ))}
         </div>
-        <div className="flex flex-1 items-center justify-end gap-x-6">
-          <a
-            href="#"
-            className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-white"
-          >
-            Connexion
-          </a>
-          <a
-            href="#"
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Inscription
-          </a>
-        </div>
+        {user ? (
+          <div className="flex flex-1 items-center justify-end gap-x-6">
+            <button
+              onClick={handleSignOut}
+              className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-black"
+            >
+              Deconnexion
+            </button>
+            <Link
+              href="/dashboard"
+              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Tableau de bord
+            </Link>
+          </div>
+        ) : (
+          <div className="flex flex-1 items-center justify-end gap-x-6">
+            <Link
+              href="/auth/login"
+              className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-black"
+            >
+              Connexion
+            </Link>
+            <Link
+              href="/auth/sigin"
+              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Inscription
+            </Link>
+          </div>
+        )}
+        
         <div className="flex lg:hidden">
           <button
             type="button"
@@ -65,6 +92,7 @@ export default function Navbar() {
           </button>
         </div>
       </nav>
+
       <Dialog
         as="div"
         className="lg:hidden"
