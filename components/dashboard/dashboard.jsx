@@ -9,7 +9,7 @@ import Rendu from "./utils/Rendu";
 import DownloadButton from "./utils/DownloadButton";
 import HeaderDashbord from "./headerdashboard";
 import { useAuthContext } from "@/store/AuthContext";
-
+import { signOutUser } from "@/firebase/Auth/logout";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const dataDashboard = [
@@ -74,8 +74,12 @@ const dataListe5 = [
 ];
 export default function Dashboard() {
   const [selectedImage, setSelectedImage] = useState();
+  const [imageBeforedOn, setImageBeforedOn] = useState();
   const [outputImage, setOutputImage] = useState();
 
+  const [theme, setTheme] = useState("Modern");
+  const [room, setRoom] = useState("Living Room");
+  
   const { user } = useAuthContext();
 
   const [prediction, setPrediction] = useState(null);
@@ -90,23 +94,27 @@ export default function Dashboard() {
   //Sa c'est de la data pour les dropdowns
   const [downloadURL, setDownloadURL] = useState();
 
-  const [uploadStatus, setUploadStatus] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState();
   const [showAttachment, setShowAttachment] = useState(true);
 
   const handleSelect1 = (value) => {
     setSelectedValue1(value);
+    setTheme(value.translated);
+    
     console.log(value);
     // Vous pouvez effectuer d'autres actions avec la valeur sélectionnée ici
   };
 
   const handleSelect2 = (value) => {
     setSelectedValue2(value);
+
     console.log(value);
     // Vous pouvez effectuer d'autres actions avec la valeur sélectionnée ici
   };
 
   const handleSelect3 = (value) => {
     setSelectedValue3(value);
+    setRoom(value.translated);
     console.log(value);
     // Vous pouvez effectuer d'autres actions avec la valeur sélectionnée ici
   };
@@ -130,6 +138,12 @@ export default function Dashboard() {
     console.log(image);
   };
 
+  const handleImageBefored = (image) => {
+    // Vérifiez si le fichier est correctement récupéré
+    setImageBeforedOn(image);
+    console.log(image);
+  };
+
   const handlesetSwiper = (e) => {
     setSwiper(e);
   };
@@ -137,8 +151,7 @@ export default function Dashboard() {
     setDownloadURL(newDownloadURL);
   };
 
-  const theme = selectedValue1;
-  const room = selectedValue2;
+
 
   const prompt =
     room === "gaming room" ? "a video gaming room" : `a ${theme} ${room}`;
@@ -157,54 +170,56 @@ export default function Dashboard() {
         );
         handleDownloadURLChange(downloadURLFirebase);
         setShowAttachment(false);
+        if (downloadURLFirebase) {
+          try {
+            const response = await fetch("/api/predictions", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                image: downloadURLFirebase, // Utiliser la valeur de "url" ici
+                structure: "hough",
+                prompt: prompt,
+                scale: 9,
+                a_prompt:
+                  "best quality, photo from Pinterest, interior, cinematic photo, ultra-detailed, ultra-realistic, award-winning, interior design, natural lighting",
+                n_prompt:
+                  "longbody, lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality",
+              }),
+            });
+
+            let prediction = await response.json();
+            if (response.status !== 201) {
+              setError(prediction.detail);
+              return;
+            }
+            setPrediction(prediction);
+
+            while (
+              prediction.status !== "succeeded" &&
+              prediction.status !== "failed"
+            ) {
+              await sleep(1000);
+              const response = await fetch("/api/predictions/" + prediction.id);
+              prediction = await response.json();
+              if (response.status !== 200) {
+                setError(prediction.detail);
+                return;
+              }
+              console.log({ prediction });
+              setPrediction(prediction);
+            }
+          } catch (error) {
+            setError("Error during prediction: " + error);
+          }
+        }
       } catch (error) {
         setUploadStatus("error");
         console.error("Error uploading file:", error);
         setShowAttachment(true);
+        return; // Arrêter l'exécution si une erreur s'est produite lors du chargement du fichier
       }
-    }
-
-    try {
-      const response = await fetch("/api/predictions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          image: downloadURL, // Utiliser la valeur de "url" ici
-          structure: "hough",
-          prompt: prompt,
-          scale: 9,
-          a_prompt:
-            "best quality, photo from Pinterest, interior, cinematic photo, ultra-detailed, ultra-realistic, award-winning, interior design, natural lighting",
-          n_prompt:
-            "longbody, lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality",
-        }),
-      });
-
-      let prediction = await response.json();
-      if (response.status !== 201) {
-        setError(prediction.detail);
-        return;
-      }
-      setPrediction(prediction);
-
-      while (
-        prediction.status !== "succeeded" &&
-        prediction.status !== "failed"
-      ) {
-        await sleep(1000);
-        const response = await fetch("/api/predictions/" + prediction.id);
-        prediction = await response.json();
-        if (response.status !== 200) {
-          setError(prediction.detail);
-          return;
-        }
-        console.log({ prediction });
-        setPrediction(prediction);
-      }
-    } catch (error) {
-      setError("Error during prediction: " + error);
     }
   };
 
@@ -221,7 +236,10 @@ export default function Dashboard() {
                 Votre interieur
               </h2>
 
-              <UploadImage onImageChange={handleImageChange} />
+              <UploadImage
+                onImageChange={handleImageChange}
+                ImageBefored={handleImageBefored}
+              />
 
               <div className="Selecteur w-full">
                 <h3 className="block font-semibold leading-6 text-gray-900">
@@ -284,12 +302,12 @@ export default function Dashboard() {
           {error && <div>{error}</div>}
           {!swiper ? (
             <div className="flex mt-8 justify-center w-full h-full">
-              <Rendu imageBefore={selectedImage} imageAfter={prediction} />
+              <Rendu imageBefore={imageBeforedOn} imageAfter={prediction} />
             </div>
           ) : (
             <div className="flex mt-8 justify-center w-full h-full">
               <ImageComparaison
-                imageBefore={selectedImage}
+                imageBefore={imageBeforedOn}
                 imageAfter={prediction}
               />
             </div>
@@ -300,7 +318,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="Bottom  ">
+        {/* <div className="Bottom  ">
           {dataDashboard.map((item) => (
             <div key={item.name} className="Widget ">
               <Image
@@ -312,7 +330,7 @@ export default function Dashboard() {
               <span className="">{item.name}</span>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -45,10 +45,14 @@
   overflow-y: hidden;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1026px) {
   .Right {
     width: calc(100% - 403px);
     height: calc(100% - 86px - 159px);
+  }
+
+  .Righteur{
+    width: calc(100% - 18rem - 24rem);
   }
 
   .Left {

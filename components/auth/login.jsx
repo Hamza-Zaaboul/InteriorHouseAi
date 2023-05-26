@@ -29,6 +29,9 @@ export default function Login() {
 
     const { user, error: loginError } = await GoogleLogin();
 
+    try{
+
+    
     const data = {
       email: user.email,
       pseudo: user.displayName,
@@ -47,7 +50,9 @@ export default function Login() {
       "users",
       user.uid,
       data
-    );
+    );}catch(e){
+      console.log(e);
+    }
 
     if (loginError || dataError) {
       console.log(loginError || dataError);
