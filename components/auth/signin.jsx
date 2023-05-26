@@ -90,7 +90,7 @@ export default function Sigin() {
 
     if (userDoc && userDoc.result.exists()) {
       console.log("User document already exists, skipping creation");
-      return router.push("/admin");
+      return router.push("/dashboard");
     }
 
     const data = {
@@ -110,7 +110,7 @@ export default function Sigin() {
       return;
     }
 
-    router.push("/admin");
+    router.push("/dashboard");
   };
 
   return (
