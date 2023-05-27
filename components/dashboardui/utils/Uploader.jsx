@@ -1,12 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 
 const UploadImage = ({ onImageChange, ImageBefored }) => {
   const [previewImage, setPreviewImage] = useState(null);
+  const [isDragOver, setIsDragOver] = useState(false);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-
+  const handleImageChange = (file) => {
     if (file) {
       const reader = new FileReader();
 
@@ -23,15 +22,40 @@ const UploadImage = ({ onImageChange, ImageBefored }) => {
     }
   };
 
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragOver(false);
+
+    const file = e.dataTransfer.files[0];
+    handleImageChange(file);
+  };
+
   return (
     <div className="col-span-full">
       <label
         htmlFor="cover-photo"
         className="block font-semibold leading-6 text-gray-900"
       >
-        Image 
+        Image
       </label>
-      <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 bg-white px-6 py-10">
+      <div
+        className={`mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 bg-white px-6 py-10 ${
+          isDragOver ? "border-indigo-600" : ""
+        }`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
         <div className="text-center">
           {!previewImage && (
             <PhotoIcon
@@ -60,7 +84,7 @@ const UploadImage = ({ onImageChange, ImageBefored }) => {
                 type="file"
                 accept=".jpg,.jpeg,.png"
                 className="sr-only"
-                onChange={handleImageChange}
+                onChange={(e) => handleImageChange(e.target.files[0])}
               />
             </label>
             <p className="pl-1">or drag and drop</p>

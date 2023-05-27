@@ -4,12 +4,14 @@ import {
 CreditCardIcon,
   CurrencyDollarIcon,
   LinkIcon,
+  ArrowLeftOnRectangleIcon
 
 } from "@heroicons/react/20/solid";
 import { useContext, useState } from "react";
 import { Switch } from "@headlessui/react";
 import Link from "next/link";
 import { useAuthContext } from "@/store/AuthContext";
+import { signOutUser } from "@/firebase/Auth/logout";
 import { MyCoinsContext } from "@/store/MyCoinsContext";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -22,6 +24,10 @@ export default function HeaderDashbord({ onSwiperChange }) {
   const handleToggle = (newEnabled) => {
     setEnabled(newEnabled);
     onSwiperChange(newEnabled); // Appel de la fonction de rappel du composant parent avec la nouvelle valeur
+  };
+
+  const handleSignOut = () => {
+    signOutUser();
   };
 
   return (
@@ -90,6 +96,20 @@ export default function HeaderDashbord({ onSwiperChange }) {
             Acheter Credits
           </Link>
         </span>
+
+        <span className="ml-3 hidden sm:block">
+        <button
+             onClick={handleSignOut}
+            className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          >
+            <ArrowLeftOnRectangleIcon
+              className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400"
+              aria-hidden="true"
+            />
+            Deconnexion
+          </button>
+          </span>
+
 
 
 

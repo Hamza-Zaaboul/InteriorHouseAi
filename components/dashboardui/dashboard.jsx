@@ -508,31 +508,16 @@ export default function Example() {
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
-            {/* <div className="flex h-16 shrink-0 items-center">
+            <div className="flex h-16 shrink-0 items-center">
               <img
                 className="h-8 w-auto"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt="Your Company"
               />
-            </div> */}
+            </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                <li className="-mx-5 mt-5">
-                  {user && (
-                    <a
-                      href="#"
-                      className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
-                    >
-                      <img
-                        className="h-8 w-8 rounded-full bg-gray-50"
-                        src={user.photoURL}
-                        alt=""
-                      />
-                      <span className="sr-only">Votre profil</span>
-                      <span aria-hidden="true">{user.displayName}</span>
-                    </a>
-                  )}
-                </li>
+     
                 <li>
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
@@ -594,16 +579,23 @@ export default function Example() {
                     ))}
                   </ul>
                 </li>
-
-                <li className="  mt-auto mb-8">
-                  {" "}
-                  <button
-                    onClick={handleSignOut}
-                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    Deconnexion
-                  </button>
+                <li className="-mx-5 mt-auto">
+                  {user && (
+                    <a
+                      href="#"
+                      className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+                    >
+                      <img
+                        className="h-8 w-8 rounded-full bg-gray-50"
+                        src={user.photoURL}
+                        alt=""
+                      />
+                      <span className="sr-only">Votre profil</span>
+                      <span aria-hidden="true">{user.displayName}</span>
+                    </a>
+                  )}
                 </li>
+   
               </ul>
             </nav>
           </div>
