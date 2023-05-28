@@ -2,17 +2,12 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  CalendarIcon,
-  ChartPieIcon,
-  DocumentDuplicateIcon,
   FolderIcon,
   HomeIcon,
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { signOutUser } from "@/firebase/Auth/logout";
-
-import background from "@/images/minimalist.jpeg";
 import Selecteur from "./utils/Selecteur";
 import UploadImage from "./utils/Uploader";
 import { uploadFile } from "@/firebase/Storage/storagecustom";
@@ -23,173 +18,81 @@ import Rendu from "./utils/Rendu";
 import ImageComparaison from "./utils/ImageComparaison";
 import DownloadButton from "./utils/DownloadButton";
 import Historique from "./utils/Historique";
+import { uploadAfter } from "@/firebase/Storage/storageAfter";
+import ajouterEnsembleUrls from "@/firebase/Firestore/addDataURls";
+import DownloadButtonHistorique from "./utils/DownloadButtonHistorique";
 
-const teams = [
-  {
-    id: 0,
-    name: "Salon",
-    translated: "Living Room",
-    href: "#",
-    initial: "Sa",
-    current: false,
-  },
-  {
-    id: 1,
-    name: "Salle à manger",
-    translated: "Dining Room",
-    href: "#",
-    initial: "Sa",
-    current: false,
-  },
-  {
-    id: 2,
-    name: "Chambre",
-    translated: "Bedroom",
-    href: "#",
-    initial: "Sa",
-    current: false,
-  },
-  {
-    id: 3,
-    name: "Salle de bain",
-    translated: "Bathroom",
-    href: "#",
-    initial: "Sa",
-    current: false,
-  },
-  {
-    id: 4,
-    name: "Cuisine",
-    translated: "Kitchen",
-    href: "#",
-    initial: "Sa",
-    current: false,
-  },
-  {
-    id: 5,
-    name: "Sous-sol",
-    translated: "Basement",
-    href: "#",
-    initial: "Sa",
-    current: false,
-  },
-  {
-    id: 6,
-    name: "Terrasse extérieure",
-    translated: "Outdoor Patio",
-    href: "#",
-    initial: "Sa",
-    current: false,
-  },
-  {
-    id: 7,
-    name: "Salle de jeu",
-    translated: "Gaming Room",
-    href: "#",
-    initial: "Sa",
-    current: false,
-  },
-];
+//BigData
+import {
+  teams,
+  dataListe1,
+  dataListe2,
+  dataListe3,
+  dataListe4,
+  dataListe5,
+} from "@/store/BigData";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-const dataDashboard = [
-  { name: "Moderne", image: background },
-  { name: "Minimaliste", image: background },
-  { name: "Professionnel", image: background },
-  { name: "Tropical", image: background },
-
-  { name: "Vintage", image: background },
-  { name: "Industriel", image: background },
-  { name: "Néoclassique", image: background },
-  { name: "Minimaliste", image: background },
-
-  { name: "Minimaliste", image: background },
-  { name: "Minimaliste", image: background },
-  { name: "Minimaliste", image: background },
-  { name: "Minimaliste", image: background },
-];
-
-const dataListe1 = [
-  { id: 0, name: "Moderne", translated: "Modern" },
-  { id: 1, name: "Minimaliste", translated: "Minimalist" },
-  { id: 2, name: "Professionnel", translated: "Professional" },
-  { id: 3, name: "Tropical", translated: "Tropical" },
-  { id: 4, name: "Vintage", translated: "Vintage" },
-  { id: 5, name: "Industriel", translated: "Industrial" },
-  { id: 6, name: "Néoclassique", translated: "Neoclassic" },
-];
-
-const dataListe2 = [
-  { id: 0, name: "Salon", translated: "Living Room" },
-  { id: 1, name: "Salle à manger", translated: "Dining Room" },
-  { id: 2, name: "Chambre", translated: "Bedroom" },
-  { id: 3, name: "Salle de bain", translated: "Bathroom" },
-  { id: 4, name: "Cuisine", translated: "Kitchen" },
-  { id: 5, name: "Sous-sol", translated: "Basement" },
-  { id: 6, name: "Terrasse extérieure", translated: "Outdoor Patio" },
-  { id: 7, name: "Salle de jeu", translated: "Gaming Room" },
-];
-
-const dataListe3 = [
-  { id: 0, name: "Facile", translated: "Living Room" },
-  { id: 1, name: "Nom je suis facile", translated: "Dining Room" },
-  { id: 2, name: "Nom je suis facileezae", translated: "Dining Room" },
-  { id: 3, name: "Nom je suis facilezarazee", translated: "Dining Room" },
-];
-
-const dataListe4 = [
-  { id: 0, name: "1", translated: "Living Room" },
-  { id: 1, name: "2", translated: "Dining Room" },
-  { id: 2, name: "3", translated: "Bedroom" },
-  { id: 3, name: "4", translated: "Bathroom" },
-  { id: 4, name: "5", translated: "Kitchen" },
-  { id: 5, name: "6", translated: "Basement" },
-];
-
-const dataListe5 = [
-  { id: 0, name: "480px", translated: "Living Room" },
-  { id: 1, name: "720p", translated: "Dining Room" },
-  { id: 2, name: "HD", translated: "Bedroom" },
-  { id: 3, name: "HD", translated: "Bedroom" },
-];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const [selectedImage, setSelectedImage] = useState();
-  const [imageBeforedOn, setImageBeforedOn] = useState();
-  const [outputImage, setOutputImage] = useState();
-
-  const [theme, setTheme] = useState("Modern");
-  const [room, setRoom] = useState("Living Room");
-
-  const [currentHistorique, setCurrentHistorique] = useState(false);
+export default function Dashboard() {
+  //useContext pour le users
   const { user } = useAuthContext();
 
-  const [prediction, setPrediction] = useState(null);
-  const [error, setError] = useState(null);
+  // State pour le menu latéral
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  //State pour le swiper image avant/apres
+  const [swiper, setSwiper] = useState(false);
+
+  //State pour l'image deposée par le client
+  const [selectedImage, setSelectedImage] = useState();
+  const [imageBeforedOn, setImageBeforedOn] = useState();
+
+  // State pour le toggle de l'historique
+  const [currentHistorique, setCurrentHistorique] = useState(false);
+  const [historique, setHistorique] = useState(false);
+
+  // State pour les dropdowns de selections des parametres
   const [selectedValue1, setSelectedValue1] = useState(null);
   const [selectedValue2, setSelectedValue2] = useState(null);
   const [selectedValue3, setSelectedValue3] = useState(null);
   const [selectedValue4, setSelectedValue4] = useState(null);
   const [selectedValue5, setSelectedValue5] = useState(null);
 
-  const [historique, setHistorique] = useState(false);
+  // State pour les parametres de theme et de room
+  const [theme, setTheme] = useState("Modern");
+  const [room, setRoom] = useState("Living Room");
+
+  // State pour les parametres de navigation laterale
   const [blog, setBlog] = useState(true);
   const [navig, setNavig] = useState(true);
 
-  //Sa c'est de la data pour les dropdowns
+  // State pour les parametres de la prediction
+  const [prediction, setPrediction] = useState(null);
+  const [error, setError] = useState(null);
+
+  // State pour les parametres de l'upload
   const [downloadURL, setDownloadURL] = useState();
 
   const [uploadStatus, setUploadStatus] = useState();
   const [showAttachment, setShowAttachment] = useState(true);
 
+  // State pour le lien de l'output de la prediction cote replicate
+  const [outputImage, setOutputImage] = useState();
+
+  // State pour le lien de l'output de la prediction cote storage firebase
+  const [downloadAfterURL, setDownloadAfterURL] = useState();
+
+  // Fonction pour la deconnexion
+  const handleSignOut = () => {
+    signOutUser();
+  };
+
+  //Fonction pour la navigation lateral
   function handleHistorique() {
     setHistorique(!historique);
     setCurrentHistorique(!currentHistorique);
@@ -228,83 +131,82 @@ export default function Example() {
     },
   ];
 
-  const handleSignOut = () => {
-    signOutUser();
-  };
-
+  //Function pour actualise les dropdowns states
   const handleSelect1 = (value) => {
     setSelectedValue1(value);
     setTheme(value.translated);
-
-    console.log(user);
-    // Vous pouvez effectuer d'autres actions avec la valeur sélectionnée ici
   };
 
   const handleSelect2 = (value) => {
     setSelectedValue2(value);
-
-    console.log(value);
-    // Vous pouvez effectuer d'autres actions avec la valeur sélectionnée ici
   };
 
   const handleSelect3 = (value) => {
     setSelectedValue3(value);
     setRoom(value.translated);
-    console.log(value);
-    // Vous pouvez effectuer d'autres actions avec la valeur sélectionnée ici
   };
 
   const handleSelect4 = (value) => {
     setSelectedValue4(value);
-    console.log(value);
-    // Vous pouvez effectuer d'autres actions avec la valeur sélectionnée ici
   };
 
   const handleSelect5 = (value) => {
     setSelectedValue5(value);
-    console.log(value);
-    // Vous pouvez effectuer d'autres actions avec la valeur sélectionnée ici
   };
-  const [swiper, setSwiper] = useState(false);
 
+  //Fonction pour uptade si le fichier est correctement récupéré
   const handleImageChange = (image) => {
-    // Vérifiez si le fichier est correctement récupéré
     setSelectedImage(image);
-    console.log(image);
   };
 
   const handleImageBefored = (image) => {
-    // Vérifiez si le fichier est correctement récupéré
     setImageBeforedOn(image);
-    console.log(image);
   };
 
+  //Fonction pour etat state swiper
   const handlesetSwiper = (e) => {
     setSwiper(e);
   };
+
+  //Fonction pour etat state downloadURL
   const handleDownloadURLChange = (newDownloadURL) => {
     setDownloadURL(newDownloadURL);
   };
 
+  //Fonction pour etat state outputImage
+  const handleDownloadURLOutput = (newDownloadURL) => {
+    setOutputImage(newDownloadURL);
+  };
+
+  //Fonction pour etat state downloadAfterURL
+  const handleDownloadAfterURLChange = (newDownloadURL) => {
+    setDownloadAfterURL(newDownloadURL);
+  };
+
+  //Constante pour le prompt de la prediction
   const prompt =
     room === "gaming room"
       ? "a video gaming room"
       : `a ${theme.toLowerCase()} ${room.toLowerCase()}`;
 
+  //Fonction cerveau de l'application
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (selectedImage) {
       try {
+        // Depose l'image de l'input dans le storage firebase
         setUploadStatus("uploading");
         const downloadURLFirebase = await uploadFile(selectedImage, user.uid);
         setUploadStatus("success");
         console.log(
           "File uploaded successfully. Download URL:",
-          downloadURLFirebase
+          downloadURLFirebase.url
         );
-        handleDownloadURLChange(downloadURLFirebase);
+        handleDownloadURLChange(downloadURLFirebase.url);
         setShowAttachment(false);
+
+        // Appel de l'API de prediction
         if (downloadURLFirebase) {
           try {
             const response = await fetch("/api/predictions", {
@@ -313,7 +215,7 @@ export default function Example() {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                image: downloadURLFirebase, // Utiliser la valeur de "url" ici
+                image: downloadURLFirebase.url, // Utiliser la valeur de "url" ici
                 structure: "hough",
                 prompt: prompt,
                 scale: 9,
@@ -338,12 +240,45 @@ export default function Example() {
               await sleep(1000);
               const response = await fetch("/api/predictions/" + prediction.id);
               prediction = await response.json();
+
               if (response.status !== 200) {
                 setError(prediction.detail);
                 return;
               }
               console.log({ prediction });
               setPrediction(prediction);
+
+              // Si la prédiction est réussie, depose l'image de l'ouput dans le storage firebase adequat selon l'user
+              if (prediction.status == "succeeded") {
+                setUploadStatus("uploading");
+                const downloadAfterStatement = await uploadAfter(
+                  prediction.output[prediction.output.length - 1],
+                  downloadURLFirebase.folderRef,
+                  downloadURLFirebase.name
+                );
+                setUploadStatus("success");
+                console.log(
+                  "File uploaded successfully. Download URL:",
+                  downloadAfterStatement
+                );
+
+                handleDownloadAfterURLChange(downloadAfterStatement);
+
+                handleDownloadURLOutput(
+                  prediction.output[prediction.output.length - 1]
+                );
+
+                // Depose les urls de l'input et de l'output dans la collection Firestore adequat selon l'user
+                const urls = {
+                  email: user.email,
+                  room: room,
+                  theme: theme,
+                  before: downloadURLFirebase.url,
+                  after: downloadAfterStatement,
+                };
+
+                await ajouterEnsembleUrls("Archives", user.uid, urls);
+              }
             }
           } catch (error) {
             setError("Error during prediction: " + error);
@@ -517,7 +452,6 @@ export default function Example() {
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
-     
                 <li>
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
@@ -595,7 +529,6 @@ export default function Example() {
                     </a>
                   )}
                 </li>
-   
               </ul>
             </nav>
           </div>
@@ -721,9 +654,11 @@ export default function Example() {
                 <Historique />
               )}
             </div>
-            <div className="relative md:fixed md:bottom-0 md:right-0  Righteur bg-white py-4">
-              <DownloadButton />
-            </div>
+            {historique === false ? (
+              <div className="relative md:fixed md:bottom-0 md:right-0  Righteur bg-white py-4">
+                <DownloadButton ouput={outputImage} />
+              </div>
+            ) : (<> </>)}
           </div>
         </main>
       </div>

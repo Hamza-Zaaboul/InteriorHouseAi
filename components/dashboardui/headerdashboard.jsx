@@ -1,11 +1,9 @@
 import {
-
   CalendarIcon,
-CreditCardIcon,
+  CreditCardIcon,
   CurrencyDollarIcon,
   LinkIcon,
-  ArrowLeftOnRectangleIcon
-
+  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/20/solid";
 import { useContext, useState } from "react";
 import { Switch } from "@headlessui/react";
@@ -31,7 +29,7 @@ export default function HeaderDashbord({ onSwiperChange }) {
   };
 
   return (
-    <div className="lg:flex flex-col xl:flex-row lg:items-center lg:justify-between gap-8">
+    <div className="lg:flex flex-col 2xl:flex-row justify-start lg:items-center lg:justify-between gap-8">
       <div className="min-w-0 flex-1">
         <h2 className="mt-2 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
           Résultats
@@ -42,15 +40,13 @@ export default function HeaderDashbord({ onSwiperChange }) {
               className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
               aria-hidden="true"
             />
-            {coins}  crédits
+            {coins} crédits
           </div>
-          <div className="mt-2 flex items-center text-sm text-gray-500">
-      
-          </div>
+          <div className="mt-2 flex items-center text-sm text-gray-500"></div>
         </div>
       </div>
-      <div className="mt-5 flex lg:ml-4 lg:mt-0">
-        <span className="hidden sm:block">
+      <div className="mt-5 flex lg:ml-4 lg:mt-0 md:flex-wrap justify-start items-start">
+        <span className="block">
           <Switch.Group as="div" className="flex items-center justify-between">
             <span className="inline-flex items-center rounded-md bg-white px-3 py-0 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
               <Switch.Label
@@ -84,7 +80,7 @@ export default function HeaderDashbord({ onSwiperChange }) {
           </Switch.Group>
         </span>
 
-        <span className="ml-3 hidden sm:block">
+        <span className="ml-3 block">
           <Link
             href="/pricing"
             className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -97,9 +93,9 @@ export default function HeaderDashbord({ onSwiperChange }) {
           </Link>
         </span>
 
-        <span className="ml-3 hidden sm:block">
-        <button
-             onClick={handleSignOut}
+        <span className="ml-3 hidden lg:block">
+          <button
+            onClick={handleSignOut}
             className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
           >
             <ArrowLeftOnRectangleIcon
@@ -108,11 +104,7 @@ export default function HeaderDashbord({ onSwiperChange }) {
             />
             Deconnexion
           </button>
-          </span>
-
-
-
-
+        </span>
 
         {/* Dropdown
         <Menu as="div" className="relative ml-3 sm:hidden">
