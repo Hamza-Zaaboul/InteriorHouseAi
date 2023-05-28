@@ -1,27 +1,39 @@
-
-import downloadFromStorage from "@/firebase/Storage/download";
-import { useState } from "react";
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import { useState } from 'react';
 
 export default function DownloadButtonHistorique({listselected}) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isDownloaded, setIsDownloaded] = useState(false);
 
-  const downloadImageFromStorage = async () => {
-    downloadFromStorage(listselected[0])
-  }
-  
-
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     setIsDownloading(true);
     setIsDownloaded(false);
-    downloadImageFromStorage()
-    // Effectuez ici vos opérations de téléchargement
 
-    // Exemple de délai de 2 secondes pour simuler le téléchargement
-    setTimeout(() => {
-      setIsDownloading(false);
-      setIsDownloaded(true);
-    }, 2000);
+    const zip = new JSZip();
+
+    const fetchPromises = listselected.map(async (url, index) => {
+      try {
+        const response = await fetch(`/api/download?filePath=${encodeURIComponent(url)}`);
+        if (!response.ok) {
+          throw new Error("Erreur lors du téléchargement du fichier");
+        }
+        const blob = await response.blob();
+        zip.file(`image_${index}.jpg`, blob);
+      } catch (error) {
+        console.error("Erreur lors du téléchargement :", error);
+      }
+    });
+
+    // Attend que toutes les opérations fetch soient terminées
+    await Promise.all(fetchPromises);
+
+    zip.generateAsync({type:"blob"}).then(function(content) {
+      saveAs(content, "images.zip");
+    });
+
+    setIsDownloading(false);
+    setIsDownloaded(true);
   };
 
   return (

@@ -1,9 +1,6 @@
-import Image from "next/image";
 import { Inter } from "next/font/google";
 
-import Dashboard from "@/components/dashboard/dashboard";
-import NavbarDashboard from "@/components/navbar/NavbarDashboard";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/store/AuthContext";
