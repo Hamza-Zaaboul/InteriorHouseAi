@@ -1,4 +1,5 @@
-import { downloadFromStorage } from "@/firebase/Storage/download";
+
+import downloadFromStorage from "@/firebase/Storage/download";
 import { useState } from "react";
 
 export default function DownloadButtonHistorique({listselected}) {
@@ -6,14 +7,14 @@ export default function DownloadButtonHistorique({listselected}) {
   const [isDownloaded, setIsDownloaded] = useState(false);
 
   const downloadImageFromStorage = async () => {
-    downloadFromStorage(listselected)
+    downloadFromStorage(listselected[0])
   }
   
 
   const handleButtonClick = () => {
     setIsDownloading(true);
     setIsDownloaded(false);
-    downloadImageFromStorage();
+    downloadImageFromStorage()
     // Effectuez ici vos opérations de téléchargement
 
     // Exemple de délai de 2 secondes pour simuler le téléchargement

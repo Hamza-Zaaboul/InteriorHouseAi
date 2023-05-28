@@ -1,46 +1,23 @@
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import firebaseApp from "../InitFirebase";
-import JSZip from "jszip";
-import { saveAs } from "file-saver";
+import axios from "axios";
 
 const storage = getStorage(firebaseApp);
 
-export const downloadFromStorage = async (filePaths) => {
-  const zip = new JSZip();
-
-  const downloadFile = (filePath) => {
-    return new Promise((resolve, reject) => {
-      const storageRef = ref(storage, filePath);
-
-      getDownloadURL(storageRef)
-        .then((url) => {
-          fetch(url)
-            .then((response) => response.blob())
-            .then((blob) => {
-              resolve({ filePath, blob });
-            })
-            .catch((error) => {
-              reject(error);
-            });
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  };
-
-  const downloadPromises = filePaths.map((filePath) => downloadFile(filePath));
-
+export default async function downloadFromStorage(filePath) {
   try {
-    const results = await Promise.all(downloadPromises);
+    const storageRef = ref(storage, filePath);
+    const downloadURL = await getDownloadURL(storageRef);
 
-    results.forEach(({ filePath, blob }) => {
-      zip.file(filePath, blob);
+    // Utilisez l'URL de téléchargement pour effectuer des opérations sur l'image (par exemple, l'afficher ou la télécharger)
+    // Par exemple, en utilisant axios pour télécharger l'image
+    const response = await axios.get(downloadURL, {
+      responseType: "blob", // Spécifiez le type de réponse comme 'blob' pour télécharger le contenu de l'image
     });
 
-    const zipBlob = await zip.generateAsync({ type: "blob" });
-    saveAs(zipBlob, "download.zip");
+    // Faites quelque chose avec la réponse, par exemple, enregistrez l'image sur le disque ou affichez-la dans votre application
+    console.log(response.data); // Le contenu de l'image au format blob
   } catch (error) {
-    console.error("Error occurred during download:", error);
+    console.log(error);
   }
-};
+}
