@@ -1,11 +1,13 @@
 import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Transition, Menu } from "@headlessui/react";
+
 import {
   Bars3Icon,
   FolderIcon,
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 import { signOutUser } from "@/firebase/Auth/logout";
 import Selecteur from "./utils/Selecteur";
@@ -31,6 +33,7 @@ import {
   dataListe4,
   dataListe5,
 } from "@/store/BigData";
+import HeaderHistorique from "./headerhistorique";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -41,6 +44,12 @@ function classNames(...classes) {
 export default function Dashboard() {
   //useContext pour le users
   const { user } = useAuthContext();
+
+  const userNavigation = [
+    { name: "Your Profile", href: "#" },
+    { name: "Settings", href: "#" },
+    { name: "Sign out", href: "#" },
+  ];
 
   // State pour le menu latéral
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -54,6 +63,7 @@ export default function Dashboard() {
 
   // State pour le toggle de l'historique
   const [currentHistorique, setCurrentHistorique] = useState(false);
+  const [currentAccueil, setCurrentAccueil] = useState(true);
   const [historique, setHistorique] = useState(false);
 
   // State pour les dropdowns de selections des parametres
@@ -94,13 +104,16 @@ export default function Dashboard() {
 
   //Fonction pour la navigation lateral
   function handleHistorique() {
-    setHistorique(!historique);
-    setCurrentHistorique(!currentHistorique);
-    console.log(historique);
+    setHistorique(true);
+    setCurrentHistorique(true);
+    setCurrentAccueil(false);
   }
 
   function handleNavigation() {
-    setNavig(!navig);
+    setNavig(true);
+    setHistorique(false);
+    setCurrentHistorique(false);
+    setCurrentAccueil(true);
   }
 
   function handleBLog() {
@@ -112,22 +125,22 @@ export default function Dashboard() {
       name: "Accueil",
       href: "#",
       icon: HomeIcon,
-      current: true,
+      current: false,
+      onClick: handleBLog,
+    },
+    {
+      name: "Dashboard",
+      href: "#",
+      icon: UsersIcon,
+      current: currentAccueil,
       onClick: handleNavigation,
     },
     {
       name: "Historique",
       href: "#",
-      icon: UsersIcon,
+      icon: FolderIcon,
       current: currentHistorique,
       onClick: handleHistorique,
-    },
-    {
-      name: "Blog",
-      href: "#",
-      icon: FolderIcon,
-      current: false,
-      onClick: handleBLog,
     },
   ];
 
@@ -443,13 +456,88 @@ export default function Dashboard() {
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
-            <div className="flex h-16 shrink-0 items-center">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
-              />
-            </div>
+            {/* <li className="-mx-5 mt-auto">
+                  {user && (
+                    <a
+                      href="#"
+                      className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+                    >
+                      <img
+                        className="h-8 w-8 rounded-full bg-gray-50"
+                        src={user.photoURL}
+                        alt=""
+                      />
+                      <span className="sr-only">Votre profil</span>
+                      <span aria-hidden="true">{user.displayName}</span>
+                    </a>
+                  )}
+                </li> */}
+
+            {user && (
+              <Menu as="div" className="relative mt-10">
+                <Menu.Button className="-m-1.5 flex items-center p-1.5">
+                  <span className="sr-only">Open user menu</span>
+
+                  {user.photoURL && (
+                    <img
+                      className="h-8 w-8 rounded-full bg-gray-50"
+                      src={user.photoURL}
+                      alt=""
+                    />
+                  )}
+
+                  {!user.photoURL && (
+                    <span className="inline-block h-8 w-8 overflow-hidden rounded-full bg-gray-100">
+                      <svg
+                        className="h-full w-full text-gray-300"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                    </span>
+                  )}
+
+                  <span className="hidden lg:flex lg:items-center">
+                    <span
+                      className="ml-4 text-sm font-semibold leading-6 text-gray-900"
+                      aria-hidden="true"
+                    >
+                      {user.displayName}
+                    </span>
+                    <ChevronDownIcon
+                      className="ml-2 h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Menu.Button>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={handleSignOut}
+                          className={classNames(
+                            active ? "bg-gray-50 w-full" : "",
+                            "block px-3 py-1 text-sm leading-6 text-gray-900 w-full"
+                          )}
+                        >
+                          Deconnexion
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            )}
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 <li>
@@ -513,22 +601,6 @@ export default function Dashboard() {
                     ))}
                   </ul>
                 </li>
-                <li className="-mx-5 mt-auto">
-                  {user && (
-                    <a
-                      href="#"
-                      className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
-                    >
-                      <img
-                        className="h-8 w-8 rounded-full bg-gray-50"
-                        src={user.photoURL}
-                        alt=""
-                      />
-                      <span className="sr-only">Votre profil</span>
-                      <span aria-hidden="true">{user.displayName}</span>
-                    </a>
-                  )}
-                </li>
               </ul>
             </nav>
           </div>
@@ -544,13 +616,13 @@ export default function Dashboard() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
           <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
-            Dashboard
+            Tableau de bord
           </div>
           <a href="#">
-            <span className="sr-only">Your profile</span>
+            <span className="sr-only">Votre profil</span>
             <img
               className="h-8 w-8 rounded-full bg-gray-50"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              src={user.photoURL}
               alt=""
             />
           </a>
@@ -625,12 +697,10 @@ export default function Dashboard() {
           <div className="md:pl-96">
             <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6 h-full relative">
               {/* Main area */}
-
-              <HeaderDashbord onSwiperChange={handlesetSwiper} />
-              {prediction && (
-                <p className="py-3 text-sm opacity-50">
-                  status: {prediction.status}
-                </p>
+              {historique === false ? (
+                <HeaderDashbord onSwiperChange={handlesetSwiper} />
+              ) : (
+                <HeaderHistorique />
               )}
 
               {error && <div>{error}</div>}
@@ -658,7 +728,9 @@ export default function Dashboard() {
               <div className="relative md:fixed md:bottom-0 md:right-0  Righteur bg-white py-4">
                 <DownloadButton ouput={outputImage} />
               </div>
-            ) : (<> </>)}
+            ) : (
+              <> </>
+            )}
           </div>
         </main>
       </div>

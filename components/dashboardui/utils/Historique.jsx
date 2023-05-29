@@ -69,7 +69,7 @@ export default function Historique() {
 
   return (
     <div>
-      <div className="flex items-center justify-center py-4 md:py-8 w-full">
+      <div className="flex flex-col items-center justify-center py-4 md:py-8 w-full">
         <div>
           {dataUrls.map((item) => (
             <div
@@ -134,6 +134,9 @@ export default function Historique() {
               </div>
             </div>
           ))}
+        </div>
+        <div className="h-56">
+          
         </div>
       </div>
 

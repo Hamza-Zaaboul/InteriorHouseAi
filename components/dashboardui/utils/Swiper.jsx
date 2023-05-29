@@ -8,6 +8,7 @@ function classNames(...classes) {
 export default function Swiper({ onSwiperChange }) {
 
   const [enabled, setEnabled] = useState(false);
+  
   const handleToggle = (newEnabled) => {
     setEnabled(newEnabled);
     onSwiperChange(newEnabled); // Appel de la fonction de rappel du composant parent avec la nouvelle valeur

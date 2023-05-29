@@ -6,7 +6,7 @@ import {
   ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/20/solid";
 import { useContext, useState } from "react";
-import { Switch } from "@headlessui/react";
+
 import Link from "next/link";
 import { useAuthContext } from "@/store/AuthContext";
 import { signOutUser } from "@/firebase/Auth/logout";
@@ -15,22 +15,16 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function HeaderDashbord({ onSwiperChange }) {
-  const [enabled, setEnabled] = useState(false);
+export default function HeaderHistorique() {
+
   const coins = useContext(MyCoinsContext);
   const { user } = useAuthContext();
-  const handleToggle = (newEnabled) => {
-    setEnabled(newEnabled);
-    onSwiperChange(newEnabled); // Appel de la fonction de rappel du composant parent avec la nouvelle valeur
-  };
-
-
 
   return (
     <div className="lg:flex flex-col 2xl:flex-row justify-start lg:items-center lg:justify-between gap-8">
       <div className="min-w-0 flex-1">
         <h2 className="mt-2 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-          Résultats
+          Historique
         </h2>
         <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
           <div className="mt-2 flex items-center text-sm text-gray-500">
@@ -44,7 +38,7 @@ export default function HeaderDashbord({ onSwiperChange }) {
         </div>
       </div>
       <div className="mt-5 flex lg:ml-4 lg:mt-0 md:flex-wrap justify-start items-start">
-        <span className="block">
+        {/* <span className="block">
           <Switch.Group as="div" className="flex items-center justify-between">
             <span className="inline-flex items-center rounded-md bg-white px-3 py-0 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
               <Switch.Label
@@ -54,10 +48,6 @@ export default function HeaderDashbord({ onSwiperChange }) {
               >
                 Comparateur
               </Switch.Label>
-              {/* <Switch.Description as="span" className="text-sm text-gray-500">
-          Nulla amet tempus sit accumsan. Aliquet turpis sed sit lacinia.
-        </Switch.Description> */}
-
               <Switch
                 checked={enabled}
                 onChange={handleToggle}
@@ -76,9 +66,9 @@ export default function HeaderDashbord({ onSwiperChange }) {
               </Switch>
             </span>
           </Switch.Group>
-        </span>
+        </span> */}
 
-        <span className="ml-3 block">
+<span className="ml-3 block">
           <Link
             href="/pricing"
             className="inline-flex items-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-700"
