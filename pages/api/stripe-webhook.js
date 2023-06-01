@@ -33,7 +33,7 @@ export default cors(async function webhookHandler(req, res) {
       event = stripe.webhooks.constructEvent(
         buf,
         sig,
-        process.env.STRIPE_WEBHOOK_SECRET_TEST
+        process.env.STRIPE_WEBHOOK_SECRET
       );
     } catch (err) {
       console.error(err);
@@ -53,7 +53,7 @@ export default cors(async function webhookHandler(req, res) {
       
       // Get the customer email
       const userEmail = customer.email;
-      
+
       console.log(userEmail);
 
 
