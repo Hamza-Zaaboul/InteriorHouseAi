@@ -11,6 +11,11 @@ import { Switch } from "@headlessui/react";
 import Link from "next/link";
 import { useAuthContext } from "@/store/AuthContext";
 import { MyCoinsContext } from "@/store/MyCoinsContext";
+
+import firebase_app from "@/firebase/InitFirebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -18,7 +23,10 @@ function classNames(...classes) {
 export default function HeaderDashbord({ onSwiperChange }) {
   const [enabled, setEnabled] = useState(false);
   const coins = useContext(MyCoinsContext);
-  const { user } = useAuthContext();
+
+  const auth = getAuth(firebase_app);
+  const [user, loading] = useAuthState(auth);
+  
   const handleToggle = (newEnabled) => {
     setEnabled(newEnabled);
     onSwiperChange(newEnabled); // Appel de la fonction de rappel du composant parent avec la nouvelle valeur

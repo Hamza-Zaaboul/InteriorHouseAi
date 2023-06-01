@@ -10,6 +10,10 @@ import DownloadButton from "./utils/DownloadButton";
 import HeaderDashbord from "./headerdashboard";
 import { useAuthContext } from "@/store/AuthContext";
 import { signOutUser } from "@/firebase/Auth/logout";
+
+import firebase_app from "@/firebase/InitFirebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const dataDashboard = [
@@ -72,6 +76,9 @@ const dataListe5 = [
   { id: 2, name: "HD", translated: "Bedroom" },
   { id: 3, name: "HD", translated: "Bedroom" },
 ];
+
+
+
 export default function Dashboard() {
   const [selectedImage, setSelectedImage] = useState();
   const [imageBeforedOn, setImageBeforedOn] = useState();
@@ -80,7 +87,9 @@ export default function Dashboard() {
   const [theme, setTheme] = useState("Modern");
   const [room, setRoom] = useState("Living Room");
   
-  const { user } = useAuthContext();
+
+  const auth = getAuth(firebase_app);
+  const [user, loading] = useAuthState(auth);
 
   const [prediction, setPrediction] = useState(null);
   const [error, setError] = useState(null);

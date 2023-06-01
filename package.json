@@ -29,6 +29,7 @@
     "postcss": "8.4.23",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-firebase-hooks": "^5.1.1",
     "react-hot-toast": "^2.4.1",
     "replicate": "^0.12.1",
     "stripe": "^12.6.0",
