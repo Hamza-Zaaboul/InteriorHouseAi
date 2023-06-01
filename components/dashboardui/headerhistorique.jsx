@@ -21,7 +21,7 @@ export default function HeaderHistorique() {
   const { user } = useAuthContext();
 
   return (
-    <div className="lg:flex flex-col 2xl:flex-row justify-start lg:items-center lg:justify-between gap-8">
+    <div className="lg:flex flex-col xl:flex-row justify-start lg:items-center lg:justify-between gap-8">
       <div className="min-w-0 flex-1">
         <h2 className="mt-2 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
           Historique

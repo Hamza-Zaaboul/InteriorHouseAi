@@ -94,8 +94,8 @@ export default function Historique() {
       <div className="flex flex-col items-center justify-center py-4 md:py-8 w-full">
         <div>
           {dataUrls.map((item) => (
-            <div key={item.id} className="">
-              <div className="mx-auto mt-6 md:mt-8 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none">
+            <div key={item.id} className=" mt-16 md:mt-2">
+              <div className="mx-auto mt-6 md:mt-8 grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 md:grid-cols-2 lg:mx-0 lg:max-w-none">
                 <div className="relative  w-full">
                   
                   <label htmlFor={item.id} className="w-full">
@@ -166,11 +166,12 @@ export default function Historique() {
         <div className="h-56"></div>
       </div>
 
-      <div className="relative md:fixed md:bottom-0 md:right-0 flex Righteur bg-white py-4">
+      <div className="relative md:fixed md:bottom-0 md:right-0 flex flex-col Righteur bg-white py-4">
         <DownloadButtonHistorique listselected={selectedItems} />
-        <div className="absolute right-4 ">
+        <div className="min-[1341px]:absolute min-[1341px]:right-4  ">
           <DeletedButton
             listselected={selectedDataUrls}
+            urlselected = {selectedItems}
             actualiser={handleGetData}
           />
         </div>

@@ -1,14 +1,21 @@
 import { deleteDocument } from "@/firebase/Firestore/deletData";
+import { deleteFilesByURLs } from "@/firebase/Storage/delete";
 import { useAuthContext } from "@/store/AuthContext";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
-export default function DeletedButton({ listselected, actualiser }) {
+export default function DeletedButton({urlselected, listselected, actualiser }) {
   const { user } = useAuthContext();
-
-
 
   const handleButtonClick = async () => {
     try {
+      try {
+      await deleteFilesByURLs(urlselected);
+      }
+      catch (error) {
+        console.error(error);
+      }
+
+
       for (const itemId of listselected) {
         console.log(`Tentative de suppression de l'élément ${itemId}.`);
         await deleteDocument("Archives", user.uid, "Historique", itemId);
