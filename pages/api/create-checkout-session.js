@@ -14,8 +14,8 @@ export default async function handler(req, res) {
       },
     ],
     mode: "payment",
-    success_url: `${req.headers.origin}/pricing?paid=true`,
-    cancel_url: `${req.headers.origin}/cart`,
+    success_url: `${req.headers.origin}/dashboard`,
+    cancel_url: `${req.headers.origin}/canceled`,
     client_reference_id: userEmail,
     customer_email: userEmail
   });

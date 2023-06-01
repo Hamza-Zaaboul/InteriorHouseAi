@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition, Menu } from "@headlessui/react";
 
 import {
@@ -23,6 +23,8 @@ import Historique from "./utils/Historique";
 import { uploadAfter } from "@/firebase/Storage/storageAfter";
 import ajouterEnsembleUrls from "@/firebase/Firestore/addDataURls";
 import DownloadButtonHistorique from "./utils/DownloadButtonHistorique";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 //BigData
 import {
@@ -34,6 +36,9 @@ import {
   dataListe5,
 } from "@/store/BigData";
 import HeaderHistorique from "./headerhistorique";
+import { getFirestore } from "firebase/firestore";
+import { updateDocument } from "@/firebase/Firestore/updateData";
+import getDocument from "@/firebase/Firestore/getData";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -42,6 +47,8 @@ function classNames(...classes) {
 }
 
 export default function Dashboard() {
+
+  const notify = () => toast.success('Initialisation de la demarche reussie');
   //useContext pour le users
   const { user } = useAuthContext();
 
@@ -70,7 +77,7 @@ export default function Dashboard() {
   const [selectedValue1, setSelectedValue1] = useState(null);
   const [selectedValue2, setSelectedValue2] = useState(null);
   const [selectedValue3, setSelectedValue3] = useState(null);
-  const [selectedValue4, setSelectedValue4] = useState(null);
+  const [selectedValue4, setSelectedValue4] = useState(1);
   const [selectedValue5, setSelectedValue5] = useState(null);
 
   // State pour les parametres de theme et de room
@@ -96,6 +103,8 @@ export default function Dashboard() {
 
   // State pour le lien de l'output de la prediction cote storage firebase
   const [downloadAfterURL, setDownloadAfterURL] = useState();
+
+  const [piece, setPieces] = useState();
 
   // Fonction pour la deconnexion
   const handleSignOut = () => {
@@ -196,6 +205,46 @@ export default function Dashboard() {
     setDownloadAfterURL(newDownloadURL);
   };
 
+  //Bloc de fonction et useEffect pour recupere piec
+  const getDocumentData = async () => {
+    const { result, error } = await getDocument("users", user.uid);
+
+    if (error) {
+      console.error("Error fetching document: ", error);
+      return null;
+    }
+
+    if (!result.exists()) {
+      console.error("Document does not exist");
+      return null;
+    }
+
+    const piec = result.data().piec;
+
+    setPieces(piec);
+
+    return piec;
+  };
+
+  useEffect(() => {
+    getDocumentData();
+  }, []);
+
+  //mise a jour de piec
+
+  const updatePiec = async () => {
+    const coine = await getDocumentData();
+    if (coine === null) {
+      return;
+    }
+
+    const updatedPiec = parseInt(coine) - 1;
+
+    setPieces(updatedPiec);
+
+    await updateDocument("users", user.uid, "piec", updatedPiec);
+  };
+
   //Constante pour le prompt de la prediction
   const prompt =
     room === "gaming room"
@@ -205,104 +254,120 @@ export default function Dashboard() {
   //Fonction cerveau de l'application
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    await getDocumentData();
+  
 
-    if (selectedImage) {
-      try {
-        // Depose l'image de l'input dans le storage firebase
-        setUploadStatus("uploading");
-        const downloadURLFirebase = await uploadFile(selectedImage, user.uid);
-        setUploadStatus("success");
-        console.log(
-          "File uploaded successfully. Download URL:",
-          downloadURLFirebase.url
-        );
-        handleDownloadURLChange(downloadURLFirebase.url);
-        setShowAttachment(false);
+    if (piece >= 1) {
+      if (selectedImage) {
+        try {
+          notify();
+          // Depose l'image de l'input dans le storage firebase
+          setUploadStatus("uploading");
+          const downloadURLFirebase = await uploadFile(selectedImage, user.uid);
+          setUploadStatus("success");
+          console.log(
+            "File uploaded successfully. Download URL:",
+            downloadURLFirebase.url
+          );
+          handleDownloadURLChange(downloadURLFirebase.url);
+          setShowAttachment(false);
 
-        // Appel de l'API de prediction
-        if (downloadURLFirebase) {
-          try {
-            const response = await fetch("/api/predictions", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                image: downloadURLFirebase.url, // Utiliser la valeur de "url" ici
-                structure: "hough",
-                prompt: prompt,
-                scale: 9,
-                a_prompt:
-                  "best quality, photo from Pinterest, interior, cinematic photo, ultra-detailed, ultra-realistic, award-winning, interior design, natural lighting",
-                n_prompt:
-                  "longbody, lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality",
-              }),
-            });
+          // Appel de l'API de prediction
+          if (downloadURLFirebase) {
+            try {
+              const response = await fetch("/api/predictions", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  image: downloadURLFirebase.url, // Utiliser la valeur de "url" ici
+                  structure: "hough",
+                  prompt: prompt,
+                  scale: 9,
+                  a_prompt:
+                    "best quality, photo from Pinterest, interior, cinematic photo, ultra-detailed, extremely detailed, ultra-realistic, award-winning, interior design, natural lighting",
+                  n_prompt:
+                    "longbody, lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality",
+                }),
+              });
 
-            let prediction = await response.json();
-            if (response.status !== 201) {
-              setError(prediction.detail);
-              return;
-            }
-            setPrediction(prediction);
-
-            while (
-              prediction.status !== "succeeded" &&
-              prediction.status !== "failed"
-            ) {
-              await sleep(1000);
-              const response = await fetch("/api/predictions/" + prediction.id);
-              prediction = await response.json();
-
-              if (response.status !== 200) {
+              let prediction = await response.json();
+              if (response.status !== 201) {
                 setError(prediction.detail);
                 return;
               }
-              console.log({ prediction });
               setPrediction(prediction);
 
-              // Si la prédiction est réussie, depose l'image de l'ouput dans le storage firebase adequat selon l'user
-              if (prediction.status == "succeeded") {
-                setUploadStatus("uploading");
-                const downloadAfterStatement = await uploadAfter(
-                  prediction.output[prediction.output.length - 1],
-                  downloadURLFirebase.folderRef,
-                  downloadURLFirebase.name
+              while (
+                prediction.status !== "succeeded" &&
+                prediction.status !== "failed"
+              ) {
+                await sleep(1000);
+                const response = await fetch(
+                  "/api/predictions/" + prediction.id
                 );
-                setUploadStatus("success");
-                console.log(
-                  "File uploaded successfully. Download URL:",
-                  downloadAfterStatement
-                );
+                prediction = await response.json();
 
-                handleDownloadAfterURLChange(downloadAfterStatement);
+                if (response.status !== 200) {
+                  setError(prediction.detail);
+                  return;
+                }
+                console.log({ prediction });
+                setPrediction(prediction);
 
-                handleDownloadURLOutput(
-                  prediction.output[prediction.output.length - 1]
-                );
+                // Si la prédiction est réussie, depose l'image de l'ouput dans le storage firebase adequat selon l'user
+                if (prediction.status == "succeeded") {
+                  toast.success("Votre image est prête");
+                  setUploadStatus("uploading");
+                  const downloadAfterStatement = await uploadAfter(
+                    prediction.output[prediction.output.length - 1],
+                    downloadURLFirebase.folderRef,
+                    downloadURLFirebase.name
+                  );
+          
 
-                // Depose les urls de l'input et de l'output dans la collection Firestore adequat selon l'user
-                const urls = {
-                  email: user.email,
-                  room: room,
-                  theme: theme,
-                  before: downloadURLFirebase.url,
-                  after: downloadAfterStatement,
-                };
+                  updatePiec();
 
-                await ajouterEnsembleUrls("Archives", user.uid, urls);
+                  setUploadStatus("success");
+                  console.log(
+                    "File uploaded successfully. Download URL:",
+                    downloadAfterStatement
+                  );
+
+                  handleDownloadAfterURLChange(downloadAfterStatement);
+
+                  handleDownloadURLOutput(
+                    prediction.output[prediction.output.length - 1]
+                  );
+
+                  // Depose les urls de l'input et de l'output dans la collection Firestore adequat selon l'user
+                  const urls = {
+                    email: user.email,
+                    room: room,
+                    theme: theme,
+                    before: downloadURLFirebase.url,
+                    after: downloadAfterStatement,
+                  };
+
+                  await ajouterEnsembleUrls("Archives", user.uid, urls);
+                }
               }
+            } catch (error) {
+              setError("Error during prediction: " + error);
             }
-          } catch (error) {
-            setError("Error during prediction: " + error);
           }
+        } catch (error) {
+          setUploadStatus("error");
+          console.error("Error uploading file:", error);
+          setShowAttachment(true);
+          return; // Arrêter l'exécution si une erreur s'est produite lors du chargement du fichier
         }
-      } catch (error) {
-        setUploadStatus("error");
-        console.error("Error uploading file:", error);
-        setShowAttachment(true);
-        return; // Arrêter l'exécution si une erreur s'est produite lors du chargement du fichier
       }
+    } else {
+      toast.error("Vous n'avez plus de crédits");
+      console.log("Vous n'avez plus de crédits");
     }
   };
 
@@ -628,12 +693,12 @@ export default function Dashboard() {
           </a>
         </div>
 
-        <aside className=" relative md:fixed inset-y-0 md:left-0 lg:left-72 w-full md:w-96 overflow-y-auto border-r border-gray-200 px-2 py-4 xl:block">
+        <aside className=" relative md:fixed inset-y-0 md:left-0 lg:left-72 w-full h-[100vh] md:h-none md:w-96 overflow-y-auto border-r border-gray-200 px-2 py-4 xl:block">
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-8 overflow-x-hidden overflow-y-auto max-h-[90%]"
+            className="flex flex-col gap-8 overflow-x-hidden overflow-y-auto h-full"
           >
-            <div className="flex flex-col gap-8 px-4 overflow-x-hidden overflow-y-auto pt-4">
+            <div className="flex flex-col gap-8 px-4 overflow-x-hidden overflow-y-auto pt-4 h-full">
               <h2 className="md:text-xl font-bold subpixel-antialiased">
                 VOTRE INTERIEUR
               </h2>
@@ -649,13 +714,13 @@ export default function Dashboard() {
                 </h3>
                 <Selecteur people={dataListe2} onSelect={handleSelect1} />
               </div>
-
+              {/* 
               <div className="Selecteur w-full">
                 <h3 className="block font-semibold leading-6 text-gray-900">
                   Degrée de liberté
                 </h3>
                 <Selecteur people={dataListe3} onSelect={handleSelect2} />
-              </div>
+              </div> */}
 
               <div className="Selecteur w-full">
                 <h3 className="block font-semibold leading-6 text-gray-900">
@@ -664,19 +729,19 @@ export default function Dashboard() {
                 <Selecteur people={dataListe1} onSelect={handleSelect3} />
               </div>
 
-              <div className="Selecteur w-full">
+              {/* <div className="Selecteur w-full">
                 <h3 className="block font-semibold leading-6 text-gray-900">
                   Nombre de rendu
                 </h3>
                 <Selecteur people={dataListe4} onSelect={handleSelect4} />
-              </div>
+              </div> */}
 
-              <div className="Selecteur w-full">
+              {/* <div className="Selecteur w-full">
                 <h3 className="block font-semibold leading-6 text-gray-900">
                   Resolution
                 </h3>
                 <Selecteur people={dataListe5} onSelect={handleSelect5} />
-              </div>
+              </div> */}
 
               <div className="Selecteur w-full"></div>
               <div className="Selecteur w-full"></div>
@@ -733,6 +798,7 @@ export default function Dashboard() {
             )}
           </div>
         </main>
+        <Toaster />
       </div>
     </>
   );

@@ -29,11 +29,11 @@ export const AuthContextProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{ user }}>
       {loading ? (
-        <div class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-100 opacity-75 flex flex-col items-center justify-center">
+        <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-100 opacity-75 flex flex-col items-center justify-center">
           <div className="w-auto h-auto flex flex-col items-center justify-center absolute top-[40%] transform transition-y-[0%] ">
-            <div class="loadering">
+            <div className="loadering">
               <span className="inline-flex items-center gap-x-0.5 rounded-md  px-2 py-1 text-2xl font-semibold text-gray-900">
-                CHARGEMENT EN COURS <span class="bullets">.</span>
+                CHARGEMENT EN COURS <span className="bullets">.</span>
               </span>
             </div>
             <Loading />

@@ -11,6 +11,7 @@ export default function DownloadButtonHistorique({listselected}) {
     setIsDownloaded(false);
 
     const zip = new JSZip();
+    
 
     const fetchPromises = listselected.map(async (url, index) => {
       try {

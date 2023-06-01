@@ -1,7 +1,7 @@
-import firebase_app from "../InitFirebase";
 import { getFirestore, doc, collection, getDocs } from "firebase/firestore";
+import firebaseApp from "../InitFirebase";
 
-const db = getFirestore(firebase_app);
+const db = getFirestore(firebaseApp);
 
 export default async function getAllDocuments(collectionName, userId, subCollectionName) {
   let result = null;
@@ -12,12 +12,10 @@ export default async function getAllDocuments(collectionName, userId, subCollect
     const subCollectionRef = collection(userRef, subCollectionName);
     const querySnapshot = await getDocs(subCollectionRef);
 
-    result = querySnapshot.docs.map((doc) => doc.data());
+    result = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   } catch (e) {
     error = e;
   }
 
   return { result, error };
 }
-
-//Permet de recupere la data des souscolections

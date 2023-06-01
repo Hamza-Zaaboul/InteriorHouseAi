@@ -3,26 +3,26 @@ export default function Loading() {
     <>
 
       <div className="flex items-center justify-center h-full w-full">
-        <div class="boxes">
-          <div class="box">
+        <div className="boxes">
+          <div className="box">
             <div></div>
             <div></div>
             <div></div>
             <div></div>
           </div>
-          <div class="box">
+          <div className="box">
             <div></div>
             <div></div>
             <div></div>
             <div></div>
           </div>
-          <div class="box">
+          <div className="box">
             <div></div>
             <div></div>
             <div></div>
             <div></div>
           </div>
-          <div class="box">
+          <div className="box">
             <div></div>
             <div></div>
             <div></div>
