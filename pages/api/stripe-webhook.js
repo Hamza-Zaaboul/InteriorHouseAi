@@ -6,7 +6,7 @@ import Cors from "micro-cors";
 
 const db = getFirestore(firebase_app);
 // Instancier l'API Stripe
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY,  {
   apiVersion: "2022-11-15",
 });
 
@@ -22,8 +22,8 @@ const cors = Cors({
 
 // Gérer le webhook
 export default cors(async function webhookHandler(req, res) {
-
-  if (req.method === "POST") {
+  
+  if (req.method === "POST" ) {
     const buf = await buffer(req);
     const sig = req.headers["stripe-signature"];
 
@@ -40,16 +40,13 @@ export default cors(async function webhookHandler(req, res) {
       return res.status(400).send(`Webhook error: ${err.message}`);
     }
 
-
+    
     if (event.type === "payment_intent.succeeded" || event.type === "checkout.session.completed") {
       const paymentIntent = event.data.object;
       console.log(`💰 PaymentIntent: ${JSON.stringify(paymentIntent)}`);
       //On recuper l'email du chechout
-      const session = event.data.object;
-      console.log(`💰 Checkout session: ${JSON.stringify(session)}`);
-      // On récupère l'email du checkout
-      const userEmail = "zelenionzelenion@gmail.Com";
-      console.log(userEmail)
+      const userEmail = paymentIntent.customer_details.email;
+
 
       //On definit la variable creditAmount à 0
       let creditAmount = 0;
