@@ -33,7 +33,7 @@ export default cors(async function webhookHandler(req, res) {
       event = stripe.webhooks.constructEvent(
         buf,
         sig,
-        process.env.STRIPE_WEBHOOK_SECRET
+        process.env.STRIPE_WEBHOOK_SECRET_TEST
       );
     } catch (err) {
       console.error(err);
@@ -44,8 +44,17 @@ export default cors(async function webhookHandler(req, res) {
     if (event.type === "payment_intent.succeeded" || event.type === "checkout.session.completed") {
       const paymentIntent = event.data.object;
       console.log(`💰 PaymentIntent: ${JSON.stringify(paymentIntent)}`);
-      //On recuper l'email du chechout
-      const userEmail = paymentIntent.customer_details.email;
+      
+      // Get customer id
+      const customerId = paymentIntent.customer;
+    
+      // Retrieve customer
+      const customer = await stripe.customers.retrieve(customerId);
+      
+      // Get the customer email
+      const userEmail = customer.email;
+      
+      console.log(userEmail);
 
 
       //On definit la variable creditAmount à 0
