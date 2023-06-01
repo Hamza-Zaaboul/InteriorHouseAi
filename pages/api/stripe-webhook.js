@@ -54,6 +54,8 @@ export default cors(async function webhookHandler(req, res) {
       // Get the customer email
       const userEmail = customer.email;
 
+      
+
       console.log(userEmail);
 
 
