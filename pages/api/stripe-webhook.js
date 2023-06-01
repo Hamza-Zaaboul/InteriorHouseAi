@@ -48,7 +48,7 @@ export default cors(async function webhookHandler(req, res) {
       const session = event.data.object;
       console.log(`💰 Checkout session: ${JSON.stringify(session)}`);
       // On récupère l'email du checkout
-      const userEmail = session.customer_email;
+      const userEmail = "zelenionzelenion@gmail.Com";
       console.log(userEmail)
 
       //On definit la variable creditAmount à 0
