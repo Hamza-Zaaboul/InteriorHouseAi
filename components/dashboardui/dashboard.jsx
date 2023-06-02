@@ -21,15 +21,10 @@ import DownloadButton from "./utils/DownloadButton";
 import Historique from "./utils/Historique";
 import { uploadAfter } from "@/firebase/Storage/storageAfter";
 import ajouterEnsembleUrls from "@/firebase/Firestore/addDataURls";
-import toast, { Toaster } from 'react-hot-toast';
-
+import toast, { Toaster } from "react-hot-toast";
 
 //BigData
-import {
-  teams,
-  dataListe1,
-  dataListe2
-} from "@/store/BigData";
+import { teams, dataListe1, dataListe2 } from "@/store/BigData";
 import HeaderHistorique from "./headerhistorique";
 import { updateDocument } from "@/firebase/Firestore/updateData";
 import getDocument from "@/firebase/Firestore/getData";
@@ -42,8 +37,7 @@ function classNames(...classes) {
 }
 
 export default function Dashboard() {
-
-  const notify = () => toast.success('Initialisation de la demarche reussie');
+  const notify = () => toast.success("Initialisation de la demarche reussie");
   //useContext pour le users
   const { user } = useAuthContext();
 
@@ -68,9 +62,13 @@ export default function Dashboard() {
   const [currentAccueil, setCurrentAccueil] = useState(true);
   const [historique, setHistorique] = useState(false);
   const router = useRouter();
+
+  //State pour le mode personnalise
+  const [modePersonnalise, setModePersonnalise] = useState(false);
+
   // State pour les dropdowns de selections des parametres
   const [selectedValue1, setSelectedValue1] = useState(null);
-  const [selectedValue2, setSelectedValue2] = useState(null);
+  const [selectedValue2, setSelectedValue2] = useState("");
   const [selectedValue3, setSelectedValue3] = useState(null);
   const [selectedValue4, setSelectedValue4] = useState(1);
   const [selectedValue5, setSelectedValue5] = useState(null);
@@ -112,7 +110,6 @@ export default function Dashboard() {
     setCurrentHistorique(true);
     setCurrentAccueil(false);
     setSwiper(false);
-
   }
 
   function handleNavigation() {
@@ -156,8 +153,8 @@ export default function Dashboard() {
     setTheme(value.translated);
   };
 
-  const handleSelect2 = (value) => {
-    setSelectedValue2(value);
+  const handleSelect2 = (event) => {
+    setSelectedValue2(event.target.value);
   };
 
   const handleSelect3 = (value) => {
@@ -165,12 +162,8 @@ export default function Dashboard() {
     setRoom(value.translated);
   };
 
-  const handleSelect4 = (value) => {
-    setSelectedValue4(value);
-  };
-
-  const handleSelect5 = (value) => {
-    setSelectedValue5(value);
+  const handleCheckboxChange = (event) => {
+    setModePersonnalise(event.target.checked);
   };
 
   //Fonction pour uptade si le fichier est correctement récupéré
@@ -243,10 +236,11 @@ export default function Dashboard() {
   };
 
   //Constante pour le prompt de la prediction
-  const prompt =
-    room === "gaming room"
+  const prompt = modePersonnalise
+    ? room === "gaming room"
       ? "a video gaming room"
-      : `a ${theme.toLowerCase()} ${room.toLowerCase()}`;
+      : ` ${selectedValue2.toLowerCase()}  `
+    : `a ${theme.toLowerCase()} ${room.toLowerCase()}`;
 
   //Fonction cerveau de l'application
   const handleSubmit = async (e) => {
@@ -254,9 +248,6 @@ export default function Dashboard() {
 
     handleNavigation();
     await getDocumentData();
-
-
-  
 
     if (piece >= 1) {
       if (selectedImage) {
@@ -326,7 +317,6 @@ export default function Dashboard() {
                     downloadURLFirebase.folderRef,
                     downloadURLFirebase.name
                   );
-          
 
                   updatePiec();
 
@@ -712,36 +702,62 @@ export default function Dashboard() {
                 <h3 className="block font-semibold leading-6 text-gray-900">
                   Type de pièce
                 </h3>
-                <Selecteur people={dataListe2} onSelect={handleSelect1} />
+                <Selecteur
+                  people={dataListe2}
+                  onSelect={handleSelect1}
+                  disabled={modePersonnalise}
+                />
               </div>
-              {/* 
-              <div className="Selecteur w-full">
-                <h3 className="block font-semibold leading-6 text-gray-900">
-                  Degrée de liberté
-                </h3>
-                <Selecteur people={dataListe3} onSelect={handleSelect2} />
-              </div> */}
 
               <div className="Selecteur w-full">
                 <h3 className="block font-semibold leading-6 text-gray-900">
                   Style
                 </h3>
-                <Selecteur people={dataListe1} onSelect={handleSelect3} />
+                <Selecteur
+                  people={dataListe1}
+                  onSelect={handleSelect3}
+                  disabled={modePersonnalise}
+                />
               </div>
 
-              {/* <div className="Selecteur w-full">
-                <h3 className="block font-semibold leading-6 text-gray-900">
-                  Nombre de rendu
-                </h3>
-                <Selecteur people={dataListe4} onSelect={handleSelect4} />
-              </div> */}
+              <div className="Selecteur w-full">
+                <div>
+                  <div className="flex w-full items-center">
+                    <label
+                      htmlFor="comment"
+                      className="block font-semibold leading-6 text-gray-900"
+                    >
+                      Personnaliser votre requête
+                    </label>
+                    <div className="ml-auto flex items-center">
+                      <label
+                        htmlFor="Personnaliser votre requête"
+                        className="select-none font-sm text-sm text-gray-900 mr-2"
+                      ></label>
+                      <input
+                        id="Personnaliser votre requête"
+                        name="Personnaliser votre requête"
+                        type="checkbox"
+                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-auto"
+                        checked={modePersonnalise}
+                        onChange={handleCheckboxChange}
+                      />{" "}
+                    </div>
+                  </div>
 
-              {/* <div className="Selecteur w-full">
-                <h3 className="block font-semibold leading-6 text-gray-900">
-                  Resolution
-                </h3>
-                <Selecteur people={dataListe5} onSelect={handleSelect5} />
-              </div> */}
+                  <div className="mt-2">
+                    <textarea
+                      rows={4}
+                      name="comment"
+                      id="comment"
+                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      defaultValue={""}
+                      onChange={handleSelect2}
+                      disabled={!modePersonnalise}
+                    />
+                  </div>
+                </div>
+              </div>
 
               <div className="Selecteur w-full"></div>
               <div className="Selecteur w-full"></div>
