@@ -13,7 +13,6 @@ import { signOutUser } from "@/firebase/Auth/logout";
 import Selecteur from "./utils/Selecteur";
 import UploadImage from "./utils/Uploader";
 import { uploadFile } from "@/firebase/Storage/storagecustom";
-
 import HeaderDashbord from "./headerdashboard";
 import { useAuthContext } from "@/store/AuthContext";
 import Rendu from "./utils/Rendu";
@@ -22,7 +21,6 @@ import DownloadButton from "./utils/DownloadButton";
 import Historique from "./utils/Historique";
 import { uploadAfter } from "@/firebase/Storage/storageAfter";
 import ajouterEnsembleUrls from "@/firebase/Firestore/addDataURls";
-import DownloadButtonHistorique from "./utils/DownloadButtonHistorique";
 import toast, { Toaster } from 'react-hot-toast';
 
 
@@ -30,13 +28,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import {
   teams,
   dataListe1,
-  dataListe2,
-  dataListe3,
-  dataListe4,
-  dataListe5,
+  dataListe2
 } from "@/store/BigData";
 import HeaderHistorique from "./headerhistorique";
-import { getFirestore } from "firebase/firestore";
 import { updateDocument } from "@/firebase/Firestore/updateData";
 import getDocument from "@/firebase/Firestore/getData";
 import { useRouter } from "next/navigation";

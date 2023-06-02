@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { PhotoIcon } from "@heroicons/react/24/solid";
 
 const UploadImage = ({ onImageChange, ImageBefored }) => {
   const [previewImage, setPreviewImage] = useState(null);
