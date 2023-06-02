@@ -2,7 +2,6 @@ import React from "react";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 import firebase_app from "@/firebase/InitFirebase";
 
-import LoadingStore from "@/components/LoadingStore";
 const auth = getAuth(firebase_app);
 
 export const AuthContext = React.createContext({});
@@ -11,7 +10,6 @@ export const useAuthContext = () => React.useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -20,7 +18,6 @@ export const AuthContextProvider = ({ children }) => {
       } else {
         setUser(null);
       }
-      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -28,16 +25,9 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user }}>
-      {loading ? (
-
-
-
-          <LoadingStore />
-          
-     
-      ) : (
-        children
-      )}
-    </AuthContext.Provider>
+      
+      {children}
+      
+      </AuthContext.Provider>
   );
 };

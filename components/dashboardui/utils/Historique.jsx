@@ -14,6 +14,7 @@ export default function Historique() {
   const [dataUrls, setDataUrls] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedDataUrls, setSelectedDataUrls] = useState([]);
+  const [selectedAfters, setSelectedAfters] = useState([]);
 
   const handleGetData = async () => {
     const { result: userData, error: userError } = await getAllDocuments(
@@ -72,6 +73,16 @@ export default function Historique() {
     });
 
     console.log(selectedItems);
+
+    setSelectedAfters((prevSelectedAfters) => {
+      if (prevSelectedAfters.includes(after)) {
+        return prevSelectedAfters.filter((id) => id !== after);
+      } else {
+        return [...prevSelectedAfters, after];
+      }
+    });
+
+    console.log(selectedAfters);
 
     setSelectedDataUrls((prevSelectedDataUrls) => {
       if (prevSelectedDataUrls.includes(docID)) {
@@ -168,7 +179,7 @@ export default function Historique() {
       </div>
 
       <div className="relative md:fixed md:bottom-0 md:right-0 flex flex-col Righteur bg-white py-4">
-        <DownloadButtonHistorique listselected={selectedItems} />
+        <DownloadButtonHistorique listselected={selectedAfters} />
         <div className="min-[1341px]:absolute min-[1341px]:right-4  ">
           <DeletedButton
             listselected={selectedDataUrls}

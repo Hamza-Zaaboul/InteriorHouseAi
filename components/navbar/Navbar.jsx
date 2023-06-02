@@ -3,8 +3,9 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { signOutUser } from "@/firebase/Auth/logout";
+import { useAuthContext } from "@/store/AuthNavContext";
 
-import { useAuthContext } from "@/store/AuthContext";
+
 
 const navigation = [
   { name: "Fonctionnement", href: "#" },

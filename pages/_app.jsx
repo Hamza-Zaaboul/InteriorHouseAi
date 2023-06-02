@@ -1,11 +1,12 @@
 import Layout from "@/components/Layout";
 import "@/styles/globals.css";
 
-
 export default function MyApp({ Component, pageProps }) {
+  const LayoutComponent = Component.layout || Layout;
+
   return (
-    <Layout>
+    <LayoutComponent>
       <Component {...pageProps} />
-    </Layout>
+    </LayoutComponent>
   );
 }

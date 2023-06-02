@@ -39,6 +39,7 @@ import HeaderHistorique from "./headerhistorique";
 import { getFirestore } from "firebase/firestore";
 import { updateDocument } from "@/firebase/Firestore/updateData";
 import getDocument from "@/firebase/Firestore/getData";
+import { useRouter } from "next/navigation";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -72,7 +73,7 @@ export default function Dashboard() {
   const [currentHistorique, setCurrentHistorique] = useState(false);
   const [currentAccueil, setCurrentAccueil] = useState(true);
   const [historique, setHistorique] = useState(false);
-
+  const router = useRouter();
   // State pour les dropdowns de selections des parametres
   const [selectedValue1, setSelectedValue1] = useState(null);
   const [selectedValue2, setSelectedValue2] = useState(null);
@@ -116,6 +117,8 @@ export default function Dashboard() {
     setHistorique(true);
     setCurrentHistorique(true);
     setCurrentAccueil(false);
+    setSwiper(false);
+
   }
 
   function handleNavigation() {
@@ -126,7 +129,7 @@ export default function Dashboard() {
   }
 
   function handleBLog() {
-    setBlog(!blog);
+    router.push("/");
   }
 
   const navigation = [
@@ -254,8 +257,11 @@ export default function Dashboard() {
   //Fonction cerveau de l'application
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    handleNavigation();
     await getDocumentData();
+
+
   
 
     if (piece >= 1) {

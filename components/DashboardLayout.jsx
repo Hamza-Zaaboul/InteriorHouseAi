@@ -1,8 +1,7 @@
-
-import { AuthContextProvider } from "@/store/AuthNavContext";
+import { AuthContextProvider } from "@/store/AuthContext";
 import { MyCoinsProvider } from "@/store/MyCoinsContext";
 
-export default function Layout({ children }) {
+export default function DashBoardLayout({ children }) {
   return (
     <>
       <AuthContextProvider>
