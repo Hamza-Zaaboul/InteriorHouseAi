@@ -1,15 +1,14 @@
-
-import { AuthContextProvider } from "@/store/AuthNavContext";
-import { MyCoinsProvider } from "@/store/MyCoinsContext";
+import { AuthContextNavProvider } from "@/store/AuthNavContext";
+import { MyCoinsProvider } from "@/store/MyCoinsContextNav";
 
 export default function Layout({ children }) {
   return (
     <>
-      <AuthContextProvider>
+      <AuthContextNavProvider>
         <MyCoinsProvider>
           <div className="h-full">{children}</div>
         </MyCoinsProvider>
-      </AuthContextProvider>
+      </AuthContextNavProvider>
     </>
   );
 }

@@ -12,11 +12,11 @@ export default function Rendu({ imageBefore, imageAfter }) {
           {(imageAfter.status === "processing" ||
             imageAfter.status === "starting") && (
             <div className="w-auto h-auto flex flex-col items-center justify-center absolute top-[40%] transform transition-y-[0%] ">
-                    <div class="loadering">
-        <span className="inline-flex items-center gap-x-0.5 rounded-md  px-2 py-1 text-2xl font-semibold text-gray-900">
-          CHARGEMENT EN COURS <span class="bullets">.</span>
-        </span>
-      </div>
+              <div className="loadering">
+                <span className="inline-flex items-center gap-x-0.5 rounded-md  px-2 py-1 text-2xl font-semibold text-gray-900">
+                  CHARGEMENT EN COURS <span className="bullets">.</span>
+                </span>
+              </div>
               <Loading />
             </div>
           )}

@@ -4,11 +4,11 @@ import firebase_app from "@/firebase/InitFirebase";
 
 const auth = getAuth(firebase_app);
 
-export const AuthContext = React.createContext({});
+export const AuthContextNav = React.createContext({});
 
-export const useAuthContext = () => React.useContext(AuthContext);
+export const useAuthContext = () => React.useContext(AuthContextNav);
 
-export const AuthContextProvider = ({ children }) => {
+export const AuthContextNavProvider = ({ children }) => {
   const [user, setUser] = React.useState(null);
 
   React.useEffect(() => {
@@ -24,10 +24,10 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContextNav.Provider value={{ user }}>
       
       {children}
       
-      </AuthContext.Provider>
+      </AuthContextNav.Provider>
   );
 };
