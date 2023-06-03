@@ -24,11 +24,24 @@ import ajouterEnsembleUrls from "@/firebase/Firestore/addDataURls";
 import toast, { Toaster } from "react-hot-toast";
 
 //BigData
-import { teams, dataListe1, dataListe2 } from "@/store/BigData";
+import {
+  ChambreExempleImage,
+  CuisineExempleImage,
+  DoucheExempleImage,
+  SalleJeuExempleImage,
+  SalleMiamExempleImage,
+  SalonExempleImage,
+  SousSolExempleImage,
+  TerrasseExempleImage,
+  dataListe1,
+  dataListe2,
+} from "@/store/BigData";
 import HeaderHistorique from "./headerhistorique";
 import { updateDocument } from "@/firebase/Firestore/updateData";
 import getDocument from "@/firebase/Firestore/getData";
 import { useRouter } from "next/navigation";
+import Exemple from "./utils/Exemple";
+import HeaderExemple from "./headerexemple";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -40,12 +53,6 @@ export default function Dashboard() {
   const notify = () => toast.success("Initialisation de la demarche reussie");
   //useContext pour le users
   const { user } = useAuthContext();
-
-  const userNavigation = [
-    { name: "Your Profile", href: "#" },
-    { name: "Settings", href: "#" },
-    { name: "Sign out", href: "#" },
-  ];
 
   // State pour le menu latéral
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -107,9 +114,15 @@ export default function Dashboard() {
   //Fonction pour la navigation lateral
   function handleHistorique() {
     setHistorique(true);
+    setNavig(false);
     setCurrentHistorique(true);
     setCurrentAccueil(false);
     setSwiper(false);
+    setSalonExemple(false);
+    setSalleMiamExemple(false);
+    setChambreExemple(false);
+    setDoucheExemple(false);
+    setCuisineExemple(false);
   }
 
   function handleNavigation() {
@@ -117,6 +130,11 @@ export default function Dashboard() {
     setHistorique(false);
     setCurrentHistorique(false);
     setCurrentAccueil(true);
+    setSalonExemple(false);
+    setSalleMiamExemple(false);
+    setChambreExemple(false);
+    setDoucheExemple(false);
+    setCuisineExemple(false);
   }
 
   function handleBLog() {
@@ -144,6 +162,227 @@ export default function Dashboard() {
       icon: FolderIcon,
       current: currentHistorique,
       onClick: handleHistorique,
+    },
+  ];
+
+  //Fonction pour les dropdowns de selections des parametres
+  const [SalonExemple, setSalonExemple] = useState(false);
+  const [SalleMiamExemple, setSalleMiamExemple] = useState(false);
+  const [ChambreExemple, setChambreExemple] = useState(false);
+  const [DoucheExemple, setDoucheExemple] = useState(false);
+  const [CuisineExemple, setCuisineExemple] = useState(false);
+  const [SousSol, setSousSol] = useState(false);
+  const [TerrasseExterieure, setTerrasseExterieure] = useState(false);
+  const [SalleDeJeu, setSalleDeJeu] = useState(false);
+
+  function handleSalon() {
+    setSalonExemple(true);
+    setSalleMiamExemple(false);
+    setChambreExemple(false);
+    setDoucheExemple(false);
+    setCuisineExemple(false);
+
+    setNavig(false);
+    setHistorique(false);
+    setCurrentHistorique(false);
+    setCurrentAccueil(false);
+    setSousSol(false);
+    setTerrasseExterieure(false);
+    setSalleDeJeu(false);
+  }
+
+  function handleSalleMiam() {
+    setSalonExemple(false);
+    setSalleMiamExemple(true);
+    setChambreExemple(false);
+    setDoucheExemple(false);
+    setCuisineExemple(false);
+
+    setNavig(false);
+    setHistorique(false);
+    setCurrentHistorique(false);
+    setCurrentAccueil(false);
+
+    setSousSol(false);
+    setTerrasseExterieure(false);
+    setSalleDeJeu(false);
+  }
+
+  function handleChambre() {
+    setSalonExemple(false);
+    setSalleMiamExemple(false);
+    setChambreExemple(true);
+    setDoucheExemple(false);
+    setCuisineExemple(false);
+
+    setNavig(false);
+    setHistorique(false);
+    setCurrentHistorique(false);
+    setCurrentAccueil(false);
+
+    setSousSol(false);
+    setTerrasseExterieure(false);
+    setSalleDeJeu(false);
+  }
+
+  function handleDouche() {
+    setSalonExemple(false);
+    setSalleMiamExemple(false);
+    setChambreExemple(false);
+    setDoucheExemple(true);
+    setCuisineExemple(false);
+
+    setNavig(false);
+    setHistorique(false);
+    setCurrentHistorique(false);
+    setCurrentAccueil(false);
+
+    setSousSol(false);
+    setTerrasseExterieure(false);
+    setSalleDeJeu(false);
+  }
+
+  function handleCuisine() {
+    setSalonExemple(false);
+    setSalleMiamExemple(false);
+    setChambreExemple(false);
+    setDoucheExemple(false);
+    setCuisineExemple(true);
+
+    setNavig(false);
+    setHistorique(false);
+    setCurrentHistorique(false);
+    setCurrentAccueil(false);
+
+    setSousSol(false);
+    setTerrasseExterieure(false);
+    setSalleDeJeu(false);
+  }
+
+  function handleSousol() {
+    setSalonExemple(false);
+    setSalleMiamExemple(false);
+    setChambreExemple(false);
+    setDoucheExemple(false);
+    setCuisineExemple(false);
+
+    setNavig(false);
+    setHistorique(false);
+    setCurrentHistorique(false);
+    setCurrentAccueil(false);
+
+    setSousSol(true);
+    setTerrasseExterieure(false);
+    setSalleDeJeu(false);
+  }
+
+  function handleTerraseExteieur() {
+    setSalonExemple(false);
+    setSalleMiamExemple(false);
+    setChambreExemple(false);
+    setDoucheExemple(false);
+    setCuisineExemple(false);
+
+    setNavig(false);
+    setHistorique(false);
+    setCurrentHistorique(false);
+    setCurrentAccueil(false);
+
+    setSousSol(false);
+    setTerrasseExterieure(true);
+    setSalleDeJeu(false);
+  }
+
+  function handleSalleDeJeu() {
+    setSalonExemple(false);
+    setSalleMiamExemple(false);
+    setChambreExemple(false);
+    setDoucheExemple(false);
+    setCuisineExemple(false);
+
+    setNavig(false);
+    setHistorique(false);
+    setCurrentHistorique(false);
+    setCurrentAccueil(false);
+
+    setSousSol(false);
+    setTerrasseExterieure(false);
+    setSalleDeJeu(true);
+  }
+
+  const teams = [
+    {
+      id: 0,
+      name: "Salon",
+      translated: "Living Room",
+      href: "#",
+      initial: "Sa",
+      current: SalonExemple,
+      onClick: handleSalon,
+    },
+    {
+      id: 1,
+      name: "Salle à manger",
+      translated: "Dining Room",
+      href: "#",
+      initial: "Sm",
+      current: SalleMiamExemple,
+      onClick: handleSalleMiam,
+    },
+    {
+      id: 2,
+      name: "Chambre",
+      translated: "Bedroom",
+      href: "#",
+      initial: "Ch",
+      current: ChambreExemple,
+      onClick: handleChambre,
+    },
+    {
+      id: 3,
+      name: "Salle de bain",
+      translated: "Bathroom",
+      href: "#",
+      initial: "Sb",
+      current: DoucheExemple,
+      onClick: handleDouche,
+    },
+    {
+      id: 4,
+      name: "Cuisine",
+      translated: "Kitchen",
+      href: "#",
+      initial: "Cu",
+      current: CuisineExemple,
+      onClick: handleCuisine,
+    },
+
+    {
+      id: 5,
+      name: "Sous-sol",
+      translated: "Basement",
+      href: "#",
+      initial: "Ss",
+      current: SousSol,
+      onClick: handleSousol,
+    },
+    {
+      id: 6,
+      name: "Terrasse extérieure",
+      translated: "Outdoor Patio",
+      href: "#",
+      initial: "Te",
+      current: TerrasseExterieure,
+      onClick: handleTerraseExteieur,
+    },
+    {
+      id: 7,
+      name: "Salle de jeu",
+      translated: "Gaming Room",
+      href: "#",
+      initial: "Sj",
+      current: SalleDeJeu,
+      onClick: handleSalleDeJeu,
     },
   ];
 
@@ -463,8 +702,8 @@ export default function Dashboard() {
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {teams.map((team) => (
                               <li key={team.name}>
-                                <a
-                                  href={team.href}
+                                <button
+                                  onClick={team.onClick}
                                   className={classNames(
                                     team.current
                                       ? "bg-gray-50 text-indigo-600"
@@ -483,7 +722,7 @@ export default function Dashboard() {
                                     {team.initial}
                                   </span>
                                   <span className="truncate">{team.name}</span>
-                                </a>
+                                </button>
                               </li>
                             ))}
                           </ul>
@@ -631,8 +870,8 @@ export default function Dashboard() {
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {teams.map((team) => (
                       <li key={team.name}>
-                        <a
-                          href={team.href}
+                        <button
+                          onClick={team.onClick}
                           className={classNames(
                             team.current
                               ? "bg-gray-50 text-indigo-600"
@@ -651,7 +890,7 @@ export default function Dashboard() {
                             {team.initial}
                           </span>
                           <span className="truncate">{team.name}</span>
-                        </a>
+                        </button>
                       </li>
                     ))}
                   </ul>
@@ -761,6 +1000,8 @@ export default function Dashboard() {
 
               <div className="Selecteur w-full"></div>
               <div className="Selecteur w-full"></div>
+              <div className="Selecteur w-full"></div>
+              <div className="Selecteur w-full"></div>
             </div>
 
             <div className="absolute z-50 bottom-0 bg-white w-full left-0 p-6 flex items-center justify-center border-t border-solid border-gray-900/25 ">
@@ -778,15 +1019,11 @@ export default function Dashboard() {
           <div className="md:pl-96">
             <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6 h-full relative">
               {/* Main area */}
-              {historique === false ? (
-                <HeaderDashbord onSwiperChange={handlesetSwiper} />
-              ) : (
-                <HeaderHistorique />
-              )}
 
-              {error && <div>{error}</div>}
-              {historique === false ? (
-                !swiper ? (
+              {navig && <HeaderDashbord onSwiperChange={handlesetSwiper} />}
+
+              {navig &&
+                (!swiper ? (
                   <div className="flex flex-col mt-8 gap-8 justify-center items-center w-full overflow-y-auto min-h-[700px]">
                     <Rendu
                       imageBefore={imageBeforedOn}
@@ -800,18 +1037,57 @@ export default function Dashboard() {
                       imageAfter={prediction}
                     />
                   </div>
-                )
-              ) : (
-                <Historique />
+                ))}
+
+              {navig && (
+                <div className="relative md:fixed md:bottom-0 md:right-0  Righteur bg-white py-4">
+                  <DownloadButton ouput={outputImage} />
+                </div>
+              )}
+
+              {historique && <HeaderHistorique />}
+              {historique && <Historique />}
+
+              {SalonExemple && <HeaderExemple NameExemple={"Salon"} />}
+              {SalonExemple && <Exemple listImageExemple={SalonExempleImage} />}
+
+              {SalleMiamExemple && (
+                <HeaderExemple NameExemple={"Salle à manger"} />
+              )}
+              {SalleMiamExemple && (
+                <Exemple listImageExemple={SalleMiamExempleImage} />
+              )}
+
+              {ChambreExemple && <HeaderExemple NameExemple={"Chambre"} />}
+              {ChambreExemple && (
+                <Exemple listImageExemple={ChambreExempleImage} />
+              )}
+
+              {DoucheExemple && <HeaderExemple NameExemple={"Salle de bain"} />}
+              {DoucheExemple && (
+                <Exemple listImageExemple={DoucheExempleImage} />
+              )}
+
+              {CuisineExemple && <HeaderExemple NameExemple={"Cuisine"} />}
+              {CuisineExemple && (
+                <Exemple listImageExemple={CuisineExempleImage} />
+              )}
+
+              {SousSol && <HeaderExemple NameExemple={"Sous-sol"} />}
+              {SousSol && <Exemple listImageExemple={SousSolExempleImage} />}
+
+              {TerrasseExterieure && (
+                <HeaderExemple NameExemple={"Terrasse extérieure"} />
+              )}
+              {TerrasseExterieure && (
+                <Exemple listImageExemple={TerrasseExempleImage} />
+              )}
+
+              {SalleDeJeu && <HeaderExemple NameExemple={"Salle de jeu"} />}
+              {SalleDeJeu && (
+                <Exemple listImageExemple={SalleJeuExempleImage} />
               )}
             </div>
-            {historique === false ? (
-              <div className="relative md:fixed md:bottom-0 md:right-0  Righteur bg-white py-4">
-                <DownloadButton ouput={outputImage} />
-              </div>
-            ) : (
-              <> </>
-            )}
           </div>
         </main>
         <Toaster />

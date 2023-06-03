@@ -1,13 +1,8 @@
-import getDocument from "@/firebase/Firestore/getData";
 import getAllDocuments from "@/firebase/Firestore/getDataUrls";
-import getHistoriqueDocument from "@/firebase/Firestore/getDataUrls";
 import { useAuthContext } from "@/store/AuthContext";
-import { doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import DownloadButtonHistorique from "./DownloadButtonHistorique";
 import DeletedButton from "./DeletedButton";
-import { deleteDocument } from "@/firebase/Firestore/deletData";
-
 
 export default function Historique() {
   const { user } = useAuthContext();
@@ -109,7 +104,6 @@ export default function Historique() {
             <div key={item.id} className=" mt-16 md:mt-2">
               <div className="mx-auto mt-6 md:mt-8 grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 md:grid-cols-2 lg:mx-0 lg:max-w-none">
                 <div className="relative  w-full">
-                  
                   <label htmlFor={item.id} className="w-full">
                     <img
                       className="aspect-[3/2] w-full rounded-2xl object-cover"
@@ -117,7 +111,8 @@ export default function Historique() {
                       alt={item.room + " " + item.theme}
                       style={{
                         boxShadow: `${
-                          selectedItems.includes(item.after) || selectedItems.includes(item.before)
+                          selectedItems.includes(item.after) ||
+                          selectedItems.includes(item.before)
                             ? "0 0 0 2px rgba(79, 70, 229, 0.5)"
                             : "none"
                         }`,
@@ -140,7 +135,8 @@ export default function Historique() {
                       alt={item.room + " " + item.theme}
                       style={{
                         boxShadow: `${
-                          selectedItems.includes(item.after) || selectedItems.includes(item.before)
+                          selectedItems.includes(item.after) ||
+                          selectedItems.includes(item.before)
                             ? "0 0 0 2px rgba(79, 70, 229, 0.5)"
                             : "none"
                         }`,
@@ -154,7 +150,6 @@ export default function Historique() {
                       name={item.id}
                       type="checkbox"
                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                      
                       checked={
                         selectedItems.includes(item.after) ||
                         selectedItems.includes(item.before)
@@ -183,7 +178,7 @@ export default function Historique() {
         <div className="min-[1341px]:absolute min-[1341px]:right-4  ">
           <DeletedButton
             listselected={selectedDataUrls}
-            urlselected = {selectedItems}
+            urlselected={selectedItems}
             actualiser={handleGetData}
           />
         </div>

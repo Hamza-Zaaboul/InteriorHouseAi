@@ -1,5 +1,5 @@
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 import { useAuthContext } from "@/store/AuthContext";

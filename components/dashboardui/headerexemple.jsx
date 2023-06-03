@@ -2,20 +2,24 @@ import { CreditCardIcon, CurrencyDollarIcon } from "@heroicons/react/20/solid";
 import { useContext } from "react";
 
 import Link from "next/link";
+import { useAuthContext } from "@/store/AuthContext";
 
 import { MyCoinsContext } from "@/store/MyCoinsContext";
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function HeaderHistorique() {
+export default function HeaderExemple({ NameExemple }) {
   const coins = useContext(MyCoinsContext);
 
+
   return (
+   
     <div className="lg:flex flex-col xl:flex-row justify-start lg:items-center lg:justify-between gap-8">
       <div className="min-w-0 flex-1">
         <h2 className="mt-2 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-          Historique
+          Exemples de {NameExemple}
         </h2>
         <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
           <div className="mt-2 flex items-center text-sm text-gray-500">
