@@ -120,9 +120,15 @@ export default function Dashboard() {
     setSwiper(false);
     setSalonExemple(false);
     setSalleMiamExemple(false);
+    
     setChambreExemple(false);
     setDoucheExemple(false);
     setCuisineExemple(false);
+
+    setSousSol(false);
+    setTerrasseExterieure(false);
+    setSalleDeJeu(false);
+
   }
 
   function handleNavigation() {
@@ -132,9 +138,14 @@ export default function Dashboard() {
     setCurrentAccueil(true);
     setSalonExemple(false);
     setSalleMiamExemple(false);
+
     setChambreExemple(false);
     setDoucheExemple(false);
     setCuisineExemple(false);
+
+    setSousSol(false);
+    setTerrasseExterieure(false);
+    setSalleDeJeu(false);
   }
 
   function handleBLog() {
@@ -186,6 +197,7 @@ export default function Dashboard() {
     setHistorique(false);
     setCurrentHistorique(false);
     setCurrentAccueil(false);
+
     setSousSol(false);
     setTerrasseExterieure(false);
     setSalleDeJeu(false);
