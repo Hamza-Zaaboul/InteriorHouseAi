@@ -42,6 +42,7 @@ import getDocument from "@/firebase/Firestore/getData";
 import { useRouter } from "next/navigation";
 import Exemple from "./utils/Exemple";
 import HeaderExemple from "./headerexemple";
+import RefundButton from "./utils/RefundButton";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -53,7 +54,7 @@ export default function Dashboard() {
   const notify = () => toast.success("Initialisation de la demarche reussie");
   //useContext pour le users
   const { user } = useAuthContext();
-
+  const paymentIntentId = "pi_3NEK0NHlXD1yqYgk1SAb9mJm"
   // State pour le menu latéral
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -748,6 +749,7 @@ export default function Dashboard() {
                           >
                             Deconnexion
                           </button>
+     
                         </li>
                       </ul>
                     </nav>
@@ -838,7 +840,11 @@ export default function Dashboard() {
                         >
                           Deconnexion
                         </button>
+
+                      
+                        
                       )}
+
                     </Menu.Item>
                   </Menu.Items>
                 </Transition>
@@ -1023,6 +1029,7 @@ export default function Dashboard() {
               >
                 Lancer le rendu
               </button>
+              <RefundButton paymentIntentId={paymentIntentId}/>
             </div>
           </form>
         </aside>

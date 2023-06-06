@@ -1,11 +1,10 @@
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import axios from "axios";
-
-import { useAuthContext } from "@/store/AuthContext";
 import { loadStripe } from "@stripe/stripe-js";
 import stripePromise from "@/utils/stripe";
 import Link from "next/link";
+import { useAuthContext } from "@/store/AuthNavContext";
 
 const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
@@ -94,18 +93,16 @@ export default function Pricing() {
           userEmail,
         });
 
-        if (response.data.paid) {
-          handlePaymentSuccess();
-        } else {
-          const sessionId = response.data.id;
-          const stripe = await stripePromise;
-          const { error } = await stripe.redirectToCheckout({
-            sessionId,
-          });
+        const sessionId = response.data.id;
+        const stripe = await stripePromise;
+        const { error } = await stripe.redirectToCheckout({
+          sessionId,
+        });
 
-          if (error) {
-            setErrorMessage(error.message);
-          }
+        if(response)
+
+        if (error) {
+          setErrorMessage(error.message);
         }
       } catch (error) {
         setErrorMessage(error.message);

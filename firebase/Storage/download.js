@@ -1,6 +1,6 @@
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import firebaseApp from "../InitFirebase";
-import axios from "axios";
+
 
 const storage = getStorage(firebaseApp);
 

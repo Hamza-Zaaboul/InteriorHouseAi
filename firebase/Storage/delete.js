@@ -4,7 +4,7 @@ import firebase_app from "../InitFirebase";
 const storage = getStorage(firebase_app);
 
 export const deleteFilesByURLs = (fileURLs) => {
-  console.log(fileURLs);
+
   return Promise.all(fileURLs.map((fileURL) => {
     return new Promise((resolve, reject) => {
       const pathFromURL = decodeURIComponent(fileURL.split(".com/o/")[1].split("?")[0]);

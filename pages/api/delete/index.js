@@ -1,6 +1,7 @@
 import firebase_app from '@/firebase/InitFirebase';
 import { getStorage, ref, deleteObject } from "firebase/storage";
 
+
 const storage = getStorage(firebase_app);
 
 export default async function handler(req, res) {

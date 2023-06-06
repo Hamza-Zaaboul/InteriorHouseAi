@@ -3,10 +3,11 @@ import { buffer } from "micro";
 import firebase_app from "@/firebase/InitFirebase";
 import { collection, getFirestore, query, where, getDocs, addDoc, updateDoc } from "firebase/firestore";
 import Cors from "micro-cors";
+import archivagePayment from "@/firebase/Firestore/addDataPayment";
 
 const db = getFirestore(firebase_app);
 // Instancier l'API Stripe
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY,  {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2022-11-15",
 });
 
@@ -22,8 +23,8 @@ const cors = Cors({
 
 // Gérer le webhook
 export default cors(async function webhookHandler(req, res) {
-  
-  if (req.method === "POST" ) {
+
+  if (req.method === "POST") {
     const buf = await buffer(req);
     const sig = req.headers["stripe-signature"];
 
@@ -40,23 +41,27 @@ export default cors(async function webhookHandler(req, res) {
       return res.status(400).send(`Webhook error: ${err.message}`);
     }
 
-    
+
     if (event.type === "payment_intent.succeeded" || event.type === "checkout.session.completed") {
       const paymentIntent = event.data.object;
       console.log(`💰 PaymentIntent: ${JSON.stringify(paymentIntent)}`);
-      
+
       // Get customer id
       const customerId = paymentIntent.customer;
-    
-      // Retrieve customer
+
+      // // Retrieve customer
       const customer = await stripe.customers.retrieve(customerId);
-      
+
       // Get the customer email
       const userEmail = customer.email;
 
-      
 
-      console.log(userEmail);
+      //Test
+
+      // const userEmail = "zelenionzelenion@gmail.com";
+
+
+
 
 
       //On definit la variable creditAmount à 0
@@ -85,13 +90,30 @@ export default cors(async function webhookHandler(req, res) {
       const usersRef = collection(db, "users");
       const queryL = query(usersRef, where("email", "==", userEmail));
       const querySnapshot = await getDocs(queryL);
-
+      const idDocument = querySnapshot.docs[0].id;
       // Mettre à jour le document existant
       const docRef = querySnapshot.docs[0].ref;
       const docData = querySnapshot.docs[0].data();
       const currentCredit = parseInt(docData.piec);
       const newCredit = currentCredit + creditAmount;
       await updateDoc(docRef, { piec: newCredit.toString() });
+
+      //On definit la variable dataPayment
+      const dataPayment = {
+        creditAmount: creditAmount,
+        userEmail: userEmail,
+        Status_Payment: paymentIntent.status,
+        Id_payment: paymentIntent.id,
+        Numero_Creation: paymentIntent.created,
+        Methode_de_Payment: paymentIntent.payment_method_types,
+        Numero_Methode_Payment: paymentIntent.payment_method,
+        Shipping: paymentIntent.shipping,
+      }
+
+
+      await archivagePayment("ArchivagePayment", idDocument, dataPayment)
+
+
 
 
       return res.status(200).json({ received: true });
