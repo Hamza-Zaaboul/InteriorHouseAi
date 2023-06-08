@@ -1,19 +1,39 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+const functions = require('firebase-functions');
+const nodemailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+const transporter = nodemailer.createTransport(
+    smtpTransport({
+        service: 'smtp.sendgrid.net',
+        port: 587,
+        auth: {
+            user: 'apikey',
+            pass: "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",
+
+        },
+    })
+);
+
+exports.sendEmail = functions.https.onCall(async (data, context) => {
+    // Récupérez les données de l'e-mail à partir de la demande
+    const { email, subject, message } = data;
+
+    // Configuration du message
+    const mailOptions = {
+        from: email,
+        to: "zaaboul.freelance@gmail.com",
+        subject: subject,
+        text: message,
+    };
+
+    try {
+        // Envoyer l'e-mail
+        await transporter.sendMail(mailOptions);
+        return { success: true };
+    } catch (error) {
+        console.error('Erreur lors de l\'envoi de l\'e-mail:', error);
+        return { success: false, error: error.message };
+    }
+});

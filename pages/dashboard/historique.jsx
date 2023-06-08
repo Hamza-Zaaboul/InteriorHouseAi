@@ -12,6 +12,12 @@ import Footer from "@/components/footer/Footer";
 import NavbarDash from "@/components/navbar/NavbarDash";
 const inter = Inter({ subsets: ["latin"] });
 
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+
 export default function HistoriqueDachat() {
   const { user } = useAuthContext();
   const router = useRouter();
