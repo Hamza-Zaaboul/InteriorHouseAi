@@ -82,30 +82,29 @@ export default function OrderHistorique() {
   }, []);
 
   return (
-    <div className="bg-white min-h-[40vh] pt-14">
+    <div className="bg-white min-h-[80vh] pt-14">
       <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 ">
         <div className="max-w-2xl">
           <h1
             id="your-orders-heading"
             className="text-3xl font-bold tracking-tight text-gray-900"
           >
-            Your Orders
+            Vos achats
           </h1>
           <p className="mt-2 text-sm text-gray-500">
-            Check the status of recent orders, manage returns, and discover
-            similar products.
+            Historique de vos achats de crédits.
           </p>
         </div>
 
         <div className="mt-12 space-y-16 sm:mt-16">
-          {dataIn.map((item) => (
+          {dataIn.map((item, index) => (
             <section key={item.id} aria-labelledby={`${item.id}-heading`}>
               <div className="space-y-1 md:flex md:items-baseline md:space-x-4 md:space-y-0">
                 <h2
                   id={`${item.id}-heading`}
                   className="text-lg font-medium text-gray-900 md:flex-shrink-0"
                 >
-                  Order #{item.id}
+                  Commande #{index + 1}
                 </h2>
 
                 <div className="space-y-5 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 md:min-w-0 md:flex-1">
@@ -124,13 +123,13 @@ export default function OrderHistorique() {
                   </span>
 
                   <div className="flex text-sm font-medium">
-                    <Link
+                    {/* <Link
                       href="/"
                       passHref
                       className="text-indigo-600 hover:text-indigo-500"
                     >
                       Voir Facture
-                    </Link>
+                    </Link> */}
                     <div className="ml-4 border-l border-gray-200 pl-4 sm:ml-6 sm:pl-6">
                       <Menu as="div" className="relative">
                         <Menu.Button className="-m-1.5 flex items-center p-1.5">
@@ -164,7 +163,7 @@ export default function OrderHistorique() {
                                   }
                                   className={classNames(
                                     active ? "bg-gray-50 w-full" : "",
-                                    "block px-3 py-1 text-sm leading-6 text-gray-400 w-full"
+                                    "block px-3 py-1 text-[0.8rem] leading-6 text-gray-400 w-full"
                                   )}
                                 >
                                   Requête de remboursement

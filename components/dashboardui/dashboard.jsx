@@ -42,7 +42,8 @@ import getDocument from "@/firebase/Firestore/getData";
 import { useRouter } from "next/navigation";
 import Exemple from "./utils/Exemple";
 import HeaderExemple from "./headerexemple";
-import RefundButton from "./utils/RefundButton";
+
+import Link from "next/link";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -54,7 +55,7 @@ export default function Dashboard() {
   const notify = () => toast.success("Initialisation de la demarche reussie");
   //useContext pour le users
   const { user } = useAuthContext();
-  const paymentIntentId = "pi_3NEK0NHlXD1yqYgk1SAb9mJm"
+  const paymentIntentId = "pi_3NEK0NHlXD1yqYgk1SAb9mJm";
   // State pour le menu latéral
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -121,7 +122,7 @@ export default function Dashboard() {
     setSwiper(false);
     setSalonExemple(false);
     setSalleMiamExemple(false);
-    
+
     setChambreExemple(false);
     setDoucheExemple(false);
     setCuisineExemple(false);
@@ -129,7 +130,6 @@ export default function Dashboard() {
     setSousSol(false);
     setTerrasseExterieure(false);
     setSalleDeJeu(false);
-
   }
 
   function handleNavigation() {
@@ -749,7 +749,6 @@ export default function Dashboard() {
                           >
                             Deconnexion
                           </button>
-     
                         </li>
                       </ul>
                     </nav>
@@ -831,20 +830,26 @@ export default function Dashboard() {
                   <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                     <Menu.Item>
                       {({ active }) => (
-                        <button
-                          onClick={handleSignOut}
-                          className={classNames(
-                            active ? "bg-gray-50 w-full" : "",
-                            "block px-3 py-1 text-sm leading-6 text-gray-900 w-full"
-                          )}
-                        >
-                          Deconnexion
-                        </button>
+                        <div className="">
+                          <button
+                            onClick={handleSignOut}
+                            className={classNames(
+                              "block px-3 py-1 text-sm leading-6 text-gray-900 w-full flex items-start hover:bg-gray-100"
+                            )}
+                          >
+                            Deconnexion
+                          </button>
 
-                      
-                        
+                          <Link
+                            href="/dashboard/historique"
+                            className={classNames(
+                              "block px-3 py-1 text-sm leading-6 text-gray-900 w-full flex items-start hover:bg-gray-100"
+                            )}
+                          >
+                            Mes Achats
+                          </Link>
+                        </div>
                       )}
-
                     </Menu.Item>
                   </Menu.Items>
                 </Transition>
@@ -1029,7 +1034,7 @@ export default function Dashboard() {
               >
                 Lancer le rendu
               </button>
-              <RefundButton paymentIntentId={paymentIntentId}/>
+   
             </div>
           </form>
         </aside>
