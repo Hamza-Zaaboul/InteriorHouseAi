@@ -10,52 +10,42 @@ const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 const tiers = [
   {
-    name: "Freelancer",
+    name: "Starter",
     id: "tier-freelancer",
     href: "/auth/login",
     pricestripe: "price_1N2iEkHlXD1yqYgkNyebJLvk",
-    priceMonthly: "$24",
-    description: "The essentials to provide your best work for clients.",
+    credits: "30",
+    priceMonthly: "9€ ",
+    description: " 30 générations d'intérieur ",
     features: [
-      "5 products",
-      "Up to 1,000 subscribers",
-      "Basic analytics",
-      "48-hour support response time",
+
     ],
     mostPopular: false,
   },
   {
-    name: "Startup",
+    name: "Business",
     id: "tier-startup",
     href: "/auth/login",
     pricestripe: "price_1N2iEkHlXD1yqYgkNyebJLvk",
-
-    priceMonthly: "$32",
-    description: "A plan that scales with your rapidly growing business.",
+    credits: "100",
+    priceMonthly: "19€ ",
+    description: "100 générations d'intérieur",
     features: [
-      "25 products",
-      "Up to 10,000 subscribers",
-      "Advanced analytics",
-      "24-hour support response time",
-      "Marketing automations",
+
     ],
     mostPopular: true,
   },
   {
-    name: "Enterprise",
+    name: " Enterprise",
     id: "tier-enterprise",
 
     pricestripe: "price_1N2iEkHlXD1yqYgkNyebJLvk",
-
+    credits: "250",
     href: "/auth/login",
-    priceMonthly: "$48",
-    description: "Dedicated support and infrastructure for your company.",
+    priceMonthly: "39€ ",
+    description: "250 générations d'intérieur",
     features: [
-      "Unlimited products",
-      "Unlimited subscribers",
-      "Advanced analytics",
-      "1-hour, dedicated support response time",
-      "Marketing automations",
+
     ],
     mostPopular: false,
   },
@@ -122,15 +112,14 @@ export default function Pricing() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
-            Pricing
+           Tarification
           </h2>
           <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-            Pricing plans for teams of&nbsp;all&nbsp;sizes
+            Choisissez le plan qui vous convient le mieux
           </p>
         </div>
         <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
-          Distinctio et nulla eum soluta et neque labore quibusdam. Saepe et
-          quasi iusto modi velit ut non voluptas in. Explicabo id ut laborum.
+          Nous avons des plans flexibles pour les besoins de chacuns.
         </p>
         <div className="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-y-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {tiers.map((tier, tierIdx) => (
@@ -156,7 +145,7 @@ export default function Pricing() {
                   </h3>
                   {tier.mostPopular ? (
                     <p className="rounded-full bg-indigo-600/10 px-2.5 py-1 text-xs font-semibold leading-5 text-indigo-600">
-                      Most popular
+                      Le plus populaire
                     </p>
                   ) : null}
                 </div>
@@ -168,7 +157,8 @@ export default function Pricing() {
                     {tier.priceMonthly}
                   </span>
                   <span className="text-sm font-semibold leading-6 text-gray-600">
-                    /month
+                    / {tier.credits} crédits
+                    
                   </span>
                 </p>
                 <ul
