@@ -609,7 +609,7 @@ export default function Dashboard() {
       }
     } else {
       toast.error("Vous n'avez plus de crédits");
-      console.log("Vous n'avez plus de crédits");
+
     }
   };
 

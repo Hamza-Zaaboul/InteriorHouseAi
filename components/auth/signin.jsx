@@ -5,6 +5,7 @@ import signUp from "@/firebase/Auth/signup";
 import addData from "@/firebase/Firestore/appData";
 import { GoogleLogin } from "@/firebase/Auth/signin";
 import getDocument from "@/firebase/Firestore/getData";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Sigin() {
   const [check, setCkeck] = useState(false);
@@ -16,14 +17,17 @@ export default function Sigin() {
   const [username, setUsername] = useState("");
 
   const [namefull, setNamefull] = useState("");
+
   const [repeatPassword, setRepeatPassword] = useState("");
+
   const router = useRouter();
 
   const handleForm = async (event) => {
     event.preventDefault();
 
     if (password !== repeatPassword) {
-      console.log("Les mots de passe ne correspondent pas.");
+      toast.error("Les mots de passe ne correspondent pas.");
+      
       return;
     }
 
@@ -32,7 +36,7 @@ export default function Sigin() {
       email: email,
       pseudo: username,
       nom_prenom: namefull,
-      piec: "3",
+      piec: "5",
     };
 
     const {
@@ -43,14 +47,22 @@ export default function Sigin() {
 
     if (signUpError) {
       console.log(signUpError);
+      if (signUpError.code === 'auth/email-already-in-use') {
+        toast.error("L'utilisateur existe déjà.");
+      } else {
+        // Autres types d'erreurs
+        toast.error("Une erreur s'est produite lors de l'inscription.");
+      }
       return;
     }
-
+    
     const userDoc = await getDocument("users", uid);
 
     if (userDoc && userDoc.result.exists()) {
+      toast.error("L'utilisateur existe déjà.");
       // User document already exists, no need to do anything else
       console.log("User document already exists, skipping creation");
+
       return router.push("/dashboard");
     }
 
@@ -90,6 +102,7 @@ export default function Sigin() {
 
     if (userDoc && userDoc.result.exists()) {
       console.log("User document already exists, skipping creation");
+      
       return router.push("/dashboard");
     }
 
@@ -135,7 +148,7 @@ export default function Sigin() {
                   htmlFor="email"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Email address
+                  Email
                 </label>
                 <div className="mt-2">
                   <input
@@ -155,7 +168,7 @@ export default function Sigin() {
                   htmlFor="password"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Password
+                  Mot de passe
                 </label>
                 <div className="mt-2">
                   <input
@@ -185,14 +198,13 @@ export default function Sigin() {
                     autoComplete="new-password"
                     onChange={(e) => setRepeatPassword(e.target.value)}
                     required
-                    className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
+                    className={`block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${password !== repeatPassword ? 'ring-red-600' : ''}`}                  />
                 </div>
               </div>
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <input
+                  {/* <input
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
@@ -205,7 +217,7 @@ export default function Sigin() {
                     className="ml-3 block text-sm leading-6 text-gray-900"
                   >
                     Accepter les termes et conditions
-                  </label>
+                  </label> */}
                 </div>
 
                 <div className="text-sm leading-6">
@@ -246,19 +258,35 @@ export default function Sigin() {
               <div className="mt-6 grid grid-cols-1 gap-4">
                 <button
                   onClick={handlegoogle}
-                  className="flex w-full items-center justify-center gap-3 rounded-md bg-[#1D9BF0] px-3 py-1.5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D9BF0]"
-                >
-                  <svg
-                    className="h-5 w-5"
-                    aria-hidden="true"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
+                  className="flex w-full items-center shadow-md justify-center bg-slate-50 gap-3 rounded-md bg- px-3 py-1.5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D9BF0] hover:bg-slate-100 "
                   >
-                    <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-                  </svg>
-                  <span className="text-sm font-semibold leading-6">
-                    Google
-                  </span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-7 w-7"
+                      viewBox="0 0 48 48"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill="#FFC107"
+                        d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
+                      />
+                      <path
+                        fill="#FF3D00"
+                        d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
+                      />
+                      <path
+                        fill="#4CAF50"
+                        d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
+                      />
+                      <path
+                        fill="#1976D2"
+                        d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
+                      />
+                    </svg>
+                    <span className="text-sm font-semibold leading-6 text-gray-600">
+                      Connexion avec Google
+                    </span>
                 </button>
 
       
@@ -267,6 +295,7 @@ export default function Sigin() {
           </div>
         </div>
       </div>
+      <Toaster />
     </>
   );
 }

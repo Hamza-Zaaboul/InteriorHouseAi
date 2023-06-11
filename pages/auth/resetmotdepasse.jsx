@@ -1,4 +1,5 @@
 import ForgotPassword from "@/components/auth/ForgotPassword";
+import Navbar from "@/components/navbar/Navbar";
 
 
 
@@ -6,11 +7,9 @@ import ForgotPassword from "@/components/auth/ForgotPassword";
 export default function ReinitialiserMotsdePasse() {
   return (
     <>
-      <main className="iv od minh">
-        <div className="Centrage">
+        <Navbar/>
           <ForgotPassword />
-        </div>
-      </main>
+    
     </>
   );
 }
