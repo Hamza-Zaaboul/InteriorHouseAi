@@ -43,7 +43,9 @@
   overflow-x: scroll;
   overflow-y: hidden;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 @media (min-width: 800px) {
   .Righteur {
     width: calc(100% - 24rem);

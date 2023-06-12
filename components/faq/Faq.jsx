@@ -43,20 +43,19 @@ const faqs = [
   // More questions...
 ]
 
-export default function Faq() {
+export default function Faq({id}) {
   return (
-    <div className="bg-white">
+    <div id={id} className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">FAQ</h2>
           <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-            Pricing plans for teams of&nbsp;all&nbsp;sizes
+          Questions fréquentes
           </p>
         </div>
         <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
-          Distinctio et nulla eum soluta et neque labore quibusdam. Saepe et quasi iusto modi velit ut non voluptas in.
-          Explicabo id ut laborum.
+        Une question sur nos services de génération d'image d'interieur ? 
         </p>
         </div>
 

@@ -45,6 +45,7 @@ const tiers = [
     priceMonthly: "39€ ",
     description: "250 générations d'intérieur",
     features: [
+      
 
     ],
     mostPopular: false,
@@ -55,7 +56,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Pricing() {
+export default function Pricing({id}) {
   const [errorMessage, setErrorMessage] = useState("");
   const [paid, setPaid] = useState(false);
   const { user } = useAuthContext();
@@ -108,7 +109,7 @@ export default function Pricing() {
     }
   };
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div className="bg-white py-24 sm:py-32" id={id}>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
@@ -119,8 +120,8 @@ export default function Pricing() {
           </p>
         </div>
         <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
-          Nous avons des plans flexibles pour les besoins de chacuns.
-        </p>
+          Nous proposons des plans adaptés à vos besoins du particulier au professionnel.
+            </p>
         <div className="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-y-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {tiers.map((tier, tierIdx) => (
             <div

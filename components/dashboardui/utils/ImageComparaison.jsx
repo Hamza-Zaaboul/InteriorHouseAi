@@ -23,18 +23,30 @@ export default function ImageComparaison({ imageBefore, imageAfter }) {
           )}
           {imageAfter.output && (
             <ImgComparisonSlider>
-              <img
-                slot="first"
-                className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
-                src={imageBefore}
-                alt="image-avant-generation"
-              />
-              <img
-                slot="second"
-                className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
-                src={imageAfter.output[imageAfter.output.length - 1]}
-                alt="image-apres-generation"
-              />
+              <div slot="first">
+                <img
+                  className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
+                  src={imageBefore}
+                  alt="image-avant-generation"
+                />
+                <span className="absolute top-2 left-2">
+                  <span className="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
+                    Avant
+                  </span>
+                </span>
+              </div>
+              <div slot="second">
+                <img
+                  className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
+                  src={imageAfter.output[imageAfter.output.length - 1]}
+                  alt="image-apres-generation"
+                />
+                <span className="absolute top-2 right-2">
+                  <span className="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
+                    Après
+                  </span>
+                </span>
+              </div>
             </ImgComparisonSlider>
           )}
         </>
@@ -42,18 +54,33 @@ export default function ImageComparaison({ imageBefore, imageAfter }) {
 
       {!imageAfter && (
         <ImgComparisonSlider>
-          <Image
-            slot="first"
-            className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
-            src={BeforeState}
-            alt="image-avant-generation"
-          />
-          <Image
-            slot="second"
-            className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
-            src={AfterHouse}
-            alt="image-apres-generation"
-          />
+          <div slot="first">
+            <Image
+              slot="first"
+              className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
+              src={BeforeState}
+              alt="image-avant-generation"
+            />
+            <span className="absolute top-2 left-2">
+              <span className="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
+                Avant
+              </span>
+            </span>
+          </div>
+
+          <div slot="second">
+            <Image
+              slot="second"
+              className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
+              src={AfterHouse}
+              alt="image-apres-generation"
+            />
+            <span className="absolute top-2 right-2">
+              <span className="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
+                Après
+              </span>
+            </span>
+          </div>
         </ImgComparisonSlider>
       )}
     </>
