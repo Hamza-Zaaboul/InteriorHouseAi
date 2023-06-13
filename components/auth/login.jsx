@@ -36,6 +36,7 @@ export default function Login() {
         email: user.email,
         pseudo: user.displayName,
         piec: "3",
+        blocked: false,
       };
 
       const userDoc = await getDocument("users", user.uid);

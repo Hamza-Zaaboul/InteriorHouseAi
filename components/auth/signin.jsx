@@ -37,6 +37,7 @@ export default function Sigin() {
       pseudo: username,
       nom_prenom: namefull,
       piec: "5",
+      blocked: false,
     };
 
     const {
@@ -110,6 +111,7 @@ export default function Sigin() {
       email: user.email,
       pseudo: user.displayName,
       piec: "3",
+      blocked: false,
     };
 
     const { result: dataResult, error: dataError } = await addData(

@@ -31,6 +31,7 @@ export default function Document(props) {
             `,
           }}
         />
+        <script async src="https://js.stripe.com/v3/"></script>
         <script
           async
           src="https://r.wdfl.co/rw.js"

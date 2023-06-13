@@ -56,6 +56,7 @@ export default cors(async function webhookHandler(req, res) {
       const userEmail = customer.email;
 
 
+
       //Test
 
       // const userEmail = "zelenionzelenion@gmail.com";
@@ -127,7 +128,28 @@ export default cors(async function webhookHandler(req, res) {
       const charge = event.data.object;
       console.log(`💵 Charge id: ${charge.id}`);
       return res.status(200).json({ received: true });
-    } else {
+    } else if (event.type === "charge.failed") {
+      const charge = event.data.object;
+      // // Retrieve customer
+      const customerId = charge.customer;
+      const customer = await stripe.customers.retrieve(customerId);
+
+      // Get the customer email
+      const userEmail = customer.email;
+      const usersRef = collection(db, "users");
+      const queryL = query(usersRef, where("email", "==", userEmail));
+
+      const querySnapshot = await getDocs(queryL);
+      const docRef = querySnapshot.docs[0].ref;
+      await updateDoc(docRef, { blocked: false });
+
+
+      console.log(`❌ Charge failed: ${charge.failure_message}`);
+
+      return res.status(200).json({ received: true });
+
+    }
+    else {
       console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
       return res.status(200).json({ received: true });
     }
