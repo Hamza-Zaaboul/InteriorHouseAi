@@ -133,15 +133,14 @@ export default cors(async function webhookHandler(req, res) {
       // // Retrieve customer`
       const customerId = charge.customer;
       const customer = await stripe.customers.retrieve(customerId);
-      if (charge.outcome.type === "issuer_declined") {
+      if (charge.outcome.type === "blocked") {
         // Get the customer email
         const userEmail = customer.email;
         const usersRef = collection(db, "users");
         const queryL = query(usersRef, where("email", "==", userEmail));
-
         const querySnapshot = await getDocs(queryL);
         const docRef = querySnapshot.docs[0].ref;
-        await updateDoc(docRef, { blocked: false });
+        await updateDoc(docRef, { blocked: true });
       }
 
 

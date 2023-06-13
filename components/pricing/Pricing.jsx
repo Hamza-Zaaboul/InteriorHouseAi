@@ -1,11 +1,12 @@
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 import stripePromise from "@/utils/stripe";
 import Link from "next/link";
 import { useAuthContext } from "@/store/AuthNavContext";
 import { useRouter } from "next/router";
+import getDocument from "@/firebase/Firestore/getData";
 
 const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
@@ -71,6 +72,30 @@ export default function Pricing({id}) {
     button4: false,
   });
 
+  const verificationSolvable = async () => {
+    if (!user.uid) {
+      return null;
+    }
+  
+    const { result: userData, error: userError } = await getDocument(
+      "users",
+      user.uid
+    );
+  
+    if (userError) {
+      console.log(userError);
+      return null;
+    }
+  
+    return userData?.data()?.blocked || null; // Utiliser l'opérateur de coalescence nulle pour vérifier si userData existe
+  };
+
+  useEffect(() => {
+    verificationSolvable
+  }, [user])
+
+
+
   const handleCheckout = async (event, priceId, userEmail, buttonName) => {
     event.preventDefault();
 
@@ -80,7 +105,7 @@ export default function Pricing({id}) {
     }));
     setErrorMessage("");
 
-    if (user && user.email) {
+    if (user && user.email && user.blocked === false) {
       try {
         const response = await axios.post("/api/create-checkout-session", {
           priceId,
@@ -112,6 +137,7 @@ export default function Pricing({id}) {
       window.location.href = "/auth/login"; // Remplacez "/signin" par l'URL de la page de connexion réelle
     }
   };
+
   return (
     <div className="bg-white py-24 sm:py-32" id={id}>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
