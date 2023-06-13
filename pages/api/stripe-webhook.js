@@ -25,17 +25,20 @@ const cors = Cors({
 export default cors(async function webhookHandler(req, res) {
 
   if (req.method === "POST") {
-    const buf = await buffer(req);
+    const buf = await buffer(req, { encoding: 'utf8' });
+    const rawBody = buf.toString();
+    
     const sig = req.headers["stripe-signature"];
 
     let event;
 
     try {
       event = stripe.webhooks.constructEvent(
-        buf,
+        rawBody,
         sig,
         process.env.STRIPE_WEBHOOK_SECRET
       );
+      
     } catch (err) {
       console.error(err);
       return res.status(400).send(`Webhook error: ${err.message}`);

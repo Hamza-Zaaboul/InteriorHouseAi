@@ -104,8 +104,10 @@ export default function Pricing({id}) {
       [buttonName]: true,
     }));
     setErrorMessage("");
-
-    if (user && user.email && user.blocked === false) {
+    console.log("User:", user);
+    console.log("User email:", user?.email);
+    console.log("User blocked:", user?.blocked);
+    if (user && user.email) {
       try {
         const response = await axios.post("/api/create-checkout-session", {
           priceId,
