@@ -19,14 +19,23 @@ export default function Document(props) {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lexend:wght@400;500&display=swap"
         />
-        <script>
-          {`(function(w,r){w._rwq=r;w[r]=w[r]||function(){(w[r].q=w[r].q||[]).push(arguments)}})(window,'rewardful');`}
-        </script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,r){
+                w._rwq=r;
+                w[r]=w[r]||function(){
+                  (w[r].q=w[r].q||[]).push(arguments);
+                };
+              })(window,'rewardful');
+            `,
+          }}
+        />
         <script
           async
           src="https://r.wdfl.co/rw.js"
           data-rewardful="5b33f3"
-        ></script>
+        />
       </Head>
       <body className="flex h-full flex-col">
         <Main />

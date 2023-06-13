@@ -5,6 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import stripePromise from "@/utils/stripe";
 import Link from "next/link";
 import { useAuthContext } from "@/store/AuthNavContext";
+import { useRouter } from "next/router";
 
 const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
@@ -57,6 +58,8 @@ function classNames(...classes) {
 }
 
 export default function Pricing({id}) {
+  const router = useRouter();
+  const { referral } = router.query;
   const [errorMessage, setErrorMessage] = useState("");
   const [paid, setPaid] = useState(false);
   const { user } = useAuthContext();
@@ -82,6 +85,7 @@ export default function Pricing({id}) {
         const response = await axios.post("/api/create-checkout-session", {
           priceId,
           userEmail,
+          referral:referral,
         });
 
         const sessionId = response.data.id;
