@@ -1,4 +1,6 @@
 import Stripe from "stripe";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -23,6 +25,7 @@ export default async function handler(req, res) {
     mode: "payment",
     success_url: `${req.headers.origin}/dashboard`,
     cancel_url: `${req.headers.origin}/canceled`,
+    client_reference_id: req.params.referral || `checkout-${uuidv4()}`,
   });
 
   res.status(200).json({ id: session.id });

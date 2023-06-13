@@ -1,7 +1,7 @@
-import { Head, Html, Main, NextScript } from 'next/document'
+import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document(props) {
-  let pageProps = props.__NEXT_DATA__?.props?.pageProps
+  let pageProps = props.__NEXT_DATA__?.props?.pageProps;
 
   return (
     <Html
@@ -19,11 +19,19 @@ export default function Document(props) {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lexend:wght@400;500&display=swap"
         />
+        <script>
+          {`(function(w,r){w._rwq=r;w[r]=w[r]||function(){(w[r].q=w[r].q||[]).push(arguments)}})(window,'rewardful');`}
+        </script>
+        <script
+          async
+          src="https://r.wdfl.co/rw.js"
+          data-rewardful="5b33f3"
+        ></script>
       </Head>
       <body className="flex h-full flex-col">
         <Main />
         <NextScript />
       </body>
     </Html>
-  )
+  );
 }
