@@ -1,12 +1,11 @@
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 import stripePromise from "@/utils/stripe";
 import Link from "next/link";
 import { useAuthContext } from "@/store/AuthNavContext";
 import { useRouter } from "next/router";
-import getDocument from "@/firebase/Firestore/getData";
 
 const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
@@ -72,29 +71,7 @@ export default function Pricing({id}) {
     button4: false,
   });
 
-  const verificationSolvable = async () => {
-    if (!user.uid) {
-      return null;
-    }
   
-    const { result: userData, error: userError } = await getDocument(
-      "users",
-      user.uid
-    );
-  
-    if (userError) {
-      console.log(userError);
-      return null;
-    }
-  
-    return userData?.data()?.blocked || null; // Utiliser l'opérateur de coalescence nulle pour vérifier si userData existe
-  };
-
-  useEffect(() => {
-    verificationSolvable
-  }, [user])
-
-
 
   const handleCheckout = async (event, priceId, userEmail, buttonName) => {
     event.preventDefault();
@@ -104,9 +81,7 @@ export default function Pricing({id}) {
       [buttonName]: true,
     }));
     setErrorMessage("");
-    console.log("User:", user);
-    console.log("User email:", user?.email);
-    console.log("User blocked:", user?.blocked);
+
     if (user && user.email) {
       try {
         const response = await axios.post("/api/create-checkout-session", {
