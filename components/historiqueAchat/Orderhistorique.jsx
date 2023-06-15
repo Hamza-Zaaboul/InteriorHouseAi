@@ -4,20 +4,47 @@ import ImageCoins from "@/assets/coins.png";
 import { useAuthContext } from "@/store/AuthContext";
 import { Fragment, useEffect, useState } from "react";
 import getAllDocuments from "@/firebase/Firestore/getDataUrls";
+import { loadStripe } from "@stripe/stripe-js";
+import stripePromise from "@/utils/stripe";
+
 import { CheckBadgeIcon, Cog8ToothIcon } from "@heroicons/react/24/outline";
 import { Menu, Transition } from "@headlessui/react";
 import Modale from "./Modale";
+import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/router";
+import axios from "axios";
+import getDocument from "@/firebase/Firestore/getData";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-
+const p1 = "price_1N2iEkHlXD1yqYgkNyebJLvk";
+const p2 = "price_1N2iEkHlXD1yqYgkNyebJLvk";
+const p3 = "price_1N2iEkHlXD1yqYgkNyebJLvk";
 export default function OrderHistorique() {
   const { user } = useAuthContext();
   const [dataIn, setDataIn] = useState([]);
+  const router = useRouter();
+  const { referral } = router.query;
+
   const [selectedItems, setSelectedItems] = useState([]);
+
   const [selectedDataUrls, setSelectedDataUrls] = useState([]);
+
   const [selectedAfters, setSelectedAfters] = useState([]);
+
+  const [blocker, setBLockeur] = useState();
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [paid, setPaid] = useState(false);
+
+  const [loading, setLoading] = useState({
+    button1: false,
+    button2: false,
+    button3: false,
+    button4: false,
+  });
 
   const [openModale, setOpenModale] = useState(false);
 
@@ -34,7 +61,25 @@ export default function OrderHistorique() {
     return `${day}/${month}/${year}`;
   }
 
+  const getDocumentData = async () => {
+    const { result, error } = await getDocument("users", user.uid);
 
+    if (error) {
+      console.error("Error fetching document: ", error);
+      return null;
+    }
+
+    if (!result.exists) {
+      console.error("Document does not exist");
+      return null;
+    }
+
+    const blockeur = result.data().blocked;
+
+    setBLockeur(blockeur);
+
+    return blockeur;
+  };
 
   const handleGetData = async () => {
     const { result: userData, error: userError } = await getAllDocuments(
@@ -76,10 +121,58 @@ export default function OrderHistorique() {
       console.log("Le document n'a pas été trouvé.");
     }
   };
-
   useEffect(() => {
     handleGetData();
   }, []);
+
+  const handleCheckout = async (event, priceId, userEmail, buttonName) => {
+    event.preventDefault();
+
+    setLoading((prevState) => ({
+      ...prevState,
+      [buttonName]: true,
+    }));
+
+    setErrorMessage("");
+
+    const blockage = await getDocumentData();
+    // Utilisez le résultat ici
+    console.log(blockage);
+    console.log(user.email);
+    if (user && user.email && blockage === false) {
+      try {
+        console.log("je suis dans le try");
+        const response = await axios.post("/api/create-checkout-session", {
+          priceId,
+          userEmail,
+          referral: referral,
+        });
+
+        const sessionId = response.data.id;
+        const stripe = await stripePromise;
+        const { error } = await stripe.redirectToCheckout({
+          sessionId,
+        });
+
+        if (response)
+          if (error) {
+            setErrorMessage(error.message);
+          }
+      } catch (error) {
+        setErrorMessage(error.message);
+      } finally {
+        setLoading((prevState) => ({
+          ...prevState,
+          [buttonName]: false,
+        }));
+      }
+    } else if (blockage === true) {
+      toast.error("Vous avez êtés bloqué, veuillez contacter le support");
+    } else {
+      // Rediriger vers la page de connexion
+      window.location.href = "/auth/login"; // Remplacez "/signin" par l'URL de la page de connexion réelle
+    }
+  };
 
   return (
     <div className="bg-white min-h-[80vh] pt-14">
@@ -181,7 +274,6 @@ export default function OrderHistorique() {
                       paymentId={item.IdPayment}
                       datePayment={item.DatePayment}
                       email={item.EmailPersonne}
-                       
                     />
                   </div>
                 </div>
@@ -217,12 +309,47 @@ export default function OrderHistorique() {
                     </div>
                   </div>
                   <div className="mt-6 space-y-4 sm:ml-6 sm:mt-0 sm:w-40 sm:flex-none">
-                    <button
+                   {
+                    item.Credit == "20" && (
+                      <button
                       type="button"
+                      onClick={(event) =>
+                        handleCheckout(event, p1, user.email, "button2")
+                      }
                       className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
                     >
                       Acheter à nouveau
                     </button>
+                    )
+                   } 
+                       {
+                    item.Credit == "100" && (
+                      <button
+                      type="button"
+                      onClick={(event) =>
+                        handleCheckout(event, p1, user.email, "button2")
+                      }
+                      className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
+                    >
+                      Acheter à nouveau
+                    </button>
+                    )
+                   } 
+                       {
+                    item.Credit == "250" && (
+                      <button
+                      type="button"
+                      onClick={(event) =>
+                        handleCheckout(event, p1, user.email, "button2")
+                      }
+                      className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
+                    >
+                      Acheter à nouveau
+                    </button>
+                    )
+                   } 
+           
+
                     <button
                       type="button"
                       className="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
@@ -236,6 +363,7 @@ export default function OrderHistorique() {
           ))}
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }

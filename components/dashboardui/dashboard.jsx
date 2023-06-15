@@ -55,7 +55,7 @@ export default function Dashboard() {
   const notify = () => toast.success("Initialisation de la demarche reussie");
   //useContext pour le users
   const { user } = useAuthContext();
-  const paymentIntentId = "pi_3NEK0NHlXD1yqYgk1SAb9mJm";
+
   // State pour le menu latéral
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

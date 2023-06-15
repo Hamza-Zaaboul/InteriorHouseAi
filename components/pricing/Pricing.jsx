@@ -1,11 +1,13 @@
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 import stripePromise from "@/utils/stripe";
 import Link from "next/link";
 import { useAuthContext } from "@/store/AuthNavContext";
 import { useRouter } from "next/router";
+import getDocument from "@/firebase/Firestore/getData";
+import toast, { Toaster } from "react-hot-toast";
 
 const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
@@ -18,9 +20,7 @@ const tiers = [
     credits: "30",
     priceMonthly: "9€ ",
     description: " 30 générations d'intérieur ",
-    features: [
-
-    ],
+    features: [],
     mostPopular: false,
   },
   {
@@ -31,9 +31,7 @@ const tiers = [
     credits: "100",
     priceMonthly: "19€ ",
     description: "100 générations d'intérieur",
-    features: [
-
-    ],
+    features: [],
     mostPopular: true,
   },
   {
@@ -45,10 +43,7 @@ const tiers = [
     href: "/auth/login",
     priceMonthly: "39€ ",
     description: "250 générations d'intérieur",
-    features: [
-      
-
-    ],
+    features: [],
     mostPopular: false,
   },
 ];
@@ -57,12 +52,15 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Pricing({id}) {
+export default function Pricing({ id }) {
   const router = useRouter();
   const { referral } = router.query;
   const [errorMessage, setErrorMessage] = useState("");
   const [paid, setPaid] = useState(false);
+
   const { user } = useAuthContext();
+
+  const [blocker, setBLockeur] = useState();
 
   const [loading, setLoading] = useState({
     button1: false,
@@ -71,7 +69,26 @@ export default function Pricing({id}) {
     button4: false,
   });
 
-  
+  //Bloc de fonction et useEffect pour recupere piec
+  const getDocumentData = async () => {
+    const { result, error } = await getDocument("users", user.uid);
+
+    if (error) {
+      console.error("Error fetching document: ", error);
+      return null;
+    }
+
+    if (!result.exists) {
+      console.error("Document does not exist");
+      return null;
+    }
+
+    const blockeur = result.data().blocked;
+
+    setBLockeur(blockeur);
+
+    return blockeur;
+  };
 
   const handleCheckout = async (event, priceId, userEmail, buttonName) => {
     event.preventDefault();
@@ -81,13 +98,15 @@ export default function Pricing({id}) {
       [buttonName]: true,
     }));
     setErrorMessage("");
-
-    if (user && user.email) {
+    const blockage = await getDocumentData();
+    // Utilisez le résultat ici
+    console.log(blockage);
+    if (user && user.email && blockage === false) {
       try {
         const response = await axios.post("/api/create-checkout-session", {
           priceId,
           userEmail,
-          referral:referral,
+          referral: referral,
         });
 
         const sessionId = response.data.id;
@@ -96,11 +115,10 @@ export default function Pricing({id}) {
           sessionId,
         });
 
-        if(response)
-
-        if (error) {
-          setErrorMessage(error.message);
-        }
+        if (response)
+          if (error) {
+            setErrorMessage(error.message);
+          }
       } catch (error) {
         setErrorMessage(error.message);
       } finally {
@@ -109,6 +127,8 @@ export default function Pricing({id}) {
           [buttonName]: false,
         }));
       }
+    } else if (blockage === true) {
+      toast.error("Vous avez êtés bloqué, veuillez contacter le support");
     } else {
       // Rediriger vers la page de connexion
       window.location.href = "/auth/login"; // Remplacez "/signin" par l'URL de la page de connexion réelle
@@ -120,15 +140,16 @@ export default function Pricing({id}) {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
-           Tarification
+            Tarification
           </h2>
           <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
             Choisissez le plan qui vous convient le mieux
           </p>
         </div>
         <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
-          Nous proposons des plans adaptés à vos besoins du particulier au professionnel.
-            </p>
+          Nous proposons des plans adaptés à vos besoins du particulier au
+          professionnel.
+        </p>
         <div className="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-y-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {tiers.map((tier, tierIdx) => (
             <div
@@ -166,7 +187,6 @@ export default function Pricing({id}) {
                   </span>
                   <span className="text-sm font-semibold leading-6 text-gray-600">
                     / {tier.credits} crédits
-                    
                   </span>
                 </p>
                 <ul
@@ -194,7 +214,6 @@ export default function Pricing({id}) {
                       "button2"
                     )
                   }
-                  href={tier.href}
                   aria-describedby={tier.id}
                   className={classNames(
                     tier.mostPopular
@@ -223,6 +242,7 @@ export default function Pricing({id}) {
           ))}
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }

@@ -110,7 +110,6 @@ export default cors(async function webhookHandler(req, res) {
         Id_payment: paymentIntent.id,
         Numero_Creation: paymentIntent.created,
         Methode_de_Payment: paymentIntent.payment_method_types,
-        Numero_Methode_Payment: paymentIntent.payment_method,
         Shipping: paymentIntent.shipping,
       }
 
@@ -136,6 +135,7 @@ export default cors(async function webhookHandler(req, res) {
       // // Retrieve customer`
       const customerId = charge.customer;
       const customer = await stripe.customers.retrieve(customerId);
+      
       if (charge.outcome.type === "blocked") {
         // Get the customer email
         const userEmail = customer.email;
