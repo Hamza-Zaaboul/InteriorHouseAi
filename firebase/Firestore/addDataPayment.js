@@ -28,7 +28,7 @@ export default async function archivagePayment(collectionName, userId, data) {
     );
 
     result = ensembleRef;
-    console.log("L'ensemble des detailles de payment a été ajouté avec succès. ID du document :", result);
+    console.log("L'ensemble des detailles de payment a été ajouté avec succès. ID du document :", sub_collection);
   } catch (e) {
     error = e;
     console.error("Erreur lors de l'ajout de l'ensemble des details de payments:", error);

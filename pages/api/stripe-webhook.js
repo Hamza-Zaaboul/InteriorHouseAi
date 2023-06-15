@@ -1,9 +1,10 @@
 import Stripe from "stripe";
 import { buffer } from "micro";
 import firebase_app from "@/firebase/InitFirebase";
+import archivagePayment from "@/firebase/Firestore/addDataPayment";
 import { collection, getFirestore, query, where, getDocs, addDoc, updateDoc } from "firebase/firestore";
 import Cors from "micro-cors";
-import archivagePayment from "@/firebase/Firestore/addDataPayment";
+
 
 const db = getFirestore(firebase_app);
 // Instancier l'API Stripe
@@ -27,7 +28,7 @@ export default cors(async function webhookHandler(req, res) {
   if (req.method === "POST") {
     const buf = await buffer(req, { encoding: 'utf8' });
     const rawBody = buf.toString();
-    
+
     const sig = req.headers["stripe-signature"];
 
     let event;
@@ -38,7 +39,7 @@ export default cors(async function webhookHandler(req, res) {
         sig,
         process.env.STRIPE_WEBHOOK_SECRET
       );
-      
+
     } catch (err) {
       console.error(err);
       return res.status(400).send(`Webhook error: ${err.message}`);
@@ -100,21 +101,24 @@ export default cors(async function webhookHandler(req, res) {
       const docData = querySnapshot.docs[0].data();
       const currentCredit = parseInt(docData.piec);
       const newCredit = currentCredit + creditAmount;
+
       await updateDoc(docRef, { piec: newCredit.toString() });
 
-      //On definit la variable dataPayment
-      const dataPayment = {
-        creditAmount: creditAmount,
-        userEmail: userEmail,
-        Status_Payment: paymentIntent.status,
-        Id_payment: paymentIntent.id,
-        Numero_Creation: paymentIntent.created,
-        Methode_de_Payment: paymentIntent.payment_method_types,
 
+      //On definit la variable dataPayment
+
+        const dataPayment = {
+          creditAmount: creditAmount,
+          userEmail: userEmail,
+          Status_Payment: paymentIntent.status,
+          Id_payment: paymentIntent.id,
+          Numero_Creation: paymentIntent.created,
+          Methode_de_Payment: paymentIntent.payment_method_types,
       }
 
-
+      
       await archivagePayment("ArchivagePayment", idDocument, dataPayment)
+
 
 
 
@@ -135,7 +139,7 @@ export default cors(async function webhookHandler(req, res) {
       // // Retrieve customer`
       const customerId = charge.customer;
       const customer = await stripe.customers.retrieve(customerId);
-      
+
       if (charge.outcome.type === "blocked") {
         // Get the customer email
         const userEmail = customer.email;
