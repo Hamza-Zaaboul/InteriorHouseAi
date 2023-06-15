@@ -45,8 +45,11 @@ export default cors(async function webhookHandler(req, res) {
       return res.status(400).send(`Webhook error: ${err.message}`);
     }
 
-
-    if (event.type === "payment_intent.succeeded" || event.type === "checkout.session.completed") {
+    let processedEvents = []; 
+    if (
+      (event.type === "payment_intent.succeeded" || event.type === "checkout.session.completed") &&
+      !processedEvents.includes(event.id) // Vérifier si l'ID de l'événement existe déjà dans la liste
+    ) {
       const paymentIntent = event.data.object;
       console.log(`💰 PaymentIntent: ${JSON.stringify(paymentIntent)}`);
 
@@ -119,7 +122,7 @@ export default cors(async function webhookHandler(req, res) {
       
       await archivagePayment("ArchivagePayment", idDocument, dataPayment)
 
-
+      processedEvents.push(event.id);
 
 
 
