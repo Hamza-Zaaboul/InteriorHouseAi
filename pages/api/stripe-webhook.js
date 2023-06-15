@@ -110,7 +110,7 @@ export default cors(async function webhookHandler(req, res) {
         Id_payment: paymentIntent.id,
         Numero_Creation: paymentIntent.created,
         Methode_de_Payment: paymentIntent.payment_method_types,
-        Shipping: paymentIntent.shipping,
+
       }
 
 
