@@ -44,12 +44,9 @@ export default cors(async function webhookHandler(req, res) {
       console.error(err);
       return res.status(400).send(`Webhook error: ${err.message}`);
     }
+    // || event.type === "checkout.session.completed"
 
-    let processedEvents = []; 
-    if (
-      (event.type === "payment_intent.succeeded" || event.type === "checkout.session.completed") &&
-      !processedEvents.includes(event.id) // Vérifier si l'ID de l'événement existe déjà dans la liste
-    ) {
+    if (event.type === "payment_intent.succeeded") {
       const paymentIntent = event.data.object;
       console.log(`💰 PaymentIntent: ${JSON.stringify(paymentIntent)}`);
 
@@ -75,7 +72,7 @@ export default cors(async function webhookHandler(req, res) {
       //On definit la variable creditAmount à 0
       let creditAmount = 0;
 
-      switch (paymentIntent.amount_subtotal) {
+      switch (paymentIntent.amount) {
         case 500:
         case 1000:
           creditAmount = 20;
@@ -122,7 +119,7 @@ export default cors(async function webhookHandler(req, res) {
       
       await archivagePayment("ArchivagePayment", idDocument, dataPayment)
 
-      processedEvents.push(event.id);
+
 
 
 
