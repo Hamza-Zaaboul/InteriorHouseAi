@@ -47,7 +47,9 @@ export default cors(async function webhookHandler(req, res) {
     // || event.type === "checkout.sessi  zon.completed"
 
     if (event.type === "payment_intent.succeeded") {
+
       const paymentIntent = event.data.object;
+
       console.log(`💰 PaymentIntent Successe: ${JSON.stringify(paymentIntent)}`);
 
       // Get customer id
@@ -66,7 +68,7 @@ export default cors(async function webhookHandler(req, res) {
 
 
       const dataPayment = {
-        creditAmount: creditAmount,
+        creditAmount: paymentIntent.amount,
         userEmail: userEmail,
         Status_Payment: paymentIntent.status,
         Id_payment: paymentIntent.id,
