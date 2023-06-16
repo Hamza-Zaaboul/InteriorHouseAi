@@ -44,11 +44,46 @@ export default cors(async function webhookHandler(req, res) {
       console.error(err);
       return res.status(400).send(`Webhook error: ${err.message}`);
     }
-    // || event.type === "checkout.session.completed"
+    // || event.type === "checkout.sessi  zon.completed"
 
     if (event.type === "payment_intent.succeeded") {
       const paymentIntent = event.data.object;
-      console.log(`💰 PaymentIntent: ${JSON.stringify(paymentIntent)}`);
+      console.log(`💰 PaymentIntent Successe: ${JSON.stringify(paymentIntent)}`);
+
+      // Get customer id
+      const customerId = paymentIntent.customer;
+
+      // // Retrieve customer
+      const customer = await stripe.customers.retrieve(customerId);
+
+      // Get the customer email
+      const userEmail = customer.email;
+
+      const usersRef = collection(db, "users");
+      const queryL = query(usersRef, where("email", "==", userEmail));
+      const querySnapshot = await getDocs(queryL);
+      const idDocument = querySnapshot.docs[0].id;
+
+
+      const dataPayment = {
+        creditAmount: creditAmount,
+        userEmail: userEmail,
+        Status_Payment: paymentIntent.status,
+        Id_payment: paymentIntent.id,
+        Numero_Creation: paymentIntent.created,
+        Methode_de_Payment: paymentIntent.payment_method_types,
+      }
+
+
+      await archivagePayment("ArchivagePayment", idDocument, dataPayment);
+
+
+      return res.status(200).json({ received: true });
+    }
+
+    else if (event.type === "checkout.session.completed") {
+      const paymentIntent = event.data.object;
+      console.log(`💰 PaymentIntent from checkout: ${JSON.stringify(paymentIntent)}`);
 
       // Get customer id
       const customerId = paymentIntent.customer;
@@ -66,13 +101,10 @@ export default cors(async function webhookHandler(req, res) {
       // const userEmail = "zelenionzelenion@gmail.com";
 
 
-
-
-
       //On definit la variable creditAmount à 0
       let creditAmount = 0;
 
-      switch (paymentIntent.amount) {
+      switch (paymentIntent.amount_subtotal) {
         case 500:
         case 1000:
           creditAmount = 20;
@@ -95,7 +127,7 @@ export default cors(async function webhookHandler(req, res) {
       const usersRef = collection(db, "users");
       const queryL = query(usersRef, where("email", "==", userEmail));
       const querySnapshot = await getDocs(queryL);
-      const idDocument = querySnapshot.docs[0].id;
+
       // Mettre à jour le document existant
       const docRef = querySnapshot.docs[0].ref;
       const docData = querySnapshot.docs[0].data();
@@ -107,17 +139,6 @@ export default cors(async function webhookHandler(req, res) {
 
       //On definit la variable dataPayment
 
-        const dataPayment = {
-          creditAmount: creditAmount,
-          userEmail: userEmail,
-          Status_Payment: paymentIntent.status,
-          Id_payment: paymentIntent.id,
-          Numero_Creation: paymentIntent.created,
-          Methode_de_Payment: paymentIntent.payment_method_types,
-      }
-
-      
-      await archivagePayment("ArchivagePayment", idDocument, dataPayment)
 
 
 
