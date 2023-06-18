@@ -18,8 +18,8 @@ import getDocument from "@/firebase/Firestore/getData";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-const p1 = "price_1N2iEkHlXD1yqYgkNyebJLvk";
-const p2 = "price_1N2iEkHlXD1yqYgkNyebJLvk";
+const p1 = "price_1NKQj8HlXD1yqYgk3KMocU5H";
+const p2 = "price_1NKQkgHlXD1yqYgkvuJd5LLr";
 const p3 = "price_1N2iEkHlXD1yqYgkNyebJLvk";
 
 export default function OrderHistorique() {
@@ -62,6 +62,11 @@ export default function OrderHistorique() {
     return `${day}/${month}/${year}`;
   }
 
+  function centimesVersEuros(centimes) {
+    var euros = centimes / 100;
+    return euros;
+  }
+
   const getDocumentData = async () => {
     const { result, error } = await getDocument("users", user.uid);
 
@@ -97,7 +102,7 @@ export default function OrderHistorique() {
       const data = userData.map((item) => {
         const BigData = item.data;
         const Credit = BigData.creditAmount;
-        const Argent = BigData.valeurPayment;
+        const Argents = BigData.valeurPayment;
         const IdPayment = BigData.Id_payment;
         const DatePayment = BigData.Numero_Creation;
         const StatusPayment = BigData.Status_Payment;
@@ -105,6 +110,7 @@ export default function OrderHistorique() {
         const EmailPersonne = BigData.userEmail;
 
         const dateenjour = convertSecondsToDate(DatePayment);
+        const Argent = centimesVersEuros(Argents);
 
         return {
           id: item.id,
@@ -328,18 +334,7 @@ export default function OrderHistorique() {
                     </div>
                   </div>
                   <div className="mt-6 space-y-4 sm:ml-6 sm:mt-0 sm:w-40 sm:flex-none">
-                    {item.Credit == "20" && (
-                      <button
-                        type="button"
-                        onClick={(event) =>
-                          handleCheckout(event, p1, user.email, "button2")
-                        }
-                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
-                      >
-                        Acheter à nouveau
-                      </button>
-                    )}
-                    {item.Credit == "20" && (
+                    {item.Credit == "30" && (
                       <button
                         type="button"
                         onClick={(event) =>
@@ -354,7 +349,7 @@ export default function OrderHistorique() {
                       <button
                         type="button"
                         onClick={(event) =>
-                          handleCheckout(event, p1, user.email, "button2")
+                          handleCheckout(event, p2, user.email, "button2")
                         }
                         className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
                       >
@@ -365,13 +360,14 @@ export default function OrderHistorique() {
                       <button
                         type="button"
                         onClick={(event) =>
-                          handleCheckout(event, p1, user.email, "button2")
+                          handleCheckout(event, p3, user.email, "button2")
                         }
                         className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
                       >
                         Acheter à nouveau
                       </button>
                     )}
+
 
                     <Link
                       href="/pricing"

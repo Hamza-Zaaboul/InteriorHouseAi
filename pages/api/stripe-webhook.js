@@ -69,22 +69,17 @@ export default cors(async function webhookHandler(req, res) {
       let creditAmountPrice = 0;
 
       switch (paymentIntent.amount) {
-        case 500:
-        case 1000:
-          creditAmountPrice = 20;
+        case 900: // Correspond à 9 euros en centimes
+          creditAmountPrice = 30;
           break;
-        case 1900:
-        case 3000:
+        case 1900: // Correspond à 19 euros en centimes
           creditAmountPrice = 100;
           break;
-        case 3900:
-        case 5000:
+        case 3900: // Correspond à 39 euros en centimes
           creditAmountPrice = 250;
           break;
-        case 7000:
-        case 7900:
-        case 10000:
-          creditAmountPrice = 750;
+        default:
+          // Autres cas non spécifiés
           break;
       }
 
@@ -126,22 +121,17 @@ export default cors(async function webhookHandler(req, res) {
       let creditAmount = 0;
 
       switch (paymentIntent.amount_subtotal) {
-        case 500:
-        case 1000:
-          creditAmount = 20;
+        case 900: // Correspond à 9 euros en centimes
+          creditAmount = 30;
           break;
-        case 1900:
-        case 3000:
+        case 1900: // Correspond à 19 euros en centimes
           creditAmount = 100;
           break;
-        case 3900:
-        case 5000:
+        case 3900: // Correspond à 39 euros en centimes
           creditAmount = 250;
           break;
-        case 7000:
-        case 7900:
-        case 10000:
-          creditAmount = 750;
+        default:
+          // Autres cas non spécifiés
           break;
       }
 
