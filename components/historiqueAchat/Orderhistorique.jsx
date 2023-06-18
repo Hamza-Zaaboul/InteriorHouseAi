@@ -97,6 +97,7 @@ export default function OrderHistorique() {
       const data = userData.map((item) => {
         const BigData = item.data;
         const Credit = BigData.creditAmount;
+        const Argent = BigData.valeurPayment;
         const IdPayment = BigData.Id_payment;
         const DatePayment = BigData.Numero_Creation;
         const StatusPayment = BigData.Status_Payment;
@@ -109,6 +110,7 @@ export default function OrderHistorique() {
           id: item.id,
           Data: BigData,
           Credit: Credit,
+          Argent: Argent,
           IdPayment: IdPayment,
           DatePayment: dateenjour,
           StatusPayment: StatusPayment,
@@ -296,7 +298,23 @@ export default function OrderHistorique() {
                         <Link href="/"> </Link>
                       </h3>
                       <p>
-                        {item.Credit == "0" && (
+                        {item.Credit == "20" && (
+                          <p className=" text-sm text-gray-500 h-full w-[95%] ">
+                            {" "}
+                            20 crédits permettant de généré des images à partir
+                            d'image d'entrée.{" "}
+                          </p>
+                        )}
+
+                        {item.Credit == "100" && (
+                          <p className=" text-sm text-gray-500 h-full w-[95%] ">
+                            {" "}
+                            100 crédits permettant de généré des images à partir
+                            d'image d'entrée.{" "}
+                          </p>
+                        )}
+
+                        {item.Credit == "250" && (
                           <p className=" text-sm text-gray-500 h-full w-[95%] ">
                             {" "}
                             250 crédits permettant de généré des images à partir
@@ -305,7 +323,7 @@ export default function OrderHistorique() {
                         )}
                       </p>
                       <p className="mt-1 font-medium text-gray-900">
-                        {item.Credit} €
+                        {item.Argent} €
                       </p>
                     </div>
                   </div>

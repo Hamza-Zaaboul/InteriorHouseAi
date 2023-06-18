@@ -90,6 +90,7 @@ export default cors(async function webhookHandler(req, res) {
 
       const dataPayment = {
         creditAmount: creditAmountPrice,
+        valeurPayment: paymentIntent.amount,
         userEmail: userEmail,
         Status_Payment: paymentIntent.status,
         Id_payment: paymentIntent.id,
