@@ -5,10 +5,12 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { useAuthContext } from "@/store/AuthContext";
 
 export default function Modale({ openModale, setOpenModale, credit, paymentId,datePayment,email }) {
     const [emailValue, setEmailValue] = useState("");
     const [description, setDescription] = useState("");
+    const { user } = useAuthContext();
     const envoyerEmail = async () => {
         try {
           const response = await fetch(
@@ -118,8 +120,8 @@ export default function Modale({ openModale, setOpenModale, credit, paymentId,da
                                 autoComplete="username"
                                 className="w-full block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 placeholder="Email"
-                                value={emailValue} // Utilisez la valeur de l'état local
-                                onChange={(e) => setEmailValue(e.target.value)} 
+                                value={user.email} // Utilisez la valeur de l'état local
+                        
                               />
                             </div>
                           </div>

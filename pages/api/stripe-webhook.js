@@ -66,9 +66,30 @@ export default cors(async function webhookHandler(req, res) {
       const querySnapshot = await getDocs(queryL);
       const idDocument = querySnapshot.docs[0].id;
 
+      let creditAmountPrice = 0;
+
+      switch (paymentIntent.amount) {
+        case 500:
+        case 1000:
+          creditAmountPrice = 20;
+          break;
+        case 1900:
+        case 3000:
+          creditAmountPrice = 100;
+          break;
+        case 3900:
+        case 5000:
+          creditAmountPrice = 250;
+          break;
+        case 7000:
+        case 7900:
+        case 10000:
+          creditAmountPrice = 750;
+          break;
+      }
 
       const dataPayment = {
-        creditAmount: paymentIntent.amount,
+        creditAmount: creditAmountPrice,
         userEmail: userEmail,
         Status_Payment: paymentIntent.status,
         Id_payment: paymentIntent.id,
@@ -96,12 +117,9 @@ export default cors(async function webhookHandler(req, res) {
       // Get the customer email
       const userEmail = customer.email;
 
-
-
       //Test
 
       // const userEmail = "zelenionzelenion@gmail.com";
-
 
       //On definit la variable creditAmount à 0
       let creditAmount = 0;
@@ -138,13 +156,7 @@ export default cors(async function webhookHandler(req, res) {
 
       await updateDoc(docRef, { piec: newCredit.toString() });
 
-
       //On definit la variable dataPayment
-
-
-
-
-
 
       return res.status(200).json({ received: true });
     } else if (event.type === "payment_intent.payment_failed") {

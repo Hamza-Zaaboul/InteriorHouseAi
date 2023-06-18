@@ -21,6 +21,7 @@ function classNames(...classes) {
 const p1 = "price_1N2iEkHlXD1yqYgkNyebJLvk";
 const p2 = "price_1N2iEkHlXD1yqYgkNyebJLvk";
 const p3 = "price_1N2iEkHlXD1yqYgkNyebJLvk";
+
 export default function OrderHistorique() {
   const { user } = useAuthContext();
   const [dataIn, setDataIn] = useState([]);
@@ -309,53 +310,57 @@ export default function OrderHistorique() {
                     </div>
                   </div>
                   <div className="mt-6 space-y-4 sm:ml-6 sm:mt-0 sm:w-40 sm:flex-none">
-                   {
-                    item.Credit == "20" && (
+                    {item.Credit == "20" && (
                       <button
-                      type="button"
-                      onClick={(event) =>
-                        handleCheckout(event, p1, user.email, "button2")
-                      }
-                      className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
-                    >
-                      Acheter à nouveau
-                    </button>
-                    )
-                   } 
-                       {
-                    item.Credit == "100" && (
+                        type="button"
+                        onClick={(event) =>
+                          handleCheckout(event, p1, user.email, "button2")
+                        }
+                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
+                      >
+                        Acheter à nouveau
+                      </button>
+                    )}
+                    {item.Credit == "20" && (
                       <button
-                      type="button"
-                      onClick={(event) =>
-                        handleCheckout(event, p1, user.email, "button2")
-                      }
-                      className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
-                    >
-                      Acheter à nouveau
-                    </button>
-                    )
-                   } 
-                       {
-                    item.Credit == "250" && (
+                        type="button"
+                        onClick={(event) =>
+                          handleCheckout(event, p1, user.email, "button2")
+                        }
+                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
+                      >
+                        Acheter à nouveau
+                      </button>
+                    )}
+                    {item.Credit == "100" && (
                       <button
-                      type="button"
-                      onClick={(event) =>
-                        handleCheckout(event, p1, user.email, "button2")
-                      }
-                      className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
-                    >
-                      Acheter à nouveau
-                    </button>
-                    )
-                   } 
-           
+                        type="button"
+                        onClick={(event) =>
+                          handleCheckout(event, p1, user.email, "button2")
+                        }
+                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
+                      >
+                        Acheter à nouveau
+                      </button>
+                    )}
+                    {item.Credit == "250" && (
+                      <button
+                        type="button"
+                        onClick={(event) =>
+                          handleCheckout(event, p1, user.email, "button2")
+                        }
+                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
+                      >
+                        Acheter à nouveau
+                      </button>
+                    )}
 
-                    <button
-                      type="button"
+                    <Link
+                      href="/pricing"
                       className="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
                     >
                       Voir d'autre forfait
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
