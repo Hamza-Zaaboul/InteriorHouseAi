@@ -16,10 +16,12 @@ const tiers = [
     name: "Starter",
     id: "tier-freelancer",
     href: "/auth/login",
-    pricestripe: "price_1N2iEkHlXD1yqYgkNyebJLvk",
+    pricestripe: "price_1NKQj8HlXD1yqYgk3KMocU5H",
     credits: "30",
     priceMonthly: "9€ ",
-    description: " 30 générations d'intérieur ",
+    btn: "button1",
+    description:
+      "30 générations d'intérieurs avec tous les thèmes disponibles.",
     features: [],
     mostPopular: false,
   },
@@ -27,22 +29,25 @@ const tiers = [
     name: "Business",
     id: "tier-startup",
     href: "/auth/login",
-    pricestripe: "price_1N2iEkHlXD1yqYgkNyebJLvk",
+    pricestripe: "price_1NKQkgHlXD1yqYgkvuJd5LLr",
     credits: "100",
     priceMonthly: "19€ ",
-    description: "100 générations d'intérieur",
+    btn: "button2",
+    description:
+      "100 générations d'intérieurs avec tous les thèmes disponibles.",
     features: [],
     mostPopular: true,
   },
   {
     name: " Enterprise",
     id: "tier-enterprise",
-
     pricestripe: "price_1N2iEkHlXD1yqYgkNyebJLvk",
     credits: "250",
     href: "/auth/login",
+    btn: "button3",
     priceMonthly: "39€ ",
-    description: "250 générations d'intérieur",
+    description:
+      "250 générations d'intérieurs avec tous les thèmes disponibles.",
     features: [],
     mostPopular: false,
   },
@@ -97,10 +102,12 @@ export default function Pricing({ id }) {
       ...prevState,
       [buttonName]: true,
     }));
+
     setErrorMessage("");
     const blockage = await getDocumentData();
     // Utilisez le résultat ici
     console.log(blockage);
+
     if (user && user.email && blockage === false) {
       try {
         const response = await axios.post("/api/create-checkout-session", {
@@ -211,9 +218,10 @@ export default function Pricing({ id }) {
                       event,
                       tier.pricestripe,
                       user.email,
-                      "button2"
+                      tier.btn // Utilisez la propriété `btn` du tier
                     )
                   }
+                  disabled={loading[tier.btn]} // Utilisez la propriété `btn` du tier pour accéder à la bonne clé dans l'état `loading`
                   aria-describedby={tier.id}
                   className={classNames(
                     tier.mostPopular
@@ -222,7 +230,7 @@ export default function Pricing({ id }) {
                     "mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   )}
                 >
-                  Acheter
+                  {loading[tier.btn] ? "Chargement..." : "Acheter"}
                 </button>
               ) : (
                 <Link

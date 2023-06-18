@@ -7,10 +7,10 @@ import { signOutUser } from "@/firebase/Auth/logout";
 import { useAuthContext } from "@/store/AuthNavContext";
 
 const navigation = [
-  { name: "Fonctionnement", href: "#Fonctionnement" },
-  { name: "Tarifications", href: "#Tarifications" },
-  { name: "Temoignages", href: "#Temoignages" },
-  { name: "Faq", href: "#Faq" },
+  { name: "Fonctionnement", href: "/#Fonctionnement" },
+  { name: "Tarifications", href: "/#Tarifications" },
+  { name: "Temoignages", href: "/#Temoignages" },
+  { name: "Faq", href: "/#Faq" },
 ];
 
 export default function Navbar() {

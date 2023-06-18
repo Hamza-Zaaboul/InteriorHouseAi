@@ -39,13 +39,7 @@ export default function OrderHistorique() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [paid, setPaid] = useState(false);
-
-  const [loading, setLoading] = useState({
-    button1: false,
-    button2: false,
-    button3: false,
-    button4: false,
-  });
+  const [loading, setLoading] = useState(false);
 
   const [openModale, setOpenModale] = useState(false);
 
@@ -137,10 +131,7 @@ export default function OrderHistorique() {
   const handleCheckout = async (event, priceId, userEmail, buttonName) => {
     event.preventDefault();
 
-    setLoading((prevState) => ({
-      ...prevState,
-      [buttonName]: true,
-    }));
+    setLoading(true);
 
     setErrorMessage("");
 
@@ -170,10 +161,7 @@ export default function OrderHistorique() {
       } catch (error) {
         setErrorMessage(error.message);
       } finally {
-        setLoading((prevState) => ({
-          ...prevState,
-          [buttonName]: false,
-        }));
+        setLoading(false);
       }
     } else if (blockage === true) {
       toast.error("Vous avez êtés bloqué, veuillez contacter le support");
@@ -340,9 +328,10 @@ export default function OrderHistorique() {
                         onClick={(event) =>
                           handleCheckout(event, p1, user.email, "button2")
                         }
+                        disabled={loading}
                         className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
                       >
-                        Acheter à nouveau
+                        {loading ? "Chargement..." : "Acheter à nouveau"}
                       </button>
                     )}
                     {item.Credit == "100" && (
@@ -351,23 +340,25 @@ export default function OrderHistorique() {
                         onClick={(event) =>
                           handleCheckout(event, p2, user.email, "button2")
                         }
+                        disabled={loading}
                         className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
                       >
-                        Acheter à nouveau
+                        {loading ? "Chargement..." : "Acheter à nouveau"}
                       </button>
                     )}
+
                     {item.Credit == "250" && (
                       <button
                         type="button"
                         onClick={(event) =>
                           handleCheckout(event, p3, user.email, "button2")
                         }
+                        disabled={loading}
                         className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
                       >
-                        Acheter à nouveau
+                        {loading ? "Chargement..." : "Acheter à nouveau"}
                       </button>
                     )}
-
 
                     <Link
                       href="/pricing"

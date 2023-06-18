@@ -5,14 +5,11 @@ import Link from "next/link";
 import { signOutUser } from "@/firebase/Auth/logout";
 import { useAuthContext } from "@/store/AuthContext";
 
-
-
 const navigation = [
-  { name: "Fonctionnement", href: "#" },
-  { name: "Aperçus", href: "#" },
-  { name: "Apparences", href: "#" },
-  { name: "Tarifications", href: "#" },
-  { name: "Blog", href: "#" },
+  { name: "Fonctionnement", href: "/#Fonctionnement" },
+  { name: "Tarifications", href: "/#Tarifications" },
+  { name: "Temoignages", href: "/#Temoignages" },
+  { name: "Faq", href: "/#Faq" },
 ];
 
 export default function NavbarDash() {
@@ -81,7 +78,7 @@ export default function NavbarDash() {
             </Link>
           </div>
         )}
-        
+
         <div className="flex lg:hidden">
           <button
             type="button"
