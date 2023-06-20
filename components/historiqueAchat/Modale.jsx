@@ -21,7 +21,7 @@ export default function Modale({
   const envoyerEmail = async () => {
     try {
       const response = await fetch(
-        "https://us-central1-interiorpro-371f7.cloudfunctions.net/sendEmail",
+        "https://us-central1-studioia-interieur.cloudfunctions.net/sendEmail",
         {
           method: "POST",
           headers: {
