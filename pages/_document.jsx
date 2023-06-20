@@ -37,23 +37,23 @@ export default function Document(props) {
         />
         <script async src="https://js.stripe.com/v3/"></script>
         <script async src="https://r.wdfl.co/rw.js" data-rewardful="5b33f3" />
-        <Head>
-          <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-6G94JDW91Z"
-          ></script>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-6G94JDW91Z"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'G-6G94JDW91Z');
         `,
-            }}
-          ></script>
-        </Head>
+          }}
+        />
       </Head>
+
       <body className="flex h-full flex-col">
         <Main />
         <NextScript />
