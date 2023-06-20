@@ -25,7 +25,7 @@ export default function ImageComparaison({ imageBefore, imageAfter }) {
             <ImgComparisonSlider>
               <div slot="first">
                 <img
-                  className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
+                  className="rounded-lg w-full max-h-[450px]  border border-solid border-gray-400"
                   src={imageBefore}
                   alt="image-avant-generation"
                 />
@@ -37,7 +37,7 @@ export default function ImageComparaison({ imageBefore, imageAfter }) {
               </div>
               <div slot="second">
                 <img
-                  className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
+                  className="rounded-lg max-h-[450px] w-full border border-solid border-gray-400"
                   src={imageAfter.output[imageAfter.output.length - 1]}
                   alt="image-apres-generation"
                 />
@@ -57,7 +57,7 @@ export default function ImageComparaison({ imageBefore, imageAfter }) {
           <div slot="first">
             <Image
               slot="first"
-              className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
+              className="rounded-lg max-h-[450px] w-full border border-solid border-gray-400"
               src={BeforeState}
               alt="image-avant-generation"
             />
@@ -71,7 +71,7 @@ export default function ImageComparaison({ imageBefore, imageAfter }) {
           <div slot="second">
             <Image
               slot="second"
-              className="rounded-lg max-h-[450px]  border border-solid border-gray-400"
+              className="rounded-lg max-h-[450px] w-full border border-solid border-gray-400"
               src={AfterHouse}
               alt="image-apres-generation"
             />

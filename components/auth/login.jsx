@@ -35,7 +35,7 @@ export default function Login() {
       const data = {
         email: user.email,
         pseudo: user.displayName,
-        piec: "3",
+        piec: "5",
         blocked: false,
       };
 

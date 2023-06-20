@@ -26,7 +26,7 @@ export default function Rendu({ imageBefore, imageAfter }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div className="flex items-center justify-center relative">
                   <img
-                    className="h-auto max-w-full max-h-[450px] border border-solid border-gray-400 rounded-lg"
+                    className="h-auto max-w-full w-full max-h-[450px] border border-solid border-gray-400 rounded-lg"
                     src={imageBefore}
                     alt=""
                   />
@@ -39,7 +39,7 @@ export default function Rendu({ imageBefore, imageAfter }) {
                 </div>
                 <div className="flex items-center justify-center relative">
                   <img
-                    className="h-auto max-w-full max-h-[450px] border border-solid border-gray-400 rounded-lg"
+                    className="h-auto max-w-full w-full max-h-[450px] border border-solid border-gray-400 rounded-lg"
                     src={imageAfter.output[imageAfter.output.length - 1]}
                     alt=""
                   />
