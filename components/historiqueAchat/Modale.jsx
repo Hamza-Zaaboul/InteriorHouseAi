@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useAuthContext } from "@/store/AuthContext";
-
+import toast, { Toaster } from "react-hot-toast";
 export default function Modale({
   openModale,
   setOpenModale,
@@ -37,8 +37,10 @@ export default function Modale({
       const data = await response.json();
       if (data.success) {
         console.log("Email sent successfully");
+        toast.success("Votre demande a bien été envoyé !");
       } else {
         console.error("Failed to send email:", data.error);
+        toast.error("Une erreur est survenue ! Veuillez réessayer plus tard ou contacter le support : studioiainterieur@gmail.com");
       }
     } catch (error) {
       console.error("Error sending email:", error);
@@ -46,6 +48,7 @@ export default function Modale({
   };
 
   return (
+    <>
     <Transition.Root show={openModale} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpenModale}>
         <Transition.Child
@@ -184,5 +187,7 @@ export default function Modale({
         </div>
       </Dialog>
     </Transition.Root>
+    <Toaster />
+    </>
   );
 }
