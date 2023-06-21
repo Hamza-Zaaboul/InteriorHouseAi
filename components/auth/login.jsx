@@ -27,9 +27,10 @@ export default function Login() {
 
   const handlegoogle = async (e) => {
     e.preventDefault();
-
+  
     const { user, error: loginError } = await GoogleLogin();
-
+    let dataError; // Déclaration de la variable en dehors du bloc try
+  
     try {
       const data = {
         email: user.email,
@@ -37,31 +38,28 @@ export default function Login() {
         piec: "5",
         blocked: false,
       };
-
+  
       const userDoc = await getDocument("users", user.uid);
-
+  
       if (userDoc.result && userDoc.result.exists()) {
         // User document already exists, no need to do anything else
         console.log("User document already exists, skipping creation");
         return router.push("/dashboard");
       }
-
-      const { result: dataResult, error: dataError } = await addData(
-        "users",
-        user.uid,
-        data
-      );
+  
+      const { result: dataResult, error } = await addData("users", user.uid, data);
+      dataError = error; // Assigner la valeur de l'erreur à la variable dataError
     } catch (e) {
       console.log(e);
     }
-
+  
     if (loginError || dataError) {
       console.log(loginError || dataError);
       return;
     }
     return router.push("/dashboard");
   };
-
+  
   return (
     <>
       {/*

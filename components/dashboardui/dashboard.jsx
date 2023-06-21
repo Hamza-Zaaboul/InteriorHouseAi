@@ -165,7 +165,7 @@ export default function Dashboard() {
       onClick: handleBLog,
     },
     {
-      name: "Dashboard",
+      name: "Tableau de bord",
       href: "#",
       icon: UsersIcon,
       current: currentAccueil,

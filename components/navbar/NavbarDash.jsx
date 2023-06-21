@@ -10,7 +10,7 @@ import Logo from "@/assets/Logo.png";
 const navigation = [
   { name: "Fonctionnement", href: "/#Fonctionnement" },
   { name: "Tarifications", href: "/#Tarifications" },
-  { name: "Temoignages", href: "/#Temoignages" },
+  // { name: "Temoignages", href: "/#Temoignages" },
   { name: "Faq", href: "/#Faq" },
 ];
 
@@ -32,7 +32,7 @@ export default function Navbar() {
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">StudioAi - Interieur</span>
             <Image
-              className="h-16 w-auto "
+              className="h-12 w-auto "
               src={Logo}
               alt="StudioAi - Interieur Logo"
             />

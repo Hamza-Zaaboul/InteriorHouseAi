@@ -18,7 +18,7 @@ export default function Home() {
       <HeroSections />
       <SecondaryFeatures id="Fonctionnement" />
       <Pricing id="Tarifications" />
-      <Testimonials id="Temoignages" />
+      {/* <Testimonials id="Temoignages" /> */}
       <Faq id="Faq" />
       <Cta />
       <Footer />

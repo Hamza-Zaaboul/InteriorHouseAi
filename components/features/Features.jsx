@@ -3,9 +3,9 @@ import Image from "next/image";
 import { Tab } from "@headlessui/react";
 import clsx from "clsx";
 
-import screenshotContacts from "@/images/screenshots/contacts.png";
-import screenshotInventory from "@/images/screenshots/inventory.png";
-import screenshotProfitLoss from "@/images/screenshots/profit-loss.png";
+import screenshotContacts from "@/assets/Login.png";
+import screenshotProfitLoss from "@/assets/Dashbord.png";
+import screenshotInventory from "@/assets/Payment.png";
 
 import { Container } from "../Container";
 

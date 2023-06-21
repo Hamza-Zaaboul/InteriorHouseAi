@@ -44,6 +44,7 @@ export default function Modale({
       }
     } catch (error) {
       console.error("Error sending email:", error);
+      toast.error("Une erreur est survenue ! Veuillez réessayer plus tard ou contacter le support : studioiainterieur@gmail.com");
     }
   };
 
@@ -150,13 +151,13 @@ export default function Modale({
                               onChange={(e) => setDescription(e.target.value)}
                             />
                           </div>
-                          <p className="mt-3 text-sm leading-6 text-gray-600">
+                          {/* <p className="mt-3 text-sm leading-6 text-gray-600">
                             Voir notre{" "}
                             <span className="text-indigo-500">
                               {" "}
                               <Link href="/">politique de remboursement</Link>
                             </span>
-                          </p>
+                          </p> */}
                         </div>
                       </div>
                     </div>
@@ -173,6 +174,7 @@ export default function Modale({
                   >
                     Envoyer
                   </button>
+                  
                   <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"

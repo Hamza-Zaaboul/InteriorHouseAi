@@ -10,7 +10,7 @@ const navigation = {
 
     { name: "Affiliation", href: "https://hazalink-1.getrewardful.com/signup" },
 
-    { name: "Politique de Remboursement", href: "/PolitiquedeRemboursement" },
+    // { name: "Politique de Remboursement", href: "/PolitiquedeRemboursement" },
   ],
   social: [
     // {
