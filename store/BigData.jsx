@@ -9,9 +9,9 @@ export const dataListe1 = [
 ];
 
 export const dataListe2 = [
-  { id: 0, name: "Salon", translated: "Living Room" },
+  { id: 0, name: "Chambre", translated: "Bedroom" },
   { id: 1, name: "Salle à manger", translated: "Dining Room" },
-  { id: 2, name: "Chambre", translated: "Bedroom" },
+  { id: 2, name: "Salon", translated: "Living Room" },
   { id: 3, name: "Salle de bain", translated: "Bathroom" },
   { id: 4, name: "Cuisine", translated: "Kitchen" },
   { id: 5, name: "Sous-sol", translated: "Basement" },
@@ -61,8 +61,6 @@ export const SalonExempleImage = [
     after:
       "https://firebasestorage.googleapis.com/v0/b/interiorpro-371f7.appspot.com/o/users%2FrnjhcNkDw2VryCAp6sg1Xzv58OD3%2FHistorique%2F1%2Fimage%20(18).jpg_after?alt=media&token=04dbe2ef-c05b-4d8f-994d-4cb6b2d50eb3",
   },
-
-
 ];
 
 export const SalleMiamExempleImage = [

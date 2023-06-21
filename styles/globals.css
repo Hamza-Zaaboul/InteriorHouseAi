@@ -110,7 +110,7 @@ html {
   border-top-color: #ffffff;
   border-radius: 50%;
   opacity: 0;
-  animation: button-loading-spinner 1s ease 3;
+  animation: button-loading-spinner 1s ease infinite;
 }
 @keyframes button-loading-spinner {
   from {

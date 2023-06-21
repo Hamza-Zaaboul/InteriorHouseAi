@@ -82,9 +82,12 @@ export default function Dashboard() {
   const [selectedValue4, setSelectedValue4] = useState(1);
   const [selectedValue5, setSelectedValue5] = useState(null);
 
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloaded, setIsDownloaded] = useState(false);
+
   // State pour les parametres de theme et de room
   const [theme, setTheme] = useState("Modern");
-  const [room, setRoom] = useState("Living Room");
+  const [room, setRoom] = useState("Bedroom");
 
   // State pour les parametres de navigation laterale
   const [blog, setBlog] = useState(true);
@@ -497,6 +500,14 @@ export default function Dashboard() {
   //Fonction cerveau de l'application
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(selectedImage)
+    {
+      setIsDownloaded(false);
+      setIsDownloading(true);
+    }else{
+      toast.error("Veuillez déposer une image");
+    }
+ 
 
     handleNavigation();
     await getDocumentData();
@@ -542,7 +553,7 @@ export default function Dashboard() {
                 return;
               }
               setPrediction(prediction);
-
+           
               while (
                 prediction.status !== "succeeded" &&
                 prediction.status !== "failed"
@@ -553,16 +564,21 @@ export default function Dashboard() {
                 );
                 prediction = await response.json();
 
+
                 if (response.status !== 200) {
                   setError(prediction.detail);
                   return;
                 }
                 console.log({ prediction });
+          
                 setPrediction(prediction);
+
 
                 // Si la prédiction est réussie, depose l'image de l'ouput dans le storage firebase adequat selon l'user
                 if (prediction.status == "succeeded") {
                   toast.success("Votre image est prête");
+                  setIsDownloading(false);
+                  setIsDownloaded(true);
                   setUploadStatus("uploading");
                   const downloadAfterStatement = await uploadAfter(
                     prediction.output[prediction.output.length - 1],
@@ -594,6 +610,8 @@ export default function Dashboard() {
                   };
 
                   await ajouterEnsembleUrls("Archives", user.uid, urls);
+                  setIsDownloading(false);
+                  setIsDownloaded(false);
                 }
               }
             } catch (error) {
@@ -609,7 +627,6 @@ export default function Dashboard() {
       }
     } else {
       toast.error("Vous n'avez plus de crédits");
-
     }
   };
 
@@ -1029,12 +1046,72 @@ export default function Dashboard() {
 
             <div className="absolute z-50 bottom-0 bg-white w-full left-0 p-6 flex items-center justify-center border-t border-solid border-gray-900/25 ">
               <button
+                className="download-button buttol transform active:scale-95 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 hover:bg-blue-400 text-white px-[0.30rem] py-[0.50rem] rounded-lg font-bold  md:w-96"
                 type="submit"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Lancer le rendu
+                <div className="flex justify-center items-center relative">
+                  <div className="svg-container">
+                    {/* Download Icon */}
+
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={`download-icon ${
+                        isDownloading ? "hidden" : ""
+                      }  ${isDownloaded ? "hidden" : ""}`}
+                      width={18}
+                      height={22}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                    >
+                      <path
+                        className="download-arrow"
+                        fillRule="evenodd"
+                        d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 01.75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 019.75 22.5a.75.75 0 01-.75-.75v-4.131A15.838 15.838 0 016.382 15H2.25a.75.75 0 01-.75-.75 6.75 6.75 0 017.815-6.666zM15 6.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z"
+                        clipRule="evenodd"
+                      />
+                      <path
+                        className="download-arrow"
+                        d="M5.26 17.242a.75.75 0 10-.897-1.203 5.243 5.243 0 00-2.05 5.022.75.75 0 00.625.627 5.243 5.243 0 005.022-2.051.75.75 0 10-1.202-.897 3.744 3.744 0 01-3.008 1.51c0-1.23.592-2.323 1.51-3.008z"
+                      />
+                    </svg>
+
+                    {/* Loader */}
+                    {isDownloading && (
+                      <div className="download-loader text-white" />
+                    )}
+
+                    {/* Checked Icon */}
+                    {isDownloaded && (
+                      <svg
+                        className="check-svg"
+                        width={20}
+                        height={20}
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20ZM15.1071 7.9071C15.4976 7.51658 15.4976 6.88341 15.1071 6.49289C14.7165 6.10237 14.0834 6.10237 13.6929 6.49289L8.68568 11.5001L7.10707 9.92146C6.71655 9.53094 6.08338 9.53094 5.69286 9.92146C5.30233 10.312 5.30233 10.9452 5.69286 11.3357L7.97857 13.6214C8.3691 14.0119 9.00226 14.0119 9.39279 13.6214L15.1071 7.9071Z"
+                          fill="white"
+                        />
+                      </svg>
+                    )}
+                  </div>
+
+                  {/* Texte du bouton */}
+                  <div className="button-copy pl-2 ">
+                    {isDownloading
+                      ? " En cours de traitement"
+                      : isDownloaded
+                      ? "Succès"
+                      : "Lancer le rendu"}
+                  </div>
+                </div>
               </button>
-   
             </div>
           </form>
         </aside>

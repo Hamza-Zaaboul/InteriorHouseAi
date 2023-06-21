@@ -7,7 +7,7 @@ function classNames(...classes) {
 }
 
 export default function Selecteur({ people, onSelect, disabled }) {
-  const [selected, setSelected] = useState(people[3]);
+  const [selected, setSelected] = useState(people[0]);
 
   const handleSelect = (value) => {
     setSelected(value);

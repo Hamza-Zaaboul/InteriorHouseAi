@@ -2,18 +2,17 @@ import Link from "next/link";
 
 const navigation = {
   main: [
-    { name: "Fonctionnement", href: "/#Fonctionnement" },
-    { name: "Tarifications", href: "/#Tarifications" },
-    { name: "Temoignages", href: "/#Temoignages" },
     { name: "Faq", href: "/#Faq" },
+    {
+      name: "Contacte",
+      href: "mailto:studioiainterieur@gmail.com",
+    },
+
     { name: "Affiliation", href: "https://hazalink-1.getrewardful.com/signup" },
 
     { name: "Politique de Remboursement", href: "/PolitiquedeRemboursement" },
-
-
   ],
   social: [
-
     // {
     //   name: "Instagram",
     //   href: "#",
@@ -49,7 +48,6 @@ const navigation = {
     //     </svg>
     //   ),
     // },
-
   ],
 };
 

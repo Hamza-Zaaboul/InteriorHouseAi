@@ -99,77 +99,87 @@ export default function Historique() {
   return (
     <div>
       <div className="flex flex-col items-center justify-center py-4 md:py-8 w-full">
-        <div>
-          {dataUrls.map((item) => (
-            <div key={item.id} className=" mt-16 md:mt-2">
-              <div className="mx-auto mt-6 md:mt-8 grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 md:grid-cols-2 lg:mx-0 lg:max-w-none">
-                <div className="relative  w-full">
-                  <label htmlFor={item.id} className="w-full">
-                    <img
-                      className="aspect-[3/2] w-full rounded-2xl object-cover"
-                      src={item.before}
-                      alt={item.room + " " + item.theme}
-                      style={{
-                        boxShadow: `${
-                          selectedItems.includes(item.after) ||
-                          selectedItems.includes(item.before)
-                            ? "0 0 0 2px rgba(79, 70, 229, 0.5)"
-                            : "none"
-                        }`,
-                      }}
-                    />
-                  </label>
-
-                  <span className="absolute top-2 left-2">
-                    <span className="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
-                      Avant
+        {dataUrls.length > 0 ? (
+          <div>
+            {dataUrls.map((item) => (
+              <div key={item.id} className="mt-16 md:mt-2">
+                <div className="mx-auto mt-6 md:mt-8 grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 md:grid-cols-2 lg:mx-0 lg:max-w-none">
+                  <div className="relative w-full">
+                    <label htmlFor={item.id} className="w-full">
+                      <img
+                        className="aspect-[3/2] w-full rounded-2xl object-cover"
+                        src={item.before}
+                        alt={item.room + " " + item.theme}
+                        style={{
+                          boxShadow: `${
+                            selectedItems.includes(item.after) ||
+                            selectedItems.includes(item.before)
+                              ? "0 0 0 2px rgba(79, 70, 229, 0.5)"
+                              : "none"
+                          }`,
+                        }}
+                      />
+                    </label>
+                    <span className="absolute top-2 left-2">
+                      <span className="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
+                        Avant
+                      </span>
                     </span>
-                  </span>
-                </div>
-
-                <div className="relative w-full">
-                  <label htmlFor={item.id} className="w-full">
-                    <img
-                      className="aspect-[3/2] w-full rounded-2xl object-cover"
-                      src={item.after}
-                      alt={item.room + " " + item.theme}
-                      style={{
-                        boxShadow: `${
-                          selectedItems.includes(item.after) ||
-                          selectedItems.includes(item.before)
-                            ? "0 0 0 2px rgba(79, 70, 229, 0.5)"
-                            : "none"
-                        }`,
-                      }}
-                    />
-                  </label>
-                  <div className="absolute bottom-2 right-4">
-                    <input
-                      id={item.id}
-                      aria-describedby="comments-description"
-                      name={item.id}
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                      checked={
-                        selectedItems.includes(item.after) ||
-                        selectedItems.includes(item.before)
-                      }
-                      onChange={() =>
-                        handleCheckboxChange(item.after, item.before, item.id)
-                      }
-                    />
                   </div>
-                  <span className="absolute top-2 right-2">
-                    {" "}
-                    <span className="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
-                      Apres
+
+                  <div className="relative w-full">
+                    <label htmlFor={item.id} className="w-full">
+                      <img
+                        className="aspect-[3/2] w-full rounded-2xl object-cover"
+                        src={item.after}
+                        alt={item.room + " " + item.theme}
+                        style={{
+                          boxShadow: `${
+                            selectedItems.includes(item.after) ||
+                            selectedItems.includes(item.before)
+                              ? "0 0 0 2px rgba(79, 70, 229, 0.5)"
+                              : "none"
+                          }`,
+                        }}
+                      />
+                    </label>
+                    <div className="absolute bottom-2 right-4">
+                      <input
+                        id={item.id}
+                        aria-describedby="comments-description"
+                        name={item.id}
+                        type="checkbox"
+                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                        checked={
+                          selectedItems.includes(item.after) ||
+                          selectedItems.includes(item.before)
+                        }
+                        onChange={() =>
+                          handleCheckboxChange(item.after, item.before, item.id)
+                        }
+                      />
+                    </div>
+                    <span className="absolute top-2 right-2">
+                      <span className="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
+                        Apres
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="mx-auto mt-6 md:mt-8 max-w-2xl text-4xl text-black gap-x-6 gap-y-6 lg:mx-0 lg:max-w-none justify-center items-center flex">
+            Retrouvez vos générations d'image ici !
+          </div>
+        )}
+        {!dataUrls && (
+          <div className="text-[#000] text-4xl justify-center items-center flex h-[100%]">
+         
+            Retrouvez vos générations d'image ici !
+          </div>
+        )}
         <div className="h-56"></div>
       </div>
 

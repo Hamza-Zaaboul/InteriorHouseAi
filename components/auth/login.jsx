@@ -18,7 +18,6 @@ export default function Login() {
     if (error) {
       toast.error("Une erreur est survenue !");
       return console.log(error);
-
     }
 
     // else successful
@@ -60,8 +59,7 @@ export default function Login() {
       console.log(loginError || dataError);
       return;
     }
-
-    router.push("/dashboard");
+    return router.push("/dashboard");
   };
 
   return (
@@ -94,7 +92,7 @@ export default function Login() {
                   htmlFor="email"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                Email
+                  Email
                 </label>
                 <div className="mt-2">
                   <input
@@ -114,7 +112,7 @@ export default function Login() {
                   htmlFor="password"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                Mot de passe
+                  Mot de passe
                 </label>
                 <div className="mt-2">
                   <input

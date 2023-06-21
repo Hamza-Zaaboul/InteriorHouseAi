@@ -68,8 +68,7 @@ const features = [
   },
   {
     name: "Crediter votre compte",
-    summary:
-      "Creditez votre compte",
+    summary: "Creditez votre compte",
     description:
       "Creditez votre compte avec le montant de votre choix et profiter de nos services. 5 crédits vous sont offerts à l'inscription.",
     image: screenshotInventory,
@@ -206,15 +205,14 @@ function FeaturesDesktop() {
   );
 }
 
-export function SecondaryFeatures({id}) {
+export function SecondaryFeatures({ id }) {
   return (
     <section
-    id={id}
-
+      id={id}
       aria-label="Features for simplifying everyday business tasks"
       className="pb-14 pt-20 sm:pb-20 sm:pt-32 lg:pb-32"
     >
-      <Container >
+      <Container>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-base font-semibold leading-7 text-indigo-600">

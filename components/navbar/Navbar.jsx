@@ -3,8 +3,9 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { signOutUser } from "@/firebase/Auth/logout";
-
+import Logo from "@/assets/Logo.png";
 import { useAuthContext } from "@/store/AuthNavContext";
+import Image from "next/image";
 
 const navigation = [
   { name: "Fonctionnement", href: "/#Fonctionnement" },
@@ -29,11 +30,11 @@ export default function Navbar() {
       >
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">ProHead</span>
-            <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt=""
+            <span className="sr-only">StudioAi - Interieur</span>
+            <Image
+              className="h-12 w-auto "
+              src={Logo}
+              alt="StudioAi - Interieur Logo"
             />
           </Link>
         </div>
@@ -108,11 +109,11 @@ export default function Navbar() {
               className="-m-1.5 p-1.5"
             >
               <span className="sr-only">ProHead</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
+              <Image
+              className="h-12 w-auto "
+              src={Logo}
+              alt="StudioAi - Interieur Logo"
+            />
             </Link>
             {user ? (
               <a

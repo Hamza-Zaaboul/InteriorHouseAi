@@ -1,28 +1,28 @@
 import axios from "axios";
 import { useState } from "react";
-
+import toast, { Toaster } from "react-hot-toast";
 export default function DownloadButton({ ouput }) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isDownloaded, setIsDownloaded] = useState(false);
 
   const handleButtonClick = () => {
     downloadImage();
-    setIsDownloading(true);
-    setIsDownloaded(false);
+
     // Effectuez ici vos opérations de téléchargement
 
-    // Exemple de délai de 2 secondes pour simuler le téléchargement
-    setTimeout(() => {
-      setIsDownloading(false);
-      setIsDownloaded(true);
-    }, 2000);
+    // Exemple de délai de 2 secondes pour simuler le téléchargemen
+
+
   };
 
   const downloadImage = async () => {
     try {
+
       const response = await axios.get(ouput, {
         responseType: "blob",
       });
+      setIsDownloading(true);
+      setIsDownloaded(false);
       const blob = new Blob([response.data]);
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -32,7 +32,10 @@ export default function DownloadButton({ ouput }) {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+      setIsDownloading(false);
+      setIsDownloaded(true);
     } catch (error) {
+      toast.error("Vous devez lancer un rendu pour téléchager l'image !");
       console.error("Erreur lors du téléchargement de l'image :", error);
     }
   };
@@ -105,6 +108,7 @@ export default function DownloadButton({ ouput }) {
               ? "Succès"
               : "Télécharger"}
           </div>
+
         </div>
       </button>
     </div>
