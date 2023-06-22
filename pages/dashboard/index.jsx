@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/store/AuthContext";
 import DashboardUi from "@/components/dashboardui/dashboard";
 import DashBoardLayout from "@/components/DashboardLayout";
+import Head from "next/head";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
@@ -16,7 +17,13 @@ export default function Home() {
     if (user == null) router.push("/auth/login");
   }, [user]);
 
-  return <>{user && <DashboardUi />}</>;
+  return <>
+      <Head>
+        <title>StudioIA - Tableau de bord</title>
+      </Head>
+  {user && <DashboardUi />}
+  
+  </>;
 }
 
 Home.layout = DashBoardLayout;

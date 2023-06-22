@@ -130,7 +130,7 @@ export default function Login() {
                   href="/auth/resetmotdepasse"
                   className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
                 >
-                  Mots de passe oubliées
+               Mot de passe oublié
                 </Link>
               </p>
 
@@ -197,7 +197,7 @@ export default function Login() {
           </div>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Pas encore menbre?{" "}
+            Pas encore membre ?{" "}
             <Link
               href="/auth/sigin"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"

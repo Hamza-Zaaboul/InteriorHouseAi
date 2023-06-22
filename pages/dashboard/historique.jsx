@@ -10,13 +10,12 @@ import OrderHistorique from "@/components/historiqueAchat/Orderhistorique";
 import Footer from "@/components/footer/Footer";
 
 import NavbarDash from "@/components/navbar/NavbarDash";
+import Head from "next/head";
 const inter = Inter({ subsets: ["latin"] });
-
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-
 
 export default function HistoriqueDachat() {
   const { user } = useAuthContext();
@@ -28,9 +27,11 @@ export default function HistoriqueDachat() {
 
   return (
     <>
+      <Head>
+        <title>StudioIA - Historique de payment</title>
+      </Head>
       {user && (
         <>
-
           <NavbarDash />
           <OrderHistorique />
           <Footer />

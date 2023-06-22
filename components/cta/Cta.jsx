@@ -8,10 +8,10 @@ export default function Cta() {
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-12 gap-y-16 lg:mx-0 lg:min-w-full lg:max-w-none lg:flex-none lg:gap-y-8">
           <div className="lg:col-end-1 lg:w-full lg:max-w-lg lg:pb-8">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Explorer de nouveaux horizons
+            Explorez de nouveaux horizons
               </h2>
             <p className="mt-6 text-xl leading-8 text-gray-600 ">
-            Commencez dès maintenant votre transformation intérieure et créez des générations d'intérieur exceptionnelles !
+            Commencez dès maintenant votre transformation d'intérieur et créez des générations d'intérieurs exceptionnelles !
             </p>
             <p className="mt-6 text-base leading-7 text-gray-600 text-justify">
             Ne laissez pas vos idées rester seulement sur papier ou dans votre imagination. Utilisez notre solution de génération d'images basée sur le machine learning pour concrétiser vos concepts et visualiser votre projet avant même de commencer les travaux. Simplifiez le processus de conception d'intérieur et faites preuve d'audace dans vos choix grâce à notre technologie révolutionnaire.

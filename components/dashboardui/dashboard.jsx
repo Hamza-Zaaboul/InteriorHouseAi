@@ -10,9 +10,12 @@ import {
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 import { signOutUser } from "@/firebase/Auth/logout";
+
 import Selecteur from "./utils/Selecteur";
 import UploadImage from "./utils/Uploader";
+
 import { uploadFile } from "@/firebase/Storage/storagecustom";
+
 import HeaderDashbord from "./headerdashboard";
 import { useAuthContext } from "@/store/AuthContext";
 import Rendu from "./utils/Rendu";
@@ -500,14 +503,12 @@ export default function Dashboard() {
   //Fonction cerveau de l'application
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(selectedImage)
-    {
+    if (selectedImage) {
       setIsDownloaded(false);
       setIsDownloading(true);
-    }else{
+    } else {
       toast.error("Veuillez déposer une image");
     }
- 
 
     handleNavigation();
     await getDocumentData();
@@ -553,7 +554,7 @@ export default function Dashboard() {
                 return;
               }
               setPrediction(prediction);
-           
+
               while (
                 prediction.status !== "succeeded" &&
                 prediction.status !== "failed"
@@ -564,15 +565,13 @@ export default function Dashboard() {
                 );
                 prediction = await response.json();
 
-
                 if (response.status !== 200) {
                   setError(prediction.detail);
                   return;
                 }
                 console.log({ prediction });
-          
-                setPrediction(prediction);
 
+                setPrediction(prediction);
 
                 // Si la prédiction est réussie, depose l'image de l'ouput dans le storage firebase adequat selon l'user
                 if (prediction.status == "succeeded") {
@@ -690,8 +689,8 @@ export default function Dashboard() {
                     <div className="flex h-16 shrink-0 items-center">
                       <img
                         className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                        alt="Your Company"
+                        src="@/assets/Logo.png"
+                        alt="StudioIA - interieur"
                       />
                     </div>
                     <nav className="flex flex-1 flex-col">
@@ -733,6 +732,7 @@ export default function Dashboard() {
                             {teams.map((team) => (
                               <li key={team.name}>
                                 <button
+                                  disabled={true}
                                   onClick={team.onClick}
                                   className={classNames(
                                     team.current
@@ -764,7 +764,7 @@ export default function Dashboard() {
                             onClick={handleSignOut}
                             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                           >
-                            Deconnexion
+                            Déconnexion
                           </button>
                         </li>
                       </ul>
@@ -822,18 +822,35 @@ export default function Dashboard() {
                     </span>
                   )}
 
-                  <span className="hidden lg:flex lg:items-center">
-                    <span
-                      className="ml-4 text-sm font-semibold leading-6 text-gray-900"
-                      aria-hidden="true"
-                    >
-                      {user.displayName}
+                  {user.displayName && (
+                    <span className="hidden lg:flex lg:items-center">
+                      <span
+                        className="ml-4 text-sm font-semibold leading-6 text-gray-900"
+                        aria-hidden="true"
+                      >
+                        {user.displayName}
+                      </span>
+                      <ChevronDownIcon
+                        className="ml-2 h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                      />
                     </span>
-                    <ChevronDownIcon
-                      className="ml-2 h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  </span>
+                  )}
+
+                  {!user.displayName && (
+                    <span className="hidden lg:flex lg:items-center">
+                      <span
+                        className="ml-4 text-sm font-semibold leading-6 text-gray-900"
+                        aria-hidden="true"
+                      >
+                        Connecté
+                      </span>
+                      <ChevronDownIcon
+                        className="ml-2 h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  )}
                 </Menu.Button>
                 <Transition
                   as={Fragment}
@@ -1042,6 +1059,12 @@ export default function Dashboard() {
               <div className="Selecteur w-full"></div>
               <div className="Selecteur w-full"></div>
               <div className="Selecteur w-full"></div>
+              <div className="Selecteur w-full"></div>
+              <div className="Selecteur w-full"></div>
+              <div className="Selecteur w-full"></div>
+              <div className="Selecteur w-full"></div>
+        
+
             </div>
 
             <div className="absolute z-50 bottom-0 bg-white w-full left-0 p-6 flex items-center justify-center border-t border-solid border-gray-900/25 ">

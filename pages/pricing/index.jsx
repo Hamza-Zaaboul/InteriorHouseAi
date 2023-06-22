@@ -9,6 +9,7 @@ import Pricing from "@/components/pricing/Pricing";
 import Footer from "@/components/footer/Footer";
 import Navbar from "@/components/navbar/Navbar";
 import Faq from "@/components/faq/Faq";
+import Head from "next/head";
 
 
 
@@ -18,6 +19,9 @@ export default function Home() {
 
   return (
     <>
+        <Head>
+        <title>StudioIA - Tarification</title>
+      </Head>
       <Navbar />
       <Pricing />
       <Faq />

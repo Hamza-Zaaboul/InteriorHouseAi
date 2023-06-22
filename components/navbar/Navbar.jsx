@@ -8,8 +8,8 @@ import { useAuthContext } from "@/store/AuthNavContext";
 import Image from "next/image";
 
 const navigation = [
-  { name: "Fonctionnement", href: "/#Fonctionnement" },
-  { name: "Tarifications", href: "/#Tarifications" },
+  { name: "Comment utiliser StudioIA ?", href: "/#Fonctionnement" },
+  { name: "Tarification", href: "/#Tarification" },
   // { name: "Temoignages", href: "/#Temoignages" },
   { name: "Faq", href: "/#Faq" },
 ];
@@ -30,11 +30,11 @@ export default function Navbar() {
       >
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Studioia - Interieur</span>
+            <span className="sr-only">StudioIA - Interieur</span>
             <Image
               className="h-12 w-auto "
               src={Logo}
-              alt="Studioia - Interieur Logo"
+              alt="StudioIA - Interieur Logo"
             />
           </Link>
         </div>
@@ -108,11 +108,11 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="-m-1.5 p-1.5"
             >
-              <span className="sr-only">Studioia - interieur</span>
+              <span className="sr-only">StudioIA - interieur</span>
               <Image
               className="h-12 w-auto "
               src={Logo}
-              alt="Studioia - Interieur Logo"
+              alt="StudioIA - Interieur Logo"
             />
             </Link>
             {user ? (

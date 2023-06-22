@@ -114,7 +114,7 @@ export default function ForgotPassword() {
           </div>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Pas encore menbre?{" "}
+            Pas encore membre ?{" "}
             <Link
               href="/auth/sigin"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"

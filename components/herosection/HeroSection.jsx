@@ -54,7 +54,7 @@ export default function HeroSections() {
               <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex flex flex-col lg:flex-row items-center lg:max-w-none lg:items-center">
                 <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
                   <h1 className="text-4xl text-center lg:text-left font-bold tracking-tight text-gray-900 sm:text-6xl">
-                    Inspirez-vous avec nos générations d'intérieur
+                    Inspirez-vous avec nos générations d'intérieurs
                   </h1>
                   <p className="relative mt-6 text-lg leading-8 text-gray-600 lg:max-w-none">
                     Découvrez une génération d'images révolutionnaire alimentée

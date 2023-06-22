@@ -83,6 +83,7 @@ const UploadImage = ({ onImageChange, ImageBefored }) => {
                 name="file-upload"
                 type="file"
                 accept=".jpg,.jpeg,.png"
+                
                 className="sr-only"
                 onChange={(e) => handleImageChange(e.target.files[0])}
               />
@@ -90,7 +91,7 @@ const UploadImage = ({ onImageChange, ImageBefored }) => {
             <p className="pl-1">ou glisser et déposer</p>
           </div>
           <p className="text-xs leading-5 text-gray-600">
-            PNG, JPG, GIF up to 10MB
+            PNG, JPG, JPEG jusqu'à 5MB
           </p>
         </div>
       </div>

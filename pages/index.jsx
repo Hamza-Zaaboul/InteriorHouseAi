@@ -8,16 +8,20 @@ import Faq from "@/components/faq/Faq";
 import Cta from "@/components/cta/Cta";
 import Pricing from "@/components/pricing/Pricing";
 import Navbar from "@/components/navbar/Navbar";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
     <>
+      <Head>
+        <title>StudioIA - Interieur</title>
+      </Head>
       <Navbar />
       <HeroSections />
       <SecondaryFeatures id="Fonctionnement" />
-      <Pricing id="Tarifications" />
+      <Pricing id="Tarification" />
       {/* <Testimonials id="Temoignages" /> */}
       <Faq id="Faq" />
       <Cta />

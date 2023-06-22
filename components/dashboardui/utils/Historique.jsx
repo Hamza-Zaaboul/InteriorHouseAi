@@ -98,7 +98,7 @@ export default function Historique() {
 
   return (
     <div>
-      <div className="flex flex-col items-center justify-center py-4 md:py-8 w-full">
+      <div className="flex flex-col items-center justify-center py-4 md:py-8 w-full ">
         {dataUrls.length > 0 ? (
           <div className="max-h-[100vh] overflow-x-none overflow-y-auto">
             {dataUrls.map((item) => (
@@ -170,12 +170,12 @@ export default function Historique() {
             ))}
           </div>
         ) : (
-          <div className="mx-auto mt-6 md:mt-8 max-w-2xl text-4xl text-black gap-x-6 gap-y-6 lg:mx-0 lg:max-w-none justify-center items-center flex">
+          <div className="absolute top-[100%] mx-auto mt-6 md:mt-8 max-w-2xl text-4xl text-gray-900 gap-x-6 gap-y-6 lg:mx-0 lg:max-w-none justify-center items-center flex">
             Retrouvez vos générations d'image ici !
           </div>
         )}
         {!dataUrls && (
-          <div className="text-[#000] text-4xl justify-center items-center flex h-[100%]">
+          <div className="text-gray-900 text-4xl justify-center items-center flex h-[100%]">
          
             Retrouvez vos générations d'image ici !
           </div>

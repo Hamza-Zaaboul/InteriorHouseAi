@@ -38,7 +38,7 @@ export default function HeaderHistorique() {
               className="-ml-0.5 mr-1.5 h-5 w-5 text-white"
               aria-hidden="true"
             />
-            Acheter Credits
+            Acheter Crédits
           </Link>
         </span>
       </div>

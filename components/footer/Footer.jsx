@@ -4,7 +4,7 @@ const navigation = {
   main: [
     { name: "Faq", href: "/#Faq" },
     {
-      name: "Contacte",
+      name: "Contact",
       href: "mailto:studioiainterieur@gmail.com",
     },
 
@@ -84,7 +84,7 @@ export default function Footer() {
           ))}
         </div>
         <p className="mt-10 text-center text-xs leading-5 text-gray-500">
-          &copy; 2023 StudioAi-Interieur tous droits réservés.
+          &copy; 2023 StudioIA-Interieur tous droits réservés.
         </p>
       </div>
     </footer>

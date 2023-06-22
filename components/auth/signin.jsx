@@ -227,7 +227,7 @@ export default function Sigin() {
                     href="/auth/login"
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
-                    Déja inscrit ?
+                    Déjà inscrit ?
                   </Link>
                 </div>
               </div>

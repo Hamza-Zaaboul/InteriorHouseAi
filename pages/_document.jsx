@@ -9,7 +9,36 @@ export default function Document(props) {
       lang="en"
     >
       <Head>
+        <meta charSet="utf-8" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <meta
+          name="description"
+          content="Transformez vos images d'intérieur en designs personnalisés grâce à l'IA. Créez des espaces captivants et uniques !"
+        />
+        <meta name="robots" content="index" />
+        <link rel="canonical" href="https://www.studioia-interieur.fr" />
+        <meta
+          name="keywords"
+          content="génération d'images d'intérieur, designs personnalisés, IA, espaces captivants, transformations d'images, design d'intérieur"
+        />
+        <link rel="icon" href="/favicon.ico" />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Studioia - Interieur" />
+        <meta
+          name="twitter:description"
+          content="Transformez vos images d'intérieur en designs personnalisés grâce à l'IA. Créez des espaces captivants et uniques !"
+        />
+        <meta name="twitter:site" content="@hamzzaaboul" />
+        <meta
+          name="twitter:image"
+          content="https://www.studioia-interieur.fr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FDashbord.05188590.png&w=1920&q=75"
+        />
+        <meta
+          name="twitter:hashtags"
+          content="interiordesign, customdesigns, AIgenerated, captivatingspaces"
+        />
+        <meta name="twitter:url" content="https://www.studioia-interieur.fr" />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"

@@ -12,9 +12,9 @@ import { Container } from "../Container";
 const features = [
   {
     name: "Inscription",
-    summary: "Creez votre compte en quelques clics",
+    summary: "Créez votre compte en quelques clics",
     description:
-      "Inscrivez vous avec votre compte google ou directement avec le formulaire d'inscription et accedez à votre tableau de bord.",
+      "Inscrivez-vous avec votre compte google ou directement avec le formulaire d'inscription et accédez à votre tableau de bord.",
     image: screenshotContacts,
     icon: function ContactsIcon() {
       return (
@@ -34,7 +34,7 @@ const features = [
   },
   {
     name: "Tableau de bord",
-    summary: "Accedez à votre tableau de bord",
+    summary: "Accédez à votre tableau de bord",
     description:
       "Accédez à votre tableau de bord et commencez à créer vos générations d'intérieur avec notre outil convivial et puissant.",
     image: screenshotProfitLoss,
@@ -67,10 +67,10 @@ const features = [
     },
   },
   {
-    name: "Crediter votre compte",
-    summary: "Creditez votre compte",
+    name: "Créditer votre compte",
+    summary: "Créditez votre compte",
     description:
-      "Creditez votre compte avec le montant de votre choix et profiter de nos services. 5 crédits vous sont offerts à l'inscription.",
+      "Créditez votre compte avec le montant de votre choix et profitez de nos services. 5 crédits vous sont offerts à l'inscription.",
     image: screenshotInventory,
     icon: function InventoryIcon() {
       return (
@@ -220,7 +220,7 @@ export function SecondaryFeatures({ id }) {
               Fonctionnement{" "}
             </h2>
             <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-              Des générations d'intérieur en un clic
+              Des générations d'intérieurs en un clic
             </p>
           </div>
           <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
