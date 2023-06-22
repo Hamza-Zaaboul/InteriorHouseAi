@@ -112,6 +112,16 @@ html {
   opacity: 0;
   animation: button-loading-spinner 1s ease infinite;
 }
+
+.download-loader-purple {
+  width: 13px;
+  height: 13px;
+  border: 2px solid transparent;
+  border-top-color:  rgb(79, 70, 229);
+  border-radius: 50%;
+  opacity: 0;
+  animation: button-loading-spinner 1s ease infinite;
+}
 @keyframes button-loading-spinner {
   from {
     transform: rotate(0turn);

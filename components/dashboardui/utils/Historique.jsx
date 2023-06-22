@@ -100,7 +100,7 @@ export default function Historique() {
     <div>
       <div className="flex flex-col items-center justify-center py-4 md:py-8 w-full">
         {dataUrls.length > 0 ? (
-          <div>
+          <div className="max-h-[100vh] overflow-x-none overflow-y-auto">
             {dataUrls.map((item) => (
               <div key={item.id} className="mt-16 md:mt-2">
                 <div className="mx-auto mt-6 md:mt-8 grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 md:grid-cols-2 lg:mx-0 lg:max-w-none">

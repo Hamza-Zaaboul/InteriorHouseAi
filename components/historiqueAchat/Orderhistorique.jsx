@@ -39,7 +39,7 @@ export default function OrderHistorique() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [paid, setPaid] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(Array(dataIn.length).fill(false));
 
   const [openModale, setOpenModale] = useState(false);
 
@@ -128,10 +128,14 @@ export default function OrderHistorique() {
     handleGetData();
   }, []);
 
-  const handleCheckout = async (event, priceId, userEmail, buttonName) => {
+  const handleCheckout = async (event, priceId, userEmail, buttonIndex) => {
     event.preventDefault();
 
-    setLoading(true);
+    setLoading((prevState) => {
+      const newState = [...prevState];
+      newState[buttonIndex] = true;
+      return newState;
+    });
 
     setErrorMessage("");
 
@@ -161,7 +165,10 @@ export default function OrderHistorique() {
       } catch (error) {
         setErrorMessage(error.message);
       } finally {
-        setLoading(false);
+        setLoading((prevState) => ({
+          ...prevState,
+          [buttonName]: false,
+        }));
       }
     } else if (blockage === true) {
       toast.error("Vous avez êtés bloqué, veuillez contacter le support");
@@ -326,24 +333,31 @@ export default function OrderHistorique() {
                       <button
                         type="button"
                         onClick={(event) =>
-                          handleCheckout(event, p1, user.email, "button2")
+                          handleCheckout(event, p1, user.email, index)
                         }
-                        disabled={loading}
-                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
+                        disabled={loading[index]}
+                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 gap-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
                       >
-                        {loading ? "Chargement..." : "Acheter à nouveau"}
+                        {loading[index] ? "Chargement" : "Acheter à nouveau"}
+                        {loading[index] ?<div className="download-loader text-white"/> :<></>}
+
                       </button>
                     )}
                     {item.Credit == "100" && (
                       <button
                         type="button"
                         onClick={(event) =>
-                          handleCheckout(event, p2, user.email, "button2")
+                          handleCheckout(event, p2, user.email, index)
                         }
-                        disabled={loading}
-                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
+                        disabled={loading[index]}
+                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 gap-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
                       >
-                        {loading ? "Chargement..." : "Acheter à nouveau"}
+                             
+                             {loading[index] ? "Chargement" : "Acheter à nouveau"}
+                        {loading[index] ?<div className="download-loader text-white"/> :<></>}
+
+       
+      
                       </button>
                     )}
 
@@ -351,12 +365,17 @@ export default function OrderHistorique() {
                       <button
                         type="button"
                         onClick={(event) =>
-                          handleCheckout(event, p3, user.email, "button2")
+                          handleCheckout(event, p3, user.email, index)
                         }
-                        disabled={loading}
-                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
+                        disabled={loading[index]}
+                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 gap-4 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
                       >
-                        {loading ? "Chargement..." : "Acheter à nouveau"}
+                  
+                  
+
+                  {loading[index] ? "Chargement" : "Acheter à nouveau"}
+                        {loading[index] ?<div className="download-loader text-white"/> :<></>}
+
                       </button>
                     )}
 

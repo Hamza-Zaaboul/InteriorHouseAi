@@ -225,12 +225,15 @@ export default function Pricing({ id }) {
                   aria-describedby={tier.id}
                   className={classNames(
                     tier.mostPopular
-                      ? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-500"
-                      : "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
-                    "mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      ? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 flex items-center justify-center gap-4"
+                      : "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 flex items-center justify-center gap-4",
+                    "mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 flex items-center justify-center gap-4"
                   )}
                 >
-                  {loading[tier.btn] ? "Chargement..." : "Acheter"}
+                  
+                  {loading[tier.btn] ? "Chargement" : "Acheter"}
+                  {loading[tier.btn] ?<div className={classNames(
+                    tier.mostPopular ? "download-loader text-white" :"download-loader-purple text-black" )}/> : <></>}
                 </button>
               ) : (
                 <Link

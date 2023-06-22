@@ -30,11 +30,11 @@ export default function Navbar() {
       >
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">StudioAi - Interieur</span>
+            <span className="sr-only">Studioia - Interieur</span>
             <Image
               className="h-12 w-auto "
               src={Logo}
-              alt="StudioAi - Interieur Logo"
+              alt="Studioia - Interieur Logo"
             />
           </Link>
         </div>
@@ -108,11 +108,11 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="-m-1.5 p-1.5"
             >
-              <span className="sr-only">ProHead</span>
+              <span className="sr-only">Studioia - interieur</span>
               <Image
               className="h-12 w-auto "
               src={Logo}
-              alt="StudioAi - Interieur Logo"
+              alt="Studioia - Interieur Logo"
             />
             </Link>
             {user ? (

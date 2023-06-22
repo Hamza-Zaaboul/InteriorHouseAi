@@ -1048,6 +1048,7 @@ export default function Dashboard() {
               <button
                 className="download-button buttol transform active:scale-95 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 hover:bg-blue-400 text-white px-[0.30rem] py-[0.50rem] rounded-lg font-bold  md:w-96"
                 type="submit"
+                disabled={isDownloading}
               >
                 <div className="flex justify-center items-center relative">
                   <div className="svg-container">
@@ -1125,14 +1126,14 @@ export default function Dashboard() {
 
               {navig &&
                 (!swiper ? (
-                  <div className="flex flex-col mt-8 gap-8 justify-center items-center w-full overflow-y-auto min-h-[700px]">
+                  <div className="flex flex-col mt-8 gap-8 justify-center items-center w-full overflow-y-auto min-h-[35em]">
                     <Rendu
                       imageBefore={imageBeforedOn}
                       imageAfter={prediction}
                     />
                   </div>
                 ) : (
-                  <div className="flex mt-8 justify-center overflow-y-auto items-center w-full min-h-[700px]">
+                  <div className="flex mt-8 justify-center overflow-y-auto items-center w-full min-h-[35em]">
                     <ImageComparaison
                       imageBefore={imageBeforedOn}
                       imageAfter={prediction}

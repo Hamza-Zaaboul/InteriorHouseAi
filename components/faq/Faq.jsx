@@ -27,7 +27,7 @@ const faqs = [
   {
   id: 6,
   question: "Comment optimiser une demande personnalisée ?",
-  answer: "Pour optimiser une demande personnalisée, utilisez des mots clés spécifiques et détaillés en anglais. Par exemple, au lieu de demander simplement 'design d'intérieur', spécifiez 'design d'intérieur moderne avec une palette de couleurs neutres et des meubles en bois'. Cela nous aidera à mieux comprendre vos goûts et à créer un design qui correspond parfaitement à vos attentes.",
+  answer: "Pour optimiser une demande personnalisée, utilisez des mots clés spécifiques et détaillés en anglais. Par exemple, au lieu de demander simplement 'Chambre moderne', spécifiez 'Chambre moderne avec une palette de couleurs neutres et des meubles en bois'. Cela nous aidera à mieux comprendre vos goûts et à créer un design qui correspond parfaitement à vos attentes.",
   },
   // More questions...
   ];
