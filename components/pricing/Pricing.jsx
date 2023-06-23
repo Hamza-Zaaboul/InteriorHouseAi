@@ -11,12 +11,14 @@ import toast, { Toaster } from "react-hot-toast";
 
 const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
+
+
 const tiers = [
   {
     name: "Starter",
     id: "tier-freelancer",
     href: "/auth/login",
-    pricestripe: "price_1NKQj8HlXD1yqYgk3KMocU5H",
+    pricestripe: "price_1NMJepHlXD1yqYgk2wFb9iHn",
     credits: "30",
     priceMonthly: "9€ ",
     btn: "button1",
@@ -29,7 +31,7 @@ const tiers = [
     name: "Business",
     id: "tier-startup",
     href: "/auth/login",
-    pricestripe: "price_1NKQkgHlXD1yqYgkvuJd5LLr",
+    pricestripe: "price_1NMJdRHlXD1yqYgklSHLQ6GW",
     credits: "100",
     priceMonthly: "19€ ",
     btn: "button2",
@@ -41,7 +43,7 @@ const tiers = [
   {
     name: " Enterprise",
     id: "tier-enterprise",
-    pricestripe: "price_1N2iEkHlXD1yqYgkNyebJLvk",
+    pricestripe: "price_1NKQeaHlXD1yqYgkgY4iDbdU",
     credits: "250",
     href: "/auth/login",
     btn: "button3",
