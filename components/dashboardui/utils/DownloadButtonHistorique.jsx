@@ -2,10 +2,11 @@ import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-
+import { useAuthContext } from "@/store/AuthContext";
 export default function DownloadButtonHistorique({ listselected }) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isDownloaded, setIsDownloaded] = useState(false);
+  const { user } = useAuthContext();
 
   const handleButtonClick = async () => {
     setIsDownloading(true);
@@ -16,7 +17,7 @@ export default function DownloadButtonHistorique({ listselected }) {
       const fetchPromises = listselected.map(async (url, index) => {
         try {
           const response = await fetch(
-            `/api/download?filePath=${encodeURIComponent(url)}`
+            `/api/download?filePath=${encodeURIComponent(url)}&uid=${user.uid}`
           );
           if (!response.ok) {
             throw new Error("Erreur lors du téléchargement du fichier");
