@@ -18,9 +18,9 @@ import getDocument from "@/firebase/Firestore/getData";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-const p1 = "price_1NKQj8HlXD1yqYgk3KMocU5H";
-const p2 = "price_1NKQkgHlXD1yqYgkvuJd5LLr";
-const p3 = "price_1N2iEkHlXD1yqYgkNyebJLvk";
+const p1 = "price_1NMJepHlXD1yqYgk2wFb9iHn";
+const p2 = "price_1NMJdRHlXD1yqYgklSHLQ6GW";
+const p3 = "price_1NKQeaHlXD1yqYgkgY4iDbdU";
 
 export default function OrderHistorique() {
   const { user } = useAuthContext();
