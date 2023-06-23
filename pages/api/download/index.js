@@ -1,19 +1,15 @@
+// Dans un fichier server.js ou dans votre API Next.js
 import firebase_app from '@/firebase/InitFirebase';
 import axios from 'axios';
-import { getAuth, signInWithCustomToken } from 'firebase/auth';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
-const auth = getAuth(firebase_app);
 
 const storage = getStorage(firebase_app);
 
 export default async function handler(req, res) {
   const filePath = req.query.filePath;
-  const uid = req.query.uid;
 
   try {
-    await signInWithCustomToken(auth, uid); // Authentification avec l'UID spécifié
-
     const storageRef = ref(storage, filePath);
     const url = await getDownloadURL(storageRef) + "?alt=media";
 
