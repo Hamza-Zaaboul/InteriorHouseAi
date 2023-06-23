@@ -299,10 +299,10 @@ export default function OrderHistorique() {
                         <Link href="/"> </Link>
                       </h3>
                       <p>
-                        {item.Credit == "20" && (
+                        {item.Credit == "30" && (
                           <p className=" text-sm text-gray-500 h-full w-[95%] ">
                             {" "}
-                            20 crédits permettant de généré des images à partir
+                            30 crédits permettant de généré des images à partir
                             d'image d'entrée.{" "}
                           </p>
                         )}
