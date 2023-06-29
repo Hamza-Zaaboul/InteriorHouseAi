@@ -16,7 +16,7 @@ export default function Document(props) {
           content="Transformez vos images d'intérieur en designs personnalisés grâce à l'IA. Créez des espaces captivants et uniques !"
         />
         <meta name="robots" content="index" />
-        <link rel="canonical" href="https://www.studioia-interieur.fr" />
+
         <meta
           name="keywords"
           content="génération d'images d'intérieur, designs personnalisés, IA, espaces captivants, transformations d'images, design d'intérieur"

@@ -8,6 +8,8 @@ export default function Logine() {
     <>
       <Head>
         <title>StudioIA - Connexion</title>
+        <link rel="canonical" href="https://www.studioia-interieur.fr/auth/login" />
+
       </Head>
       <Navbar />
       <Login />

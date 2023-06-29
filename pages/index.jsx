@@ -17,6 +17,7 @@ export default function Home() {
     <>
       <Head>
         <title>StudioIA - Interieur</title>
+        <link rel="canonical" href="https://www.studioia-interieur.fr" />
       </Head>
       <Navbar />
       <HeroSections />

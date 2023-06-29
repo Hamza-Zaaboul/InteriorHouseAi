@@ -20,6 +20,8 @@ export default function Home() {
   return <>
       <Head>
         <title>StudioIA - Tableau de bord</title>
+        <link rel="canonical" href="https://www.studioia-interieur.fr/dashboard" />
+
       </Head>
   {user && <DashboardUi />}
   

@@ -8,6 +8,8 @@ export default function SiginIn() {
     <>
       <Head>
         <title>StudioIA - Inscription</title>
+        <link rel="canonical" href="https://www.studioia-interieur.fr/auth/sigin" />
+
       </Head>
       <Navbar />
       <Sigin />

@@ -21,6 +21,7 @@ export default function Home() {
     <>
         <Head>
         <title>StudioIA - Tarification</title>
+        <link rel="canonical" href="https://www.studioia-interieur.fr/pricing" />
       </Head>
       <Navbar />
       <Pricing />

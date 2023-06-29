@@ -10,6 +10,8 @@ export default function ReinitialiserMotsdePasse() {
     <>
           <Head>
         <title>StudioIA - Mot de passe oublié</title>
+        <link rel="canonical" href="https://www.studioia-interieur.fr/auth/resetmotdepasse" />
+
       </Head>
         <Navbar/>
           <ForgotPassword />
